@@ -18,42 +18,41 @@ export interface ResourceType {
 
 export class ResourceTypes extends ApiResource {
   // region public static methods
-  public static resourceTypesUrl(): string {
-    return 'http://localhost:3000/resource-types';
-  }
-
-  public static resourceTypeUrl(id: string): string {
-    return `${ResourceTypes.resourceTypesUrl()}/${id}`;
+  public static resourceUrl(id?: string): string {
+    if (!id) {
+      return 'http://localhost:3000/resource-types';
+    }
+    return `${ResourceTypes.resourceUrl()}/${id}`;
   }
 
   public static async create(resource: ResourceType): Promise<ResourceType> {
-    const resourceTypesUrl = ResourceTypes.resourceTypesUrl();
+    const resourceTypesUrl = ResourceTypes.resourceUrl();
     return await Utils.postJsonResource(resourceTypesUrl, ResourceTypes.serializer(), resource);
   }
 
   public static async get(id?: string): Promise<ResourceType | ResourceType[]> {
     if (id) {
-      const resourceTypeUrl = ResourceTypes.resourceTypeUrl(id);
+      const resourceTypeUrl = ResourceTypes.resourceUrl(id);
       return await Utils.getJsonResource(resourceTypeUrl);
     }
 
-    const resourceTypesUrl = ResourceTypes.resourceTypesUrl();
+    const resourceTypesUrl = ResourceTypes.resourceUrl();
     return await Utils.getJsonResource(resourceTypesUrl);
   }
 
   public static async update(id: string, resource: ResourceType): Promise<void> {
-    const resourceTypeUrl = ResourceTypes.resourceTypeUrl(id);
+    const resourceTypeUrl = ResourceTypes.resourceUrl(id);
     await Utils.patchJsonResource(resourceTypeUrl, ResourceTypes.serializer(), resource);
   }
 
   public static async delete(id: string): Promise<void> {
-    const resourceTypeUrl = ResourceTypes.resourceTypeUrl(id);
+    const resourceTypeUrl = ResourceTypes.resourceUrl(id);
     await Utils.deleteJsonResource(resourceTypeUrl);
   }
   // endregion
 
   // region private static methods
-  private static serializer(): Serializer {
+  protected static serializer(): Serializer {
     return new Serializer('resourceType', {
       id: '_id',
       attributes: [

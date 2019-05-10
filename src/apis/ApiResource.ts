@@ -1,5 +1,11 @@
+import { Serializer } from 'jsonapi-serializer';
+
 export default abstract class ApiResource {
   // region public static methods
+  public static resourceUrl(id?: string) {
+    throw Error('Function has to be implemented by inheriting class.');
+  }
+
   public static async create(resource: ApiResource): Promise<ApiResource> {
     throw Error('Function has to be implemented by inheriting class.');
   }
@@ -18,6 +24,9 @@ export default abstract class ApiResource {
   // endregion
 
   // region private static methods
+  protected static serializer(): Serializer {
+    throw Error('Function has to be implemented by inheriting class.');
+  }
   // endregion
 
   // region public members
