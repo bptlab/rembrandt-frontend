@@ -43,12 +43,12 @@ export class ResourceTypes extends ApiResource {
 
   public static async update(id: string, resource: ResourceType): Promise<void> {
     const resourceTypeUrl = ResourceTypes.resourceTypeUrl(id);
-    return await Utils.patchJsonResource(resourceTypeUrl, ResourceTypes.serializer(), resource);
+    await Utils.patchJsonResource(resourceTypeUrl, ResourceTypes.serializer(), resource);
   }
 
   public static async delete(id: string): Promise<void> {
     const resourceTypeUrl = ResourceTypes.resourceTypeUrl(id);
-    return await Utils.deleteJsonResource(resourceTypeUrl);
+    await Utils.deleteJsonResource(resourceTypeUrl);
   }
   // endregion
 
