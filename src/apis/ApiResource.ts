@@ -4,7 +4,7 @@ export default abstract class ApiResource {
     throw Error('Function has to be implemented by inheriting class.');
   }
 
-  public static async get(id?: string): Promise<ApiResource> {
+  public static async get(id?: string): Promise<ApiResource | ApiResource[]> {
     throw Error('Function has to be implemented by inheriting class.');
   }
 
