@@ -9,7 +9,8 @@ export interface ResourceTypeAttribute {
 }
 
 export interface ResourceType {
-  id: string;
+  id?: string;
+  parentType?: string;
   name: string;
   abstract: boolean;
   attributes: ResourceTypeAttribute[];
@@ -30,7 +31,7 @@ export class ResourceTypes extends ApiResource {
     return await Utils.postJsonResource(resourceTypesUrl, ResourceTypes.serializer(), resource);
   }
 
-  public static async get(id?: string): Promise<ResourceType> {
+  public static async get(id?: string): Promise<ResourceType | ResourceType[]> {
     if (id) {
       const resourceTypeUrl = ResourceTypes.resourceTypeUrl(id);
       return await Utils.getJsonResource(resourceTypeUrl);
