@@ -1,5 +1,6 @@
 <template>
   <main>
+    <ListSection title="Resource Instances" :list="resourceInstancesList" />
   </main>
 </template>
 
@@ -9,7 +10,11 @@ import { Component, Vue } from 'vue-property-decorator';
 import ListSection, { ListElement } from '@/components/ListSection.vue';
 import { ResourceInstance, ResourceInstances } from '@/apis/rembrandt/rembrandt';
 
-@Component
+@Component({
+  components: {
+    ListSection,
+  },
+})
 export default class Resources extends Vue {}
   // region public static methods
   // endregion
