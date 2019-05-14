@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue, Prop } from 'vue-property-decorator';
 
 export interface ListElement {
   id: string;
@@ -44,9 +44,6 @@ export default class ListSection extends Vue {
   // endregion
 
   // region public methods
-  public async mounted() {
-    console.log(this.title);
-  }
   // endregion
 
   // region private methods

@@ -6,14 +6,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { ResourceTypes, ResourceType } from "@/apis/rembrandt/rembrandt";
-import ListSection, { ListElement } from "@/components/ListSection.vue";
+import { Component, Vue } from 'vue-property-decorator';
+import { ResourceTypes, ResourceType } from '@/apis/rembrandt/rembrandt';
+import ListSection, { ListElement } from '@/components/ListSection.vue';
 
 @Component({
   components: {
     ListSection,
-  }
+  },
 })
 export default class Types extends Vue {
   // region public static methods
@@ -26,11 +26,11 @@ export default class Types extends Vue {
   public resourceTypes: ResourceType[] = [];
 
   public get abstractResourceTypes(): ResourceType[] {
-    return this.resourceTypes.filter(resourceType => resourceType.abstract);
+    return this.resourceTypes.filter((resourceType) => resourceType.abstract);
   }
 
   public get nonAbstractResourceTypes(): ResourceType[] {
-    return this.resourceTypes.filter(resourceType => !resourceType.abstract);
+    return this.resourceTypes.filter((resourceType) => !resourceType.abstract);
   }
 
   public get abstractResourceTypesList(): ListElement[] {
@@ -39,8 +39,8 @@ export default class Types extends Vue {
         id: resourceType._id || resourceType.name,
         firstValue: resourceType.name,
         secondValue: `Parent Type: ${resourceType.parentType}`,
-      }
-    })
+      };
+    });
   }
 
   public get nonAbstractResourceTypesList(): ListElement[] {
@@ -50,8 +50,8 @@ export default class Types extends Vue {
         firstValue: resourceType.name,
         secondValue: `Parent Type: ${resourceType.parentType}`,
         thirdValue: `300 Instances`,
-      }
-    })
+      };
+    });
   }
   // endregion
 
