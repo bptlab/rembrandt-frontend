@@ -1,39 +1,39 @@
 import { Serializer, Deserializer } from 'jsonapi-serializer';
 
-export default class Utils {
+export default class ApiUtils {
   // region public static methods
   public static async postJsonResource(url: string, serializer: Serializer, resource: any): Promise<any> {
     const requestOptions = {
       method: 'POST',
-      headers: Utils.headers(),
+      headers: ApiUtils.headers(),
       body: JSON.stringify(serializer.serialize(resource)),
     };
-    return Utils.fetchResource(url, requestOptions);
+    return ApiUtils.fetchResource(url, requestOptions);
   }
 
   public static async getJsonResource(url: string): Promise<any> {
     const requestOptions = {
       method: 'GET',
-      headers: Utils.headers(),
+      headers: ApiUtils.headers(),
     };
-    return Utils.fetchResource(url, requestOptions);
+    return ApiUtils.fetchResource(url, requestOptions);
   }
 
   public static async patchJsonResource(url: string, serializer: Serializer, resource: any): Promise<void> {
     const requestOptions = {
       method: 'POST',
-      headers: Utils.headers(),
+      headers: ApiUtils.headers(),
       body: JSON.stringify(serializer.serialize(resource)),
     };
-    await Utils.fetchResource(url, requestOptions);
+    await ApiUtils.fetchResource(url, requestOptions);
   }
 
   public static async deleteJsonResource(url: string): Promise<void> {
     const requestOptions = {
       method: 'DELETE',
-      headers: Utils.headers(),
+      headers: ApiUtils.headers(),
     };
-    await Utils.fetchResource(url, requestOptions);
+    await ApiUtils.fetchResource(url, requestOptions);
   }
   // endregion
 

@@ -12,7 +12,7 @@ import { ResourceTypes } from '@/apis/rembrandt/Rembrandt';
 export default class Types extends Vue {
 
   private async mounted() {
-    let resourceTypes = await ResourceTypes.get();
+    await ResourceTypes.get();
     await ResourceTypes.create({
       name: 'SomeType',
       attributes: [
@@ -25,7 +25,7 @@ export default class Types extends Vue {
       parentType: '5cd3f9c14b2ee19449808625',
       abstract: false,
     });
-    resourceTypes = await ResourceTypes.get();
+    await ResourceTypes.get();
   }
 
 }

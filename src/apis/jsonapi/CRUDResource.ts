@@ -1,6 +1,6 @@
 import { Serializer } from 'jsonapi-serializer';
 import Resource from '@/apis/jsonapi/Resource';
-import Utils from '@/utils/Utils';
+import ApiUtils from '@/apis/jsonapi/ApiUtils';
 
 export default class CRUDResource<T extends Resource> {
   // region public static methods
@@ -30,26 +30,26 @@ export default class CRUDResource<T extends Resource> {
   }
 
   public async create(resource: T): Promise<T> {
-    return await Utils.postJsonResource(this.resourceUrl, this.serializer, resource);
+    return await ApiUtils.postJsonResource(this.resourceUrl, this.serializer, resource);
   }
 
   public async get(id?: string): Promise<T | T[]> {
     if (id) {
       const singleResourceUrl = this.singleResourceUrl(id);
-      return await Utils.getJsonResource(singleResourceUrl);
+      return await ApiUtils.getJsonResource(singleResourceUrl);
     }
 
-    return await Utils.getJsonResource(this.resourceUrl);
+    return await ApiUtils.getJsonResource(this.resourceUrl);
   }
 
   public async update(id: string, resource: T): Promise<void> {
     const singleResourceUrl = this.singleResourceUrl(id);
-    await Utils.patchJsonResource(singleResourceUrl, this.serializer, resource);
+    await ApiUtils.patchJsonResource(singleResourceUrl, this.serializer, resource);
   }
 
   public async delete(id: string): Promise<void> {
     const singleResourceUrl = this.singleResourceUrl(id);
-    await Utils.deleteJsonResource(singleResourceUrl);
+    await ApiUtils.deleteJsonResource(singleResourceUrl);
   }
   // endregion
 
