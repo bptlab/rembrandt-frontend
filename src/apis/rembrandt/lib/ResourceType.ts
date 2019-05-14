@@ -1,6 +1,7 @@
 import { Serializer } from 'jsonapi-serializer';
 import Resource from '@/apis/jsonapi/Resource';
 import CRUDResource from '@/apis/jsonapi/CRUDResource';
+import config from '@/config';
 
 export interface ResourceTypeAttribute {
   dataType: string;
@@ -27,6 +28,6 @@ const serializer = new Serializer('resourceType', {
 });
 
 export const ResourceTypes = new CRUDResource<ResourceType>(
-  'http://localhost:3000/resource-types',
+  `${config.backendHost}/resource-types`,
   serializer,
 );
