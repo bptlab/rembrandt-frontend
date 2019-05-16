@@ -73,7 +73,7 @@ header {
       font-weight: bold;
       color: @primary;
       font-size: 18px;
-      &.router-link-exact-active {
+      &.router-link-active {
         color: @accent;
       }
       &:last-child {

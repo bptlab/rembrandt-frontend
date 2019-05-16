@@ -51,8 +51,13 @@ h5,
 h6,
 p,
 ul,
-li {
+li,
+a {
   margin: 0;
   color: @primary;
+}
+
+a {
+  text-decoration: none;
 }
 </style>

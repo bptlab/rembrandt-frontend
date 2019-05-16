@@ -9,6 +9,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { ResourceTypes, ResourceType } from '@/apis/rembrandt/rembrandt';
 import ListSection, { ListElement } from '@/components/ListSection.vue';
+import Utils from '@/utils/Utils';
 
 @Component({
   components: {
@@ -25,34 +26,17 @@ export default class Types extends Vue {
   // region public members
   public resourceTypes: ResourceType[] = [];
 
-  public get abstractResourceTypes(): ResourceType[] {
-    return this.resourceTypes.filter((resourceType) => resourceType.abstract);
-  }
-
-  public get nonAbstractResourceTypes(): ResourceType[] {
-    return this.resourceTypes.filter((resourceType) => !resourceType.abstract);
-  }
-
   public get abstractResourceTypesList(): ListElement[] {
-    return this.abstractResourceTypes.map((resourceType) => {
-      return {
-        id: resourceType._id || resourceType.name,
-        firstValue: resourceType.name,
-        secondValue: `Parent Type: ${resourceType.parentType}`,
-      };
-    });
+    const abstractResourceTypes = this.resourceTypes.filter((resourceType) => resourceType.abstract);
+    return Utils.resourceTypesToList(abstractResourceTypes);
   }
 
   public get nonAbstractResourceTypesList(): ListElement[] {
-    return this.nonAbstractResourceTypes.map((resourceType) => {
-      return {
-        id: resourceType._id || resourceType.name,
-        firstValue: resourceType.name,
-        secondValue: `Parent Type: ${resourceType.parentType}`,
-        thirdValue: `300 Instances`,
-      };
-    });
+    const nonAbstractResourceTypes =  this.resourceTypes.filter((resourceType) => !resourceType.abstract);
+    return Utils.resourceTypesToList(nonAbstractResourceTypes);
   }
+
+
   // endregion
 
   // region private members

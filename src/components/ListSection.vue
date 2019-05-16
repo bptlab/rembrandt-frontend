@@ -1,13 +1,15 @@
 <template>
   <section class="list">
-    <h1>{{title}}</h1>
+    <h1 v-if="title">{{title}}</h1>
     <ul>
       <li :key="element.id" v-for="element in this.list">
-        <div>
-          <h2>{{element.firstValue}}</h2>
-          <p v-if="element.secondValue">{{element.secondValue}}</p>
-        </div>
-        <p class="third-value" v-if="element.thirdValue">{{element.thirdValue}}</p>
+        <router-link :to="element.link" v-bind:class="{ disabled: !element.link }">
+          <div>
+            <h2>{{element.firstValue}}</h2>
+            <p v-if="element.secondValue">{{element.secondValue}}</p>
+          </div>
+          <p class="third-value" v-if="element.thirdValue">{{element.thirdValue}}</p>
+        </router-link>
       </li>
     </ul>
   </section>
@@ -21,6 +23,7 @@ export interface ListElement {
   firstValue: string;
   secondValue?: string;
   thirdValue?: string;
+  link: string;
 }
 
 @Component
@@ -32,9 +35,11 @@ export default class ListSection extends Vue {
   // endregion
 
   // region public members
-  @Prop(String) public title!: string;
+  @Prop(String)
+  public title!: string;
 
-  @Prop(Array) public list!: ListElement[];
+  @Prop(Array)
+  public list!: ListElement[];
   // endregion
 
   // region private members
@@ -82,15 +87,23 @@ section.list {
 
   li {
     border-bottom: 1px solid @primary-bg;
-    padding: 15px;
     min-height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
   }
 
   li:last-child {
     border-bottom: none;
+  }
+
+  li > a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    text-decoration: none;
+  }
+
+  .disabled {
+    pointer-events: none;
   }
 }
 </style>

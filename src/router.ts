@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Types from './views/Types.vue';
+import Type from './views/Type.vue';
 import Resources from './views/Resources.vue';
 import Settings from './views/Settings.vue';
 
@@ -18,6 +19,11 @@ export default new Router({
       path: '/types',
       name: 'types',
       component: Types,
+    },
+    {
+      path: '/types/:id',
+      name: 'type',
+      component: Type,
     },
     {
       path: '/resources',
