@@ -3,8 +3,8 @@
       <section class="list">
         <h1>Resources per Resource Type</h1>
         <ul>
-          <li :key="element.id" v-for="element in ListOfResourceTypes">
-            <ListSection :title="element.name" :list="resourceInstancesList" />
+          <li :key="element.id" v-for="element in listOfResourceTypes">
+            <ListSection :title="element.name" :list="resourceInstanceForType(element, resourceInstancesList)" />
           </li>
         </ul>
       </section>
@@ -32,21 +32,26 @@ export default class Resources extends Vue {
 
   // region public members
   public resourceInstances: ResourceInstance[] = [];
-  public ListOfResourceTypes: ResourceType[] = [];
+  public listOfResourceTypes: ResourceType[] = [];
 
-  public get resourceInstanceForType(): ResourceInstance[] {
-
-    //filter for resourcetype:
+  public get allResourceInstances(): ResourceInstance[] {
     return this.resourceInstances;
+  }
+
+  public resourceInstanceForType(resourceType : ResourceType, resourceList: ResourceInstance[]): ResourceInstance[] {
+    //filter for resourcetype:
+    return resourceList.filter((resourceInstance) => {
+      return resourceInstance.resourceType === resourceType.id;
+    });
   }
 
   public get resourceInstancesList(): ListElement[] {
     //create list for specific type
-    return this.resourceInstanceForType.map((resourceInstance) => {
+    return this.allResourceInstances.map((resourceInstance :ResourceInstance) => {
       return {
-        id: `${resourceInstance._id}`,
+        id: `${resourceInstance.id}`,
         //first value needs to be the identifying value
-        firstValue: `${resourceInstance._id}`,
+        firstValue: `${resourceInstance.id}`,
         secondValue: `Resource Type: ${resourceInstance.resourceType}`,
       };
     });
@@ -61,7 +66,7 @@ export default class Resources extends Vue {
 
   // region public methods
   public async mounted() {
-    this.ListOfResourceTypes = await ResourceTypes.get();
+    this.listOfResourceTypes = await ResourceTypes.get();
     this.resourceInstances = await ResourceInstances.get();
   }
   // endregion
