@@ -40,11 +40,14 @@ export default class Resources extends Vue {
   public resourceInstanceForType(resourceType : ResourceType): ListElement[] {
     //filter for resourcetype:
     const resourcesPerType = this.resourceInstances.filter((resourceInstance) => {
-      return (resourceInstance.resourceType === resourceType.id && (resourceInstance.resourceType.includes("208")));
+      return (resourceInstance.resourceType === resourceType.id && this.filterInstances(resourceInstance) );
     });
     return Utils.resourceInstancesToList(resourcesPerType);
   }
 
+  public filterInstances(resourceInstance : ResourceInstance) {
+    return (resourceInstance.resourceType.includes("208"))
+  }
   // endregion
 
   // region private members
