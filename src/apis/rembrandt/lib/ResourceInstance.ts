@@ -9,7 +9,7 @@ export interface ResourceInstanceAttribute {
 }
 
 export interface ResourceInstance extends Resource {
-  resourceType?: string;
+  resourceType: string;
   attributes: ResourceInstanceAttribute[];
 }
 
