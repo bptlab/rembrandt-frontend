@@ -2,8 +2,8 @@
   <section class="list">
     <h1 v-if="title">{{title}}</h1>
     <ul>
-      <li :key="element.id" v-for="element in this.list">
-        <router-link :to="element.link" v-bind:class="{ disabled: !element.link }">
+      <li :key="element.id" v-for="element in this.list" v-bind:class="{ disabled: !element.link }">
+        <router-link :to="element.link">
           <div>
             <h2>{{element.firstValue}}</h2>
             <p v-if="element.secondValue">{{element.secondValue}}</p>
@@ -89,23 +89,41 @@ section.list {
     border-bottom: 1px solid @primary-bg;
     min-height: 77px;
     display: flex;
+
+    &:hover{
+      background-image: linear-gradient(to right, #913125, #913125);
+      background-position: 0 0;
+      background-size: 5px 100%;
+      background-repeat: no-repeat;
+    }
+
+    &:first-child {
+      border-top-left-radius: 5px;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: 5px;
+      border-bottom: none;
+    }
+
+    & > a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px;
+      text-decoration: none;
+      width: 100%;
+    }
   }
 
-  li:last-child {
-    border-bottom: none;
-  }
+  li.disabled {
+    &:hover {
+      background: none;
+    }
 
-  li > a {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px;
-    text-decoration: none;
-    width: 100%;
-  }
-
-  .disabled {
-    pointer-events: none;
+    a {
+      pointer-events: none;
+    }
   }
 }
 </style>
