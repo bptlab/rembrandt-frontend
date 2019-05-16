@@ -46,7 +46,8 @@ export default class Resources extends Vue {
   }
 
   public filterInstances(resourceInstance : ResourceInstance) {
-    return (resourceInstance.resourceType.includes("208"))
+    return (resourceInstance.resourceType.includes("208") ||
+            resourceInstance.id.includes("208"))
   }
   // endregion
 
