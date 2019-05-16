@@ -1,4 +1,4 @@
-import { ResourceType, ResourceTypeAttribute } from '@/apis/rembrandt/rembrandt';
+import { ResourceType, ResourceTypeAttribute, ResourceInstance } from '@/apis/rembrandt/rembrandt';
 import { ListElement } from '@/components/ListSection.vue';
 
 export default class Utils {
@@ -22,6 +22,19 @@ export default class Utils {
         firstValue: resourceTypeAttribute.name,
         secondValue: resourceTypeAttribute.dataType,
         thirdValue: resourceTypeAttribute.required ? 'required' : '',
+        link: '',
+      };
+    });
+  }
+
+  public static resourceInstancesToList(resourceInstances: ResourceInstance[]): ListElement[] {
+    // create list for specific type
+    return resourceInstances.map((resourceInstance) => {
+      return {
+        id: `${resourceInstance.id}`,
+        // first value needs to be the identifying value
+        firstValue: `${resourceInstance.id}`,
+        secondValue: `Resource Type: ${resourceInstance.resourceType}`,
         link: '',
       };
     });
