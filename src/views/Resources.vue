@@ -39,11 +39,12 @@ export default class Resources extends Vue {
 
   public resourceInstanceForType(resourceType : ResourceType): ListElement[] {
     //filter for resourcetype:
-    const filteredList = this.resourceInstances.filter((resourceInstance) => {
-      return resourceInstance.resourceType === resourceType.id;
+    const resourcesPerType = this.resourceInstances.filter((resourceInstance) => {
+      return (resourceInstance.resourceType === resourceType.id && (resourceInstance.resourceType.includes("208")));
     });
-    return Utils.resourceInstancesToList(filteredList);
+    return Utils.resourceInstancesToList(resourcesPerType);
   }
+
   // endregion
 
   // region private members
@@ -55,7 +56,6 @@ export default class Resources extends Vue {
   // region public methods
   public async mounted() {
     this.listOfResourceTypes = await ResourceTypes.get();
-    console.log(this.listOfResourceTypes)
     this.resourceInstances = await ResourceInstances.get();
   }
   // endregion
