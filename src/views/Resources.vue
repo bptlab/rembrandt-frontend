@@ -1,6 +1,14 @@
 <template>
   <main>
-    <ListSection title="Resource Instances" :list="resourceInstancesList" />
+      <section class="list">
+        <h1>Resources per Resource Type</h1>
+        <ul>
+          <li :key="element.id" v-for="element in ListOfResourceTypes">
+            <ListSection :title="element.name" :list="resourceInstancesList" />
+          </li>
+        </ul>
+      </section>
+   <!-- <ListSection title="Resource Instances" :list="resourceInstancesList" /> -->
   </main>
 </template>
 
@@ -8,7 +16,7 @@
 
 import { Component, Vue } from 'vue-property-decorator';
 import ListSection, { ListElement } from '@/components/ListSection.vue';
-import { ResourceInstance, ResourceInstances, ResourceType } from '@/apis/rembrandt/rembrandt';
+import { ResourceInstance, ResourceInstances, ResourceType, ResourceTypes } from '@/apis/rembrandt/rembrandt';
 
 @Component({
   components: {
@@ -24,6 +32,7 @@ export default class Resources extends Vue {
 
   // region public members
   public resourceInstances: ResourceInstance[] = [];
+  public ListOfResourceTypes: ResourceType[] = [];
 
   public get resourceInstanceForType(): ResourceInstance[] {
 
@@ -52,6 +61,7 @@ export default class Resources extends Vue {
 
   // region public methods
   public async mounted() {
+    this.ListOfResourceTypes = await ResourceTypes.get();
     this.resourceInstances = await ResourceInstances.get();
   }
   // endregion
