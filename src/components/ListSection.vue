@@ -87,7 +87,8 @@ section.list {
 
   li {
     border-bottom: 1px solid @primary-bg;
-    min-height: 50px;
+    min-height: 77px;
+    display: flex;
   }
 
   li:last-child {
@@ -100,6 +101,7 @@ section.list {
     justify-content: space-between;
     padding: 15px;
     text-decoration: none;
+    width: 100%;
   }
 
   .disabled {

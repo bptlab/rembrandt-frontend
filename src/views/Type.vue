@@ -12,7 +12,7 @@
 
     <div class="row">
       <ListSection title="Attributes" :list="resourceTypeAttributeList" />
-      <ListSection title="Actions" :list="resourceTypeAttributeList" />
+      <ListSection title="Actions" :list="resourceTypeActionsList" />
     </div>
 
   </main>
@@ -46,6 +46,26 @@ export default class Types extends Vue {
 
   public get resourceTypeAttributeList(): ListElement[] {
     return Utils.resourceTypeAttributesToList(this.resourceType.attributes);
+  }
+
+  public get resourceTypeActionsList(): ListElement[] {
+    return [
+      {
+        id: '1',
+        firstValue: 'Add Resource',
+        link: '',
+      },
+      {
+        id: '2',
+        firstValue: 'Edit Resource Type',
+        link: '',
+      },
+      {
+        id: '3',
+        firstValue: 'Delete Resource Type',
+        link: '',
+      },
+    ];
   }
   // endregion
 
@@ -101,7 +121,7 @@ export default class Types extends Vue {
   }
 
   .row > * {
-    flex-grow: 1;
+    flex-basis: 100%;
     margin-left: 15px;
     margin-right: 15px;
   }

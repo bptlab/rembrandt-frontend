@@ -8,8 +8,8 @@ export default class Utils {
       return {
         id: resourceType.id || resourceType.name,
         firstValue: resourceType.name,
-        secondValue: `Parent Type: ${resourceType.parentType}`,
-        thirdValue: resourceType.abstract ? '' : `300 Instances`,
+        secondValue: resourceType.parentType ? `Parent Type: ${resourceType.parentType}` : '',
+        thirdValue: resourceType.abstract ? 'Abstract Type' : `300 Instances`,
         link: `/types/${resourceType.id}`,
       };
     });
