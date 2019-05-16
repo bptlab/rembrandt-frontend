@@ -1,14 +1,6 @@
 <template>
   <main>
-      <section class="list">
-        <h1>Resources per Resource Type</h1>
-        <ul>
-          <li :key="element.id" v-for="element in listOfResourceTypes">
-            <ListSection :title="element.name" :list="resourceInstanceForType(element)" />
-          </li>
-        </ul>
-      </section>
-   <!-- <ListSection title="Resource Instances" :list="resourceInstancesList" /> -->
+    <ListSection :key="element.id" v-for="element in listOfTypesWithResources" :title="element.name" :list="resourceInstanceForType(element)" />
   </main>
 </template>
 
@@ -34,6 +26,12 @@ export default class Resources extends Vue {
   // region public members
   public resourceInstances: ResourceInstance[] = [];
   public listOfResourceTypes: ResourceType[] = [];
+
+  public get listOfTypesWithResources() {
+    return this.listOfResourceTypes.filter((resourceType) => {
+      return this.resourceInstanceForType(resourceType).length
+    });
+  }
 
   public get allResourceInstances(): ListElement[] {
     return Utils.resourceInstancesToList(this.resourceInstances);
