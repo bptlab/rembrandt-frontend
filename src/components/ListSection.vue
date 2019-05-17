@@ -2,14 +2,14 @@
   <section class="list">
     <h1 v-if="title">{{title}}</h1>
     <ul>
-      <li :key="element.id" v-for="element in this.list" v-bind:class="{ disabled: !element.link }">
-        <router-link :to="element.link">
+      <li :key="element.id" v-for="element in this.list" v-bind:class="{ disabled: !element.link && !element.onClick }">
+        <Link :link="element.link" :onClick="element.onClick">
           <div>
             <h2>{{element.firstValue}}</h2>
             <p v-if="element.secondValue">{{element.secondValue}}</p>
           </div>
           <p class="third-value" v-if="element.thirdValue">{{element.thirdValue}}</p>
-        </router-link>
+        </Link>
       </li>
     </ul>
   </section>
@@ -17,6 +17,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
+import Link from '@/components/Link.vue';
 
 export interface ListElement {
   id: string;
@@ -24,9 +25,14 @@ export interface ListElement {
   secondValue?: string;
   thirdValue?: string;
   link: string;
+  onClick?: () => void;
 }
 
-@Component
+@Component({
+  components: {
+    Link,
+  },
+})
 export default class ListSection extends Vue {
   // region public static methods
   // endregion
