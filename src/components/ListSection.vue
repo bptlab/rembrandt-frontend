@@ -97,7 +97,7 @@ section.list {
     display: flex;
 
     &:hover{
-      background-image: linear-gradient(to right, #913125, #913125);
+      background-image: linear-gradient(to right, @accent, @accent);
       background-position: 0 0;
       background-size: 5px 100%;
       background-repeat: no-repeat;
