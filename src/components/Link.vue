@@ -1,7 +1,10 @@
 <template>
-  <router-link :to="this.link || ''" @click="this.click">
+  <router-link v-if="this.link" :to="this.link">
     <slot />
   </router-link>
+  <a class="clickable" v-else @click="this.click" >
+    <slot />
+  </a>
 </template>
 
 <script lang="ts">
@@ -16,6 +19,7 @@ export default class Link extends Vue {
   public onClick?: () => void;
 
   public click() {
+    console.log('click');
     if (this.onClick) {
       this.onClick();
     }
@@ -24,4 +28,7 @@ export default class Link extends Vue {
 </script>
 
 <style lang="less">
+  .clickable {
+    cursor: pointer;
+  }
 </style>
