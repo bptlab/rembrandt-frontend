@@ -1,12 +1,11 @@
 <template>
   <main v-if="this.error">
-    <h1>{{this.error}}</h1>
+    <h1>Resource Type not found.</h1>
   </main>
   <main v-else class="type">
     <h1>{{this.resourceType.name}}</h1>
-    <div class="back-link-container">
-      <router-link to="/types">&#60; Back to Types</router-link>
-    </div>
+    <ViewHeader :title="this.resourceType.name" backLink="/types" />
+
     <div class="preview-container">
       <ListSection :list="resourceTypeList" />
     </div>
@@ -23,11 +22,13 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { ResourceTypes, ResourceType } from '@/apis/rembrandt/rembrandt';
 import ListSection, { ListElement } from '@/components/ListSection.vue';
+import ViewHeader from '@/components/ViewHeader.vue';
 import Utils from '@/utils/Utils';
 
 @Component({
   components: {
     ListSection,
+    ViewHeader,
   },
 })
 export default class Types extends Vue {
@@ -50,12 +51,16 @@ export default class Types extends Vue {
   }
 
   public get resourceTypeActionsList(): ListElement[] {
-    return [
-      {
+    const resourceTypeActions = [];
+    if (!this.resourceType.abstract) {
+      resourceTypeActions.push({
         id: '1',
         firstValue: 'Add Resource',
         link: '',
-      },
+      });
+    }
+
+    resourceTypeActions.push(
       {
         id: '2',
         firstValue: 'Edit Resource Type',
@@ -66,7 +71,9 @@ export default class Types extends Vue {
         firstValue: 'Delete Resource Type',
         link: '',
       },
-    ];
+    );
+
+    return resourceTypeActions;
   }
   // endregion
 
