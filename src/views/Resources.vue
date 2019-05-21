@@ -32,8 +32,8 @@ export default class Resources extends Vue {
   // region public members
   public resourceInstances: ResourceInstance[] = [];
   public listOfResourceTypes: ResourceType[] = [];
-  public searchTerm: string = "";
-  public selectedTypes: string[]= [];
+  public searchTerm: string = '';
+  public selectedTypes: string[] = [];
 
   public get allResourceInstances(): ListElement[] {
     return Utils.resourceInstancesToList(this.resourceInstances);
@@ -44,7 +44,7 @@ export default class Resources extends Vue {
   }
 
   public get listOfFilteredResourceTypes(): ResourceType[] {
-    if (this.selectedTypes.length){
+    if (this.selectedTypes.length) {
       return this.listOfTypesWithResources.filter((resourceType) => this.selectedTypes.includes(resourceType.name));
     } else {
       return this.listOfTypesWithResources;
@@ -54,20 +54,20 @@ export default class Resources extends Vue {
   // get all resourcetypes with instances
   public get listOfTypesWithResources(): ResourceType[] {
     return this.listOfResourceTypes.filter((resourceType) => {
-      return this.resourceInstanceForType(resourceType).length
+      return this.resourceInstanceForType(resourceType).length;
     });
   }
 
   // match resourceinstance and corresponding type and search filter
-  public resourceInstanceForType(resourceType : ResourceType): ListElement[] {
+  public resourceInstanceForType(resourceType: ResourceType): ListElement[] {
     const resourcesPerType = this.resourceInstances.filter((resourceInstance) => {
       return (resourceInstance.resourceType === resourceType.id && this.filterInstances(resourceInstance) );
     });
     return Utils.resourceInstancesToList(resourcesPerType);
   }
   // filter instances for search term
-  public filterInstances(resourceInstance : ResourceInstance): boolean {
-    if (resourceInstance.id){
+  public filterInstances(resourceInstance: ResourceInstance): boolean {
+    if (resourceInstance.id) {
       return (resourceInstance.resourceType.includes(this.searchTerm) ||
             resourceInstance.id.includes(this.searchTerm));
     } else {
