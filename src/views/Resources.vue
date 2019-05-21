@@ -1,19 +1,19 @@
 <template>
   <main>
-    <select v-model="selectedTypes">
+    <select multiple v-model="selectedTypes">
       <option
         :key="resourceType.id"
-        v-for="resourceType in listOfNonAbstractResourceTypes"
-        v-bind:value="resourceType.name">
+        v-for="resourceType in NonAbstractResourceTypes"
+        :value="resourceType.name">
         {{resourceType.name}}
       </option>
     </select>
-    <input v-model="searchTerm" placeholder="">
+    <input v-model="searchTerm" placeholder="search resources...">
     <ListSection
-      :key="element.id"
-      v-for="element in listOfFilteredResourceTypes"
-      :title="element.name"
-      :list="resourceInstanceForType(element)" />
+      :key="resourceType.id"
+      v-for="resourceType in FilteredResourceTypes"
+      :title="resourceType.name"
+      :list="resourceInstanceForType(resourceType)" />
   </main>
 </template>
 
@@ -38,25 +38,25 @@ export default class Resources extends Vue {
 
   // region public members
   public resourceInstances: ResourceInstance[] = [];
-  public listOfResourceTypes: ResourceType[] = [];
+  public ResourceTypes: ResourceType[] = [];
   public searchTerm: string = '';
   public selectedTypes: string[] = [];
 
-  public get listOfNonAbstractResourceTypes(): ResourceType[] {
-    return this.listOfResourceTypes.filter((resourceType) => !resourceType.abstract);
+  public get NonAbstractResourceTypes(): ResourceType[] {
+    return this.ResourceTypes.filter((resourceType) => !resourceType.abstract);
   }
 
-  public get listOfFilteredResourceTypes(): ResourceType[] {
+  public get FilteredResourceTypes(): ResourceType[] {
     if (this.selectedTypes.length) {
-      return this.listOfTypesWithResources.filter((resourceType) => this.selectedTypes.includes(resourceType.name));
+      return this.TypesWithResources.filter((resourceType) => this.selectedTypes.includes(resourceType.name));
     } else {
-      return this.listOfTypesWithResources;
+      return this.TypesWithResources;
     }
   }
 
   // get all resourcetypes with instances
-  public get listOfTypesWithResources(): ResourceType[] {
-    return this.listOfResourceTypes.filter((resourceType) => {
+  public get TypesWithResources(): ResourceType[] {
+    return this.ResourceTypes.filter((resourceType) => {
       return this.resourceInstanceForType(resourceType).length;
     });
   }
@@ -64,19 +64,18 @@ export default class Resources extends Vue {
   // match resourceinstance and corresponding type and search filter
   public resourceInstanceForType(resourceType: ResourceType): ListElement[] {
     const resourcesPerType = this.resourceInstances.filter((resourceInstance) => {
-      return (resourceInstance.resourceType === resourceType.id && this.filterInstances(resourceInstance) );
+      return (resourceInstance.resourceType === resourceType.id &&
+        this.resourceInstanceIncludesSearchTerm(resourceInstance));
     });
     return Utils.resourceInstancesToList(resourcesPerType);
   }
   // filter instances for search term
-  public filterInstances(resourceInstance: ResourceInstance): boolean {
-    if (resourceInstance.id) {
-      return (resourceInstance.resourceType.includes(this.searchTerm) ||
-            resourceInstance.id.includes(this.searchTerm));
-    } else {
+  public resourceInstanceIncludesSearchTerm(resourceInstance: ResourceInstance): boolean {
+    if (!resourceInstance.id) {
       return false;
     }
-
+    return (resourceInstance.resourceType.includes(this.searchTerm) ||
+            resourceInstance.id.includes(this.searchTerm));
   }
   // endregion
 
@@ -88,7 +87,7 @@ export default class Resources extends Vue {
 
   // region public methods
   public async mounted() {
-    this.listOfResourceTypes = await ResourceTypes.get();
+    this.ResourceTypes = await ResourceTypes.get();
     this.resourceInstances = await ResourceInstances.get();
   }
   // endregion
