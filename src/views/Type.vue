@@ -116,23 +116,5 @@ export default class Types extends Vue {
   .preview-container {
     margin-top: 40px;
   }
-
-  .row {
-    display: flex;
-  }
-
-  .row > * {
-    flex-basis: 100%;
-    margin-left: 15px;
-    margin-right: 15px;
-  }
-  .row > *:first-child {
-    margin-left: 0;
-  }
-
-  .row > *:last-child {
-    margin-right: 0;
-  }
 }
-
 </style>

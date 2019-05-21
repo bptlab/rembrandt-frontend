@@ -1,29 +1,27 @@
 <template>
   <div id="app">
-    <Header />
+    <Header/>
     <router-view/>
   </div>
 </template>
 
 <script lang="ts">
-
-import { Component, Vue } from 'vue-property-decorator';
-import Header from '@/components/Header.vue'; // @ is an alias to /src
+import { Component, Vue } from "vue-property-decorator";
+import Header from "@/components/Header.vue"; // @ is an alias to /src
 
 @Component({
   components: {
-    Header,
-  },
+    Header
+  }
 })
 export default class Home extends Vue {}
-
 </script>
 
 <style lang="less">
 @import "colors";
 
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -59,5 +57,22 @@ a {
 
 a {
   text-decoration: none;
+}
+
+.row {
+  display: flex;
+}
+
+.row > * {
+  flex-basis: 100%;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+.row > *:first-child {
+  margin-left: 0;
+}
+
+.row > *:last-child {
+  margin-right: 0;
 }
 </style>
