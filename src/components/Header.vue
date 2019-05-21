@@ -28,6 +28,7 @@ export default class Header extends Vue {}
 </script>
 
 <style lang="less">
+@import "../colors";
 
 header {
   width: 100%;
@@ -41,7 +42,7 @@ header {
 
   a {
     text-decoration: none;
-    color: #2c3e50;
+    color: @primary;
   }
 
   .logo-container,
@@ -57,11 +58,12 @@ header {
   .logo {
     width: 100px;
     max-width: 100%;
-    font-size: 40px;
+    font-size: 35px;
+    color: @primary;
   }
 
   nav {
-    width: 700px;
+    width: 900px;
     max-width: 100%;
     text-align: left;
     justify-self: center;
@@ -69,10 +71,10 @@ header {
     a {
       padding-right: 30px;
       font-weight: bold;
-      color: #2c3e50;
-      &.router-link-exact-active {
-        color: #42b983;
-        text-decoration: underline;
+      color: @primary;
+      font-size: 18px;
+      &.router-link-active {
+        color: @accent;
       }
       &:last-child {
         padding-right: 0;

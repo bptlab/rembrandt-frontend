@@ -17,7 +17,7 @@ export interface ResourceType extends Resource {
 }
 
 const serializer = new Serializer('resourceType', {
-  id: '_id',
+  id: 'id',
   attributes: [
     'name',
     'abstract',

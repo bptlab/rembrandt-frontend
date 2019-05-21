@@ -1,13 +1,57 @@
 <template>
   <main>
+    <ListSection title="Abstract Types" :list="abstractResourceTypesList" />
+    <ListSection title="Non-Abstract Types" :list="nonAbstractResourceTypesList" />
   </main>
 </template>
 
 <script lang="ts">
-
 import { Component, Vue } from 'vue-property-decorator';
+import { ResourceTypes, ResourceType } from '@/apis/rembrandt/rembrandt';
+import ListSection, { ListElement } from '@/components/ListSection.vue';
+import Utils from '@/utils/Utils';
 
-@Component
-export default class Types extends Vue {}
+@Component({
+  components: {
+    ListSection,
+  },
+})
+export default class Types extends Vue {
+  // region public static methods
+  // endregion
 
+  // region private static methods
+  // endregion
+
+  // region public members
+  public resourceTypes: ResourceType[] = [];
+
+  public get abstractResourceTypesList(): ListElement[] {
+    const abstractResourceTypes = this.resourceTypes.filter((resourceType) => resourceType.abstract);
+    return Utils.resourceTypesToList(abstractResourceTypes);
+  }
+
+  public get nonAbstractResourceTypesList(): ListElement[] {
+    const nonAbstractResourceTypes =  this.resourceTypes.filter((resourceType) => !resourceType.abstract);
+    return Utils.resourceTypesToList(nonAbstractResourceTypes);
+  }
+
+
+  // endregion
+
+  // region private members
+  // endregion
+
+  // region constructor
+  // endregion
+
+  // region public methods
+  public async mounted() {
+    this.resourceTypes = await ResourceTypes.get();
+  }
+  // endregion
+
+  // region private methods
+  // endregion
+}
 </script>

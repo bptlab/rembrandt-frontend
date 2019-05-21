@@ -1,3 +1,3 @@
 export default interface Resource {
-  _id?: string;
+  id?: string;
 }
