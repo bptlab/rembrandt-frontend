@@ -2,11 +2,8 @@
   <main class="create-type">
     <div v-if="formState === 0">
       <ViewHeader title="How should the resource type be called?" :backLink="{ link: '/types' }"/>
-      <fieldset>
-        <input v-model="newResourceType.name" type="text" placeholder="Cars" autofocus>
-        <label><span>Name</span></label>
-      </fieldset>
-      <input @click="nextStep" type="button" value="Next Step">
+      <Input :value.sync="newResourceType.name" name="Name" placeholder="Cars" :autofocus="true" />
+      <Button text="Continue" :onClick="nextStep" />
     </div>
 
     <div v-if="formState === 1">
@@ -14,25 +11,8 @@
         :title="`Is ${newResourceType.name} an abstract resource type?`"
         :backLink="{ onClick: previousStep }"
       />
-      <fieldset>
-        <input
-          v-model="newResourceType.abstract"
-          type="radio"
-          id="abstract-true"
-          name="abstract"
-          value="true"
-        >
-        <label for="abstract-true">Yes</label>
-        <input
-          v-model="newResourceType.abstract"
-          type="radio"
-          id="abstract-false"
-          name="abstract"
-          value="false"
-        >
-        <label for="abstract-false">No</label>
-      </fieldset>
-      <input @click="nextStep" type="button" value="Next Step">
+      <Toggle :value.sync="newResourceType.abstract" name="Abstract" />
+      <Button text="Continue" :onClick="nextStep" />
     </div>
 
     <div v-if="formState === 2">
@@ -88,45 +68,51 @@
         <Li :options="addButtonOptions"/>
       </ListSection>
 
-      <input @click="createResourceType" type="button" value="Create Resource Type">
+      <Button text="Create Resource Type" :onClick="createResourceType" />
     </div>
   </main>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue } from 'vue-property-decorator';
 import {
   ResourceTypes,
   ResourceType,
   ResourceTypeAttribute
-} from "@/apis/rembrandt/rembrandt";
-import Li, { LiOptions } from "@/components/Li.vue";
-import ViewHeader from "@/components/ViewHeader.vue";
-import ListSection from "@/components/ListSection.vue";
-import Utils from "@/utils/Utils";
+} from '@/apis/rembrandt/rembrandt';
+import Li, { LiOptions } from '@/components/Li.vue';
+import ViewHeader from '@/components/ViewHeader.vue';
+import ListSection from '@/components/ListSection.vue';
+import Input from '@/components/Input.vue';
+import Toggle from '@/components/Toggle.vue';
+import Button from '@/components/Button.vue';
+import Utils from '@/utils/Utils';
 
 @Component({
   components: {
     ListSection,
     Li,
-    ViewHeader
-  }
+    ViewHeader,
+    Input,
+    Toggle,
+    Button,
+  },
 })
 export default class Types extends Vue {
   // region public static methods
   public static emptyResourceType(): ResourceType {
     return {
-      name: "",
-      parentType: "",
-      abstract: true,
+      name: '',
+      parentType: '',
+      abstract: false,
       attributes: []
     };
   }
 
   public static emptyResourceTypeAttribute(): ResourceTypeAttribute {
     return {
-      name: "",
-      dataType: "string",
+      name: '',
+      dataType: 'string',
       required: true
     };
   }
@@ -181,8 +167,8 @@ export default class Types extends Vue {
 
   public get addButtonOptions(): LiOptions {
     return {
-      id: "add",
-      firstValue: "Add Attribute",
+      id: 'add',
+      firstValue: 'Add Attribute',
       link: {
         onClick: this.addAttribute
       }
@@ -216,7 +202,7 @@ export default class Types extends Vue {
   }
 
   public selectParentType(id: string) {
-    console.log("triggered");
+    console.log('triggered');
     this.newResourceType.parentType = id;
     this.nextStep();
   }
@@ -250,68 +236,5 @@ export default class Types extends Vue {
 
 <style lang="less">
 @import '../colors.less';
-fieldset {
-  margin: 0;
-  padding: 12px;
-  border-radius: 7px;
-  border: 1px solid white;
-  border-top: 0;
-  margin: 20px 0px;
-  position: relative;
 
-  &:focus-within {
-    border-color: @accent;
-  }
-
-  input {
-    background: transparent;
-    color: @primary;
-    font-size: 16px;
-    width: 100%;
-    padding: 0;
-    border: 0;
-
-    &:focus {
-      outline: none;
-    }
-  }
-
-  label {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    display: flex;
-    font-size: 14px;
-    color: @primary;
-
-    &:before {
-      border-top: 1px solid @primary;
-      border-top-left-radius: 7px;
-      flex: 5px 0 0;
-      content: "";
-    }
-
-    &:after {
-      border-top: 1px solid @primary;
-      border-top-right-radius: 7px;
-      flex: 1 0 0;
-      content: "";
-    }
-
-    span {
-      margin-top: -10px;
-      padding: 0 5px;
-    }
-  }
-
-  input:focus + label {
-    color: @accent;
-
-    &:before,
-    &:after {
-      border-color: @accent;
-    }
-  }
-}
 </style>
