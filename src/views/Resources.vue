@@ -1,12 +1,19 @@
 <template>
   <main>
     <select v-model="selectedTypes">
-      <option :key="resourceType.id" v-for="resourceType in listOfNonAbstractResourceTypes" v-bind:value="resourceType.name">
+      <option
+        :key="resourceType.id"
+        v-for="resourceType in listOfNonAbstractResourceTypes"
+        v-bind:value="resourceType.name">
         {{resourceType.name}}
       </option>
     </select>
     <input v-model="searchTerm" placeholder="">
-    <ListSection :key="element.id" v-for="element in listOfFilteredResourceTypes" :title="element.name" :list="resourceInstanceForType(element)" />
+    <ListSection
+      :key="element.id"
+      v-for="element in listOfFilteredResourceTypes"
+      :title="element.name"
+      :list="resourceInstanceForType(element)" />
   </main>
 </template>
 
