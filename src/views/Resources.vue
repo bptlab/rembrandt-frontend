@@ -1,7 +1,12 @@
 <template>
   <main>
-    <ListSection :key="element.id" v-for="element in listOfTypesWithResources" :title="element.name" :list="resourceInstanceForType(element)" />
+    <select v-model="selectedTypes">
+      <option :key="resourceType.id" v-for="resourceType in listOfNonAbstractResourceTypes" v-bind:value="resourceType.name">
+        {{resourceType.name}}
+      </option>
+    </select>
     <input v-model="searchTerm" placeholder="">
+    <ListSection :key="element.id" v-for="element in listOfFilteredResourceTypes" :title="element.name" :list="resourceInstanceForType(element)" />
   </main>
 </template>
 
@@ -28,8 +33,24 @@ export default class Resources extends Vue {
   public resourceInstances: ResourceInstance[] = [];
   public listOfResourceTypes: ResourceType[] = [];
   public searchTerm: string = "";
+  public selectedTypes: string[]= [];
 
-  public get listOfTypesWithResources() {
+  public get allResourceInstances(): ListElement[] {
+    return Utils.resourceInstancesToList(this.resourceInstances);
+  }
+
+  public get listOfNonAbstractResourceTypes(): ResourceType[] {
+    return this.listOfResourceTypes.filter((resourceType) => !resourceType.abstract);
+  }
+
+  public get listOfFilteredResourceTypes(): ResourceType[] {
+    if (this.selectedTypes.length){
+      return this.listOfTypesWithResources.filter((resourceType) => this.selectedTypes.includes(resourceType.name));
+    } else {
+      return this.listOfTypesWithResources;
+    }
+  }
+
   // get all resourcetypes with instances
   public get listOfTypesWithResources(): ResourceType[] {
     return this.listOfResourceTypes.filter((resourceType) => {
