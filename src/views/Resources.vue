@@ -3,15 +3,15 @@
     <select multiple v-model="selectedTypes">
       <option
         :key="resourceType.id"
-        v-for="resourceType in NonAbstractResourceTypes"
+        v-for="resourceType in nonAbstractResourceTypes"
         :value="resourceType.name">
         {{resourceType.name}}
       </option>
     </select>
-    <input v-model="searchTerm" placeholder="search resources...">
+    <input v-model="searchTerm" placeholder="Search resources...">
     <ListSection
       :key="resourceType.id"
-      v-for="resourceType in FilteredResourceTypes"
+      v-for="resourceType in filteredResourceTypes"
       :title="resourceType.name"
       :list="resourceInstanceForType(resourceType)" />
   </main>
@@ -38,25 +38,25 @@ export default class Resources extends Vue {
 
   // region public members
   public resourceInstances: ResourceInstance[] = [];
-  public ResourceTypes: ResourceType[] = [];
+  public resourceTypes: ResourceType[] = [];
   public searchTerm: string = '';
   public selectedTypes: string[] = [];
 
-  public get NonAbstractResourceTypes(): ResourceType[] {
-    return this.ResourceTypes.filter((resourceType) => !resourceType.abstract);
+  public get nonAbstractResourceTypes(): ResourceType[] {
+    return this.resourceTypes.filter((resourceType) => !resourceType.abstract);
   }
 
-  public get FilteredResourceTypes(): ResourceType[] {
+  public get filteredResourceTypes(): ResourceType[] {
     if (this.selectedTypes.length) {
-      return this.TypesWithResources.filter((resourceType) => this.selectedTypes.includes(resourceType.name));
+      return this.typesWithResources.filter((resourceType) => this.selectedTypes.includes(resourceType.name));
     } else {
-      return this.TypesWithResources;
+      return this.typesWithResources;
     }
   }
 
   // get all resourcetypes with instances
-  public get TypesWithResources(): ResourceType[] {
-    return this.ResourceTypes.filter((resourceType) => {
+  public get typesWithResources(): ResourceType[] {
+    return this.resourceTypes.filter((resourceType) => {
       return this.resourceInstanceForType(resourceType).length;
     });
   }
@@ -87,7 +87,7 @@ export default class Resources extends Vue {
 
   // region public methods
   public async mounted() {
-    this.ResourceTypes = await ResourceTypes.get();
+    this.resourceTypes = await ResourceTypes.get();
     this.resourceInstances = await ResourceInstances.get();
   }
   // endregion
