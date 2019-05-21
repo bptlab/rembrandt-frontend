@@ -1,7 +1,7 @@
 <template>
   <section class="list">
     <h1 v-if="title">{{title}}</h1>
-    <ul>
+    <ul v-if="list">
       <li :key="element.id" v-for="element in this.list" v-bind:class="{ disabled: !element.link && !element.onClick }">
         <Link :link="element.link" :onClick="element.onClick">
           <div>
@@ -11,6 +11,9 @@
           <p class="third-value" v-if="element.thirdValue">{{element.thirdValue}}</p>
         </Link>
       </li>
+    </ul>
+    <ul v-else>
+      <slot />
     </ul>
   </section>
 </template>
