@@ -8,7 +8,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { ResourceTypes, ResourceType } from '@/apis/rembrandt/rembrandt';
-import ListSection, { ListElement } from '@/components/ListSection.vue';
+import { LiOptions } from '@/components/Li.vue';
+import ListSection from '@/components/ListSection.vue';
 import Utils from '@/utils/Utils';
 
 @Component({
@@ -26,12 +27,12 @@ export default class Types extends Vue {
   // region public members
   public resourceTypes: ResourceType[] = [];
 
-  public get abstractResourceTypesList(): ListElement[] {
+  public get abstractResourceTypesList(): LiOptions[] {
     const abstractResourceTypes = this.resourceTypes.filter((resourceType) => resourceType.abstract);
     return Utils.resourceTypesToList(abstractResourceTypes);
   }
 
-  public get nonAbstractResourceTypesList(): ListElement[] {
+  public get nonAbstractResourceTypesList(): LiOptions[] {
     const nonAbstractResourceTypes =  this.resourceTypes.filter((resourceType) => !resourceType.abstract);
     return Utils.resourceTypesToList(nonAbstractResourceTypes);
   }

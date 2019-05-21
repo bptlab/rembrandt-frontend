@@ -1,31 +1,33 @@
-import { ResourceType, ResourceTypeAttribute, ResourceInstance } from '@/apis/rembrandt/rembrandt';
-import { ListElement } from '@/components/ListSection.vue';
+import { ResourceType, ResourceTypeAttribute } from '@/apis/rembrandt/rembrandt';
+import { LiOptions } from '@/components/Li.vue';
 
 export type OnClickFunction = (id: string) => void;
 
 export default class Utils {
   // region public static methods
-  public static resourceTypesToList(resourceTypes: ResourceType[], clickFunction?: OnClickFunction): ListElement[] {
+  public static resourceTypesToList(resourceTypes: ResourceType[], clickFunction?: OnClickFunction): LiOptions[] {
     return resourceTypes.map((resourceType) => {
       return {
         id: resourceType.id || resourceType.name,
         firstValue: resourceType.name,
         secondValue: resourceType.parentType ? `Parent Type: ${resourceType.parentType}` : '',
         thirdValue: resourceType.abstract ? 'Abstract Type' : `300 Instances`,
-        link: clickFunction ? '' : `/types/${resourceType.id}`,
-        onClick: clickFunction ? () => { clickFunction(resourceType.id || resourceType.name); } : undefined,
+        link: {
+          link: clickFunction ? '' : `/types/${resourceType.id}`,
+          onClick: clickFunction ? () => { clickFunction(resourceType.id || resourceType.name); } : undefined,
+        },
       };
     });
   }
 
-  public static resourceTypeAttributesToList(resourceTypeAttributes: ResourceTypeAttribute[]): ListElement[] {
+  public static resourceTypeAttributesToList(resourceTypeAttributes: ResourceTypeAttribute[]): LiOptions[] {
     return resourceTypeAttributes.map((resourceTypeAttribute) => {
       return {
         id: resourceTypeAttribute.name,
         firstValue: resourceTypeAttribute.name,
         secondValue: resourceTypeAttribute.dataType,
         thirdValue: resourceTypeAttribute.required ? 'required' : '',
-        link: '',
+        link: {},
       };
     });
   }

@@ -2,13 +2,13 @@
   <main class="create-type">
 
     <div v-if="formState === 0">
-      <ViewHeader title="How should the resource type be called?" backLink="/types" />
+      <ViewHeader title="How should the resource type be called?" :backLink="{ link: '/types' }" />
       <input v-model="newResourceType.name" type="text" name="name" placeholder="Cars" />
       <input @click="nextStep" type="button" value="Next Step" />
     </div>
 
     <div v-if="formState === 1">
-      <ViewHeader :title="`Is ${newResourceType.name} an abstract resource type?`" :backFunction="previousStep" />
+      <ViewHeader :title="`Is ${newResourceType.name} an abstract resource type?`" :backLink="{ onClick: previousStep }" />
       <fieldset>
         <input v-model="newResourceType.abstract" type="radio" id="abstract-true" name="abstract" value="true" />
         <label for="abstract-true">Yes</label>
@@ -19,12 +19,12 @@
     </div>
 
     <div v-if="formState === 2">
-      <ViewHeader :title="`Choose a parent type for ${newResourceType.name}:`" :backFunction="previousStep" />
+      <ViewHeader :title="`Choose a parent type for ${newResourceType.name}:`" :backLink="{ onClick: previousStep }" />
       <ListSection :list="parentTypeList" />
     </div>
 
     <div v-if="formState === 3">
-      <ViewHeader :title="`Define attributes for ${newResourceType.name}:`" :backFunction="previousStep" />
+      <ViewHeader :title="`Define attributes for ${newResourceType.name}:`" :backLink="{ onClick: previousStep }" />
       <ListSection :title="`Attributes of ${parentType.name}:`" :list="parentTypeAttributeList" />
 
       <ListSection :title="`Attributes of ${newResourceType.name}:`" :list="attributeList" />
@@ -38,8 +38,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { ResourceTypes, ResourceType } from '@/apis/rembrandt/rembrandt';
+import { LiOptions } from '@/components/Li.vue';
 import ViewHeader from '@/components/ViewHeader.vue';
-import ListSection, { ListElement } from '@/components/ListSection.vue';
+import ListSection from '@/components/ListSection.vue';
 import Utils from '@/utils/Utils';
 
 @Component({
@@ -67,7 +68,7 @@ export default class Types extends Vue {
   public formState: number = 0;
   public currentlyEditingAttribute: number = -1;
 
-  public get parentTypeList(): ListElement[] {
+  public get parentTypeList(): LiOptions[] {
     return Utils.resourceTypesToList(this.resourceTypes, this.selectParentType);
   }
 
@@ -76,11 +77,11 @@ export default class Types extends Vue {
     return parentType || Types.emptyResourceType;
   }
 
-  public get parentTypeAttributeList(): ListElement[] {
+  public get parentTypeAttributeList(): LiOptions[] {
     return Utils.resourceTypeAttributesToList(this.parentType.attributes);
   }
 
-  public get attributeList(): ListElement[] {
+  public get attributeList(): LiOptions[] {
     return Utils.resourceTypeAttributesToList(this.newResourceType.attributes);
   }
   // endregion

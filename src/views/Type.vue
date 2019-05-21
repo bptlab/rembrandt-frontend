@@ -3,7 +3,7 @@
     <h1>Resource Type not found.</h1>
   </main>
   <main v-else class="type">
-    <ViewHeader :title="this.resourceType.name" backLink="/types" />
+    <ViewHeader :title="this.resourceType.name" :backLink="{ link: '/types' }" />
 
     <ListSection class="preview-container" :list="resourceTypeList" />
 
@@ -18,7 +18,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { ResourceTypes, ResourceType } from '@/apis/rembrandt/rembrandt';
-import ListSection, { ListElement } from '@/components/ListSection.vue';
+import { LiOptions } from '@/components/Li.vue';
+import ListSection from '@/components/ListSection.vue';
 import ViewHeader from '@/components/ViewHeader.vue';
 import Utils from '@/utils/Utils';
 
@@ -39,21 +40,21 @@ export default class Types extends Vue {
   public resourceType: ResourceType;
   public error: string = '';
 
-  public get resourceTypeList(): ListElement[] {
+  public get resourceTypeList(): LiOptions[] {
     return Utils.resourceTypesToList([ this.resourceType ]);
   }
 
-  public get resourceTypeAttributeList(): ListElement[] {
+  public get resourceTypeAttributeList(): LiOptions[] {
     return Utils.resourceTypeAttributesToList(this.resourceType.attributes);
   }
 
-  public get resourceTypeActionsList(): ListElement[] {
+  public get resourceTypeActionsList(): LiOptions[] {
     const resourceTypeActions = [];
     if (!this.resourceType.abstract) {
       resourceTypeActions.push({
         id: '1',
         firstValue: 'Add Resource',
-        link: '',
+        link: {},
       });
     }
 
@@ -61,12 +62,12 @@ export default class Types extends Vue {
       {
         id: '2',
         firstValue: 'Edit Resource Type',
-        link: '',
+        link: {},
       },
       {
         id: '3',
         firstValue: 'Delete Resource Type',
-        link: '',
+        link: {},
       },
     );
 

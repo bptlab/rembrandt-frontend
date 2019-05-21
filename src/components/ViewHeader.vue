@@ -2,14 +2,14 @@
   <div class="view-header">
     <h1>{{this.title}}</h1>
     <div class="back-link-container">
-      <Link :link="backLink" :onClick="backFunction">&#60; Go Back</Link>
+      <Link :options="backLink">&#60; Go Back</Link>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import Link from '@/components/Link.vue';
+import Link, { LinkOptions } from '@/components/Link.vue';
 
 @Component({
   components: {
@@ -27,11 +27,8 @@ export default class ViewHeader extends Vue {
   @Prop(String)
   public title!: string;
 
-  @Prop(String)
-  public backLink!: string;
-
-  @Prop(Function)
-  public backFunction!: () => void;
+  @Prop(Object)
+  public backLink!: LinkOptions;
   // endregion
 
   // region private members
