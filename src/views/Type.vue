@@ -1,8 +1,9 @@
 <template>
-  <main class="type">
-    <h1 v-if="this.error">Resource Type not found.</h1>
-
-    <h1 v-if="!this.error">{{this.resourceType.name}}</h1>
+  <main v-if="this.error">
+    <h1>{{this.error}}</h1>
+  </main>
+  <main v-else class="type">
+    <h1>{{this.resourceType.name}}</h1>
     <div class="back-link-container">
       <router-link to="/types">&#60; Back to Types</router-link>
     </div>
