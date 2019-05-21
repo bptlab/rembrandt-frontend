@@ -46,6 +46,10 @@ export default class Utils {
       };
     });
   }
+
+  public static createRandomId(): string {
+    return '_' + Math.random().toString(36).substr(2, 9);
+  }
   // endregion
 
   // region private static methods
