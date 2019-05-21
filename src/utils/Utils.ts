@@ -20,14 +20,16 @@ export default class Utils {
     });
   }
 
-  public static resourceTypeAttributesToList(resourceTypeAttributes: ResourceTypeAttribute[]): LiOptions[] {
+  public static resourceTypeAttributesToList(resourceTypeAttributes: ResourceTypeAttribute[], clickFunction?: OnClickFunction): LiOptions[] {
     return resourceTypeAttributes.map((resourceTypeAttribute) => {
       return {
         id: resourceTypeAttribute.name,
         firstValue: resourceTypeAttribute.name,
         secondValue: resourceTypeAttribute.dataType,
         thirdValue: resourceTypeAttribute.required ? 'required' : '',
-        link: {},
+        link: {
+          onClick: clickFunction ? () => { clickFunction(resourceTypeAttribute.name); } : undefined,
+        },
       };
     });
   }
