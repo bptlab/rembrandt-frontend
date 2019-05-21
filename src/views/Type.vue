@@ -3,12 +3,9 @@
     <h1>Resource Type not found.</h1>
   </main>
   <main v-else class="type">
-    <h1>{{this.resourceType.name}}</h1>
     <ViewHeader :title="this.resourceType.name" backLink="/types" />
 
-    <div class="preview-container">
-      <ListSection :list="resourceTypeList" />
-    </div>
+    <ListSection class="preview-container" :list="resourceTypeList" />
 
     <div class="row">
       <ListSection title="Attributes" :list="resourceTypeAttributeList" />
@@ -106,22 +103,3 @@ export default class Types extends Vue {
   // endregion
 }
 </script>
-
-
-<style lang="less">
-
-.type {
-  h1 {
-    font-size: 30px;
-    margin-top: 40px;
-  }
-
-  .back-link-container {
-    margin-top: 20px;
-  }
-
-  .preview-container {
-    margin-top: 40px;
-  }
-}
-</style>
