@@ -42,10 +42,6 @@ export default class Resources extends Vue {
   public searchTerm: string = '';
   public selectedTypes: string[] = [];
 
-  public get allResourceInstances(): ListElement[] {
-    return Utils.resourceInstancesToList(this.resourceInstances);
-  }
-
   public get listOfNonAbstractResourceTypes(): ResourceType[] {
     return this.listOfResourceTypes.filter((resourceType) => !resourceType.abstract);
   }
