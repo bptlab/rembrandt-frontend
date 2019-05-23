@@ -20,9 +20,10 @@
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
-import ListSection, { ListElement } from '@/components/ListSection.vue';
+import ListSection from '@/components/ListSection.vue';
 import { ResourceInstance, ResourceInstances, ResourceType, ResourceTypes } from '@/apis/rembrandt/rembrandt';
 import Utils from '@/utils/Utils';
+import { LiOptions } from '@/components/Li.vue';
 
 @Component({
   components: {
@@ -62,7 +63,7 @@ export default class Resources extends Vue {
   }
 
   // match resourceinstance and corresponding type and search filter
-  public resourceInstanceForType(resourceType: ResourceType): ListElement[] {
+  public resourceInstanceForType(resourceType: ResourceType): LiOptions[] {
     const resourcesPerType = this.resourceInstances.filter((resourceInstance) => {
       return (resourceInstance.resourceType === resourceType.id &&
         this.resourceInstanceIncludesSearchTerm(resourceInstance));

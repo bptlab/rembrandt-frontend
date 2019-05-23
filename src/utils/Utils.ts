@@ -1,4 +1,4 @@
-import { ResourceType, ResourceTypeAttribute } from '@/apis/rembrandt/rembrandt';
+import { ResourceType, ResourceInstance, ResourceTypeAttribute } from '@/apis/rembrandt/rembrandt';
 import { LiOptions } from '@/components/Li.vue';
 
 export type clickHandler = (id: string) => void;
@@ -34,7 +34,7 @@ export default class Utils {
     });
   }
 
-  public static resourceInstancesToList(resourceInstances: ResourceInstance[]): ListElement[] {
+  public static resourceInstancesToList(resourceInstances: ResourceInstance[]): LiOptions[] {
     // create list for specific type
     return resourceInstances.map((resourceInstance) => {
       return {
@@ -42,7 +42,7 @@ export default class Utils {
         // first value needs to be the identifying value
         firstValue: `${resourceInstance.id}`,
         secondValue: `Resource Type: ${resourceInstance.resourceType}`,
-        link: '',
+        link: {},
       };
     });
   }
