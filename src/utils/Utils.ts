@@ -1,5 +1,4 @@
 import { ResourceType, ResourceInstance, ResourceTypeAttribute } from '@/apis/rembrandt/rembrandt';
-import { LinkOptions } from '@/components/Link.vue';
 import { ListEntry } from '@/components/Li.vue';
 
 export type clickHandler = (id: string) => void;
