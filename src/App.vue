@@ -28,6 +28,8 @@ export default class Home extends Vue {}
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100vw;
+  height: 100vh;
 }
 
 body {
@@ -35,10 +37,13 @@ body {
 }
 
 main {
-  text-align: left;
-  margin: 0px 30px;
+  box-sizing: border-box;
+  padding: 0px @spacing;
   max-width: 900px;
   width: 100%;
+  flex-grow: 1;
+  text-align: left;
+  position: relative;
 }
 
 h1,
