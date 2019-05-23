@@ -60,6 +60,7 @@ fieldset.f-toggle {
   margin: @spacing 0;
   border: 0;
   padding: 0;
+  width: fit-content;
 
   input {
     display: none;
@@ -100,6 +101,7 @@ fieldset.f-toggle {
   }
 
   label {
+    width: fit-content;
     display: flex;
     align-items: center;
     color: @primary;

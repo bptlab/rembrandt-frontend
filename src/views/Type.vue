@@ -18,7 +18,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { ResourceTypes, ResourceType } from '@/apis/rembrandt/rembrandt';
-import { LiOptions } from '@/components/Li.vue';
+import { ListEntry } from '@/components/Li.vue';
 import ListSection from '@/components/ListSection.vue';
 import ViewHeader from '@/components/ViewHeader.vue';
 import Utils from '@/utils/Utils';
@@ -40,15 +40,15 @@ export default class Types extends Vue {
   public resourceType: ResourceType;
   public error: string = '';
 
-  public get resourceTypeList(): LiOptions[] {
+  public get resourceTypeList(): ListEntry[] {
     return Utils.resourceTypesToList([ this.resourceType ]);
   }
 
-  public get resourceTypeAttributeList(): LiOptions[] {
+  public get resourceTypeAttributeList(): ListEntry[] {
     return Utils.resourceTypeAttributesToList(this.resourceType.attributes);
   }
 
-  public get resourceTypeActionsList(): LiOptions[] {
+  public get resourceTypeActionsList(): ListEntry[] {
     const resourceTypeActions = [];
     if (!this.resourceType.abstract) {
       resourceTypeActions.push({

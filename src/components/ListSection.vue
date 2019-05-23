@@ -2,7 +2,7 @@
   <section class="list">
     <h1 v-if="title">{{title}}</h1>
     <ul v-if="list">
-      <Li v-for="element in this.list" :key="element.id" :options="element" />
+      <Li v-for="element in this.list" :key="element.id" :listEntry="element" />
     </ul>
     <ul v-else>
       <slot />
@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import Li, { LiOptions } from '@/components/Li.vue';
+import Li, { ListEntry } from '@/components/Li.vue';
 
 @Component({
   components: {
@@ -31,7 +31,7 @@ export default class ListSection extends Vue {
   public title!: string;
 
   @Prop(Array)
-  public list!: LiOptions[];
+  public list!: ListEntry[];
   // endregion
 
   // region private members

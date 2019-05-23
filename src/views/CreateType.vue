@@ -30,7 +30,7 @@
     <ListSection :title="`Attributes of ${parentType.name}`" :list="parentTypeAttributeList"/>
 
     <ListSection :title="`Attributes of ${newResourceType.name}`">
-      <Li v-for="attribute in attributeListLeft" :key="attribute.id" :options="attribute"/>
+      <Li v-for="attribute in attributeListLeft" :key="attribute.id" :listEntry="attribute"/>
 
       <Li v-if="currentlyEditingAttribute >= 0" class="attribute-form">
         <h2>New Attribute</h2>
@@ -53,8 +53,8 @@
         <Button text="Save Attribute" :onClick="saveAttribute"/>
       </Li>
 
-      <Li v-for="attribute in attributeListRight" :key="attribute.id" :options="attribute"/>
-      <Li :options="addButtonOptions"/>
+      <Li v-for="attribute in attributeListRight" :key="attribute.id" :listEntry="attribute"/>
+      <Li :listEntry="addButtonOptions"/>
     </ListSection>
 
     <Button text="Create Resource Type" :onClick="createResourceType"/>
@@ -68,7 +68,7 @@ import {
   ResourceType,
   ResourceTypeAttribute,
 } from '@/apis/rembrandt/rembrandt';
-import Li, { LiOptions } from '@/components/Li.vue';
+import Li, { ListEntry } from '@/components/Li.vue';
 import ViewHeader from '@/components/ViewHeader.vue';
 import ListSection from '@/components/ListSection.vue';
 import Input from '@/components/Input.vue';
@@ -117,7 +117,7 @@ export default class Types extends Vue {
   public formState: number = 0;
   public currentlyEditingAttribute: number = -1;
 
-  public get parentTypeList(): LiOptions[] {
+  public get parentTypeList(): ListEntry[] {
     return Utils.resourceTypesToList(this.resourceTypes, this.selectParentType);
   }
 
@@ -128,24 +128,24 @@ export default class Types extends Vue {
     return parentType || Types.emptyResourceType();
   }
 
-  public get parentTypeAttributeList(): LiOptions[] {
+  public get parentTypeAttributeList(): ListEntry[] {
     return Utils.resourceTypeAttributesToList(this.parentType.attributes);
   }
 
-  public get attributeList(): LiOptions[] {
+  public get attributeList(): ListEntry[] {
     return Utils.resourceTypeAttributesToList(
       this.newResourceType.attributes,
       this.editAttribute,
     );
   }
 
-  public get attributeListLeft(): LiOptions[] {
+  public get attributeListLeft(): ListEntry[] {
     return this.attributeList.filter(
       (attribute, index) => index < this.currentlyEditingAttribute,
     );
   }
 
-  public get attributeListRight(): LiOptions[] {
+  public get attributeListRight(): ListEntry[] {
     return this.attributeList.filter(
       (attribute, index) => index > this.currentlyEditingAttribute,
     );
@@ -155,7 +155,7 @@ export default class Types extends Vue {
     return this.newResourceType.attributes[this.currentlyEditingAttribute];
   }
 
-  public get addButtonOptions(): LiOptions {
+  public get addButtonOptions(): ListEntry {
     return {
       id: 'add',
       firstValue: 'Add Attribute',

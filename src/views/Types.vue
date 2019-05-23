@@ -2,7 +2,7 @@
   <main>
     <ListSection title="Abstract Types" :list="abstractResourceTypesList" />
     <ListSection title="Non-Abstract Types" :list="nonAbstractResourceTypesList" />
-    <Link class="create-type-button" :options="{link: '/types/create'}">
+    <Link class="create-type-button" :linkOptions="{link: '/types/create'}">
       <i class="fas fa-plus"></i>
     </Link>
   </main>
@@ -11,7 +11,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { ResourceTypes, ResourceType } from '@/apis/rembrandt/rembrandt';
-import { LiOptions } from '@/components/Li.vue';
+import { ListEntry } from '@/components/Li.vue';
 import ListSection from '@/components/ListSection.vue';
 import Link from '@/components/Link.vue';
 import Utils from '@/utils/Utils';
@@ -32,12 +32,12 @@ export default class Types extends Vue {
   // region public members
   public resourceTypes: ResourceType[] = [];
 
-  public get abstractResourceTypesList(): LiOptions[] {
+  public get abstractResourceTypesList(): ListEntry[] {
     const abstractResourceTypes = this.resourceTypes.filter((resourceType) => resourceType.abstract);
     return Utils.resourceTypesToList(abstractResourceTypes);
   }
 
-  public get nonAbstractResourceTypesList(): LiOptions[] {
+  public get nonAbstractResourceTypesList(): ListEntry[] {
     const nonAbstractResourceTypes =  this.resourceTypes.filter((resourceType) => !resourceType.abstract);
     return Utils.resourceTypesToList(nonAbstractResourceTypes);
   }

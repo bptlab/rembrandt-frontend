@@ -2,7 +2,7 @@
   <div class="view-header">
     <h1>{{this.title}}</h1>
     <div class="back-link-container">
-      <Link :options="backLink">&#60; Go Back</Link>
+      <Link :linkOptions="backLink">&#60; Go Back</Link>
     </div>
   </div>
 </template>

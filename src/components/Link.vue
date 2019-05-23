@@ -1,5 +1,5 @@
 <template>
-  <router-link v-if="this.options.link" :to="this.options.link">
+  <router-link v-if="this.linkOptions.link" :to="this.linkOptions.link">
     <slot />
   </router-link>
   <a class="clickable" v-else @click="this.click" >
@@ -18,11 +18,11 @@ export interface LinkOptions {
 @Component
 export default class Link extends Vue {
   @Prop(Object)
-  public options!: LinkOptions;
+  public linkOptions!: LinkOptions;
 
   public click() {
-    if (this.options.onClick) {
-      this.options.onClick();
+    if (this.linkOptions.onClick) {
+      this.linkOptions.onClick();
     }
   }
 }

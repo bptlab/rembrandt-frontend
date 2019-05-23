@@ -2,13 +2,13 @@
   <li v-if="this.$slots.default" class="slot">
     <slot />
   </li>
-  <li v-else :class="{ disabled: !options.link.link && !options.link.onClick, options: true }">
-    <Link :options="options.link">
+  <li v-else :class="{ disabled: !listEntry.link, options: true }">
+    <Link :linkOptions="listEntry.link">
       <div>
-        <p class="first-value">{{options.firstValue}}</p>
-        <p class="second-value" v-if="options.secondValue">{{options.secondValue}}</p>
+        <p class="first-value">{{listEntry.firstValue}}</p>
+        <p class="second-value" v-if="listEntry.secondValue">{{listEntry.secondValue}}</p>
       </div>
-      <p class="third-value" v-if="options.thirdValue">{{options.thirdValue}}</p>
+      <p class="third-value" v-if="listEntry.thirdValue">{{listEntry.thirdValue}}</p>
     </Link>
   </li>
 </template>
@@ -17,12 +17,12 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import Link, { LinkOptions } from '@/components/Link.vue';
 
-export interface LiOptions {
+export interface ListEntry {
   id: string;
   firstValue: string;
   secondValue?: string;
   thirdValue?: string;
-  link: LinkOptions;
+  link?: LinkOptions;
 }
 
 @Component({
@@ -39,7 +39,7 @@ export default class Li extends Vue {
 
   // region public members
   @Prop(Object)
-  public options?: LiOptions;
+  public listEntry?: ListEntry;
   // endregion
 
   // region private members
