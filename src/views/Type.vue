@@ -1,0 +1,106 @@
+<template>
+  <main v-if="this.error">
+    <h1>Resource Type not found.</h1>
+  </main>
+  <main v-else class="type">
+    <ViewHeader :title="this.resourceType.name" :backLink="{ link: '/types' }" />
+
+    <ListSection class="preview-container" :list="resourceTypeList" />
+
+    <div class="row">
+      <ListSection title="Attributes" :list="resourceTypeAttributeList" />
+      <ListSection title="Actions" :list="resourceTypeActionsList" />
+    </div>
+
+  </main>
+</template>
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import { ResourceTypes, ResourceType } from '@/apis/rembrandt/rembrandt';
+import { ListEntry } from '@/components/Li.vue';
+import ListSection from '@/components/ListSection.vue';
+import ViewHeader from '@/components/ViewHeader.vue';
+import Utils from '@/utils/Utils';
+
+@Component({
+  components: {
+    ListSection,
+    ViewHeader,
+  },
+})
+export default class Types extends Vue {
+  // region public static methods
+  // endregion
+
+  // region private static methods
+  // endregion
+
+  // region public members
+  public resourceType: ResourceType;
+  public error: string = '';
+
+  public get resourceTypeList(): ListEntry[] {
+    return Utils.resourceTypesToList([ this.resourceType ]);
+  }
+
+  public get resourceTypeAttributeList(): ListEntry[] {
+    return Utils.resourceTypeAttributesToList(this.resourceType.attributes);
+  }
+
+  public get resourceTypeActionsList(): ListEntry[] {
+    const resourceTypeActions = [];
+    if (!this.resourceType.abstract) {
+      resourceTypeActions.push({
+        id: '1',
+        firstValue: 'Add Resource',
+        link: {},
+      });
+    }
+
+    resourceTypeActions.push(
+      {
+        id: '2',
+        firstValue: 'Edit Resource Type',
+        link: {},
+      },
+      {
+        id: '3',
+        firstValue: 'Delete Resource Type',
+        link: {},
+      },
+    );
+
+    return resourceTypeActions;
+  }
+  // endregion
+
+  // region private members
+  // endregion
+
+  // region constructor
+  constructor() {
+    super();
+    this.resourceType = {
+      name: '',
+      abstract: true,
+      attributes: [],
+    };
+  }
+  // endregion
+
+  // region public methods
+  public async mounted() {
+    try {
+      this.resourceType = await ResourceTypes.getOne(this.$route.params.id);
+      this.error = '';
+    } catch (e) {
+      this.error = e;
+    }
+  }
+  // endregion
+
+  // region private methods
+  // endregion
+}
+</script>
