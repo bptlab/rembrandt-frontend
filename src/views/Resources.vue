@@ -110,6 +110,7 @@ export default class Resources extends Vue {
 @import "../colors.less";
 
 form.search-form {
+  margin-top: @spacing;
   display: flex;
 
   & > * {
