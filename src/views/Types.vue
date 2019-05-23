@@ -2,7 +2,7 @@
   <main>
     <ListSection title="Abstract Types" :list="abstractResourceTypesList" />
     <ListSection title="Non-Abstract Types" :list="nonAbstractResourceTypesList" />
-    <Link class="create-type" :options="{link: '/types/create'}">
+    <Link class="create-type-button" :options="{link: '/types/create'}">
       <i class="fas fa-plus"></i>
     </Link>
   </main>
@@ -65,7 +65,7 @@ export default class Types extends Vue {
 <style lang="less">
 @import "../colors.less";
 
-.create-type {
+.create-type-button {
   position: absolute;
   bottom: @spacing;
   right: @spacing;
