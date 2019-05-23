@@ -1,32 +1,24 @@
 <template>
   <section class="list">
     <h1 v-if="title">{{title}}</h1>
-    <ul>
-      <li :key="element.id" v-for="element in this.list" v-bind:class="{ disabled: !element.link }">
-        <router-link :to="element.link">
-          <div>
-            <h2>{{element.firstValue}}</h2>
-            <p v-if="element.secondValue">{{element.secondValue}}</p>
-          </div>
-          <p class="third-value" v-if="element.thirdValue">{{element.thirdValue}}</p>
-        </router-link>
-      </li>
+    <ul v-if="list">
+      <Li v-for="element in this.list" :key="element.id" :listEntry="element" />
+    </ul>
+    <ul v-else>
+      <slot />
     </ul>
   </section>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
+import Li, { ListEntry } from '@/components/Li.vue';
 
-export interface ListElement {
-  id: string;
-  firstValue: string;
-  secondValue?: string;
-  thirdValue?: string;
-  link: string;
-}
-
-@Component
+@Component({
+  components: {
+    Li,
+  },
+})
 export default class ListSection extends Vue {
   // region public static methods
   // endregion
@@ -39,7 +31,7 @@ export default class ListSection extends Vue {
   public title!: string;
 
   @Prop(Array)
-  public list!: ListElement[];
+  public list!: ListEntry[];
   // endregion
 
   // region private members
@@ -66,64 +58,13 @@ section.list {
     font-weight: 800;
   }
 
-  h2,
-  .third-value {
-    font-size: 18px;
-    font-weight: 600;
-  }
-
-  p {
-    font-size: 16px;
-  }
-
   ul {
     list-style: none;
     padding: 0;
     border-radius: 10px;
     background-color: @secondary-bg;
     box-shadow: 0 0 0.25em 0.1em @primary-shadow;
-    margin-top: 20px;
-  }
-
-  li {
-    border-bottom: 1px solid @primary-bg;
-    min-height: 77px;
-    display: flex;
-
-    &:hover{
-      background-image: linear-gradient(to right, #913125, #913125);
-      background-position: 0 0;
-      background-size: 5px 100%;
-      background-repeat: no-repeat;
-    }
-
-    &:first-child {
-      border-top-left-radius: 5px;
-    }
-
-    &:last-child {
-      border-bottom-left-radius: 5px;
-      border-bottom: none;
-    }
-
-    & > a {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 15px;
-      text-decoration: none;
-      width: 100%;
-    }
-  }
-
-  li.disabled {
-    &:hover {
-      background: none;
-    }
-
-    a {
-      pointer-events: none;
-    }
+    margin: @spacing 0;
   }
 }
 </style>

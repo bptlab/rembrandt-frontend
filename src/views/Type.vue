@@ -1,15 +1,11 @@
 <template>
   <main v-if="this.error">
-    <h1>{{this.error}}</h1>
+    <h1>Resource Type not found.</h1>
   </main>
   <main v-else class="type">
-    <h1>{{this.resourceType.name}}</h1>
-    <div class="back-link-container">
-      <router-link to="/types">&#60; Back to Types</router-link>
-    </div>
-    <div class="preview-container">
-      <ListSection :list="resourceTypeList" />
-    </div>
+    <ViewHeader :title="this.resourceType.name" :backLink="{ link: '/types' }" />
+
+    <ListSection class="preview-container" :list="resourceTypeList" />
 
     <div class="row">
       <ListSection title="Attributes" :list="resourceTypeAttributeList" />
@@ -22,12 +18,15 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { ResourceTypes, ResourceType } from '@/apis/rembrandt/rembrandt';
-import ListSection, { ListElement } from '@/components/ListSection.vue';
+import { ListEntry } from '@/components/Li.vue';
+import ListSection from '@/components/ListSection.vue';
+import ViewHeader from '@/components/ViewHeader.vue';
 import Utils from '@/utils/Utils';
 
 @Component({
   components: {
     ListSection,
+    ViewHeader,
   },
 })
 export default class Types extends Vue {
@@ -41,32 +40,38 @@ export default class Types extends Vue {
   public resourceType: ResourceType;
   public error: string = '';
 
-  public get resourceTypeList(): ListElement[] {
+  public get resourceTypeList(): ListEntry[] {
     return Utils.resourceTypesToList([ this.resourceType ]);
   }
 
-  public get resourceTypeAttributeList(): ListElement[] {
+  public get resourceTypeAttributeList(): ListEntry[] {
     return Utils.resourceTypeAttributesToList(this.resourceType.attributes);
   }
 
-  public get resourceTypeActionsList(): ListElement[] {
-    return [
-      {
+  public get resourceTypeActionsList(): ListEntry[] {
+    const resourceTypeActions = [];
+    if (!this.resourceType.abstract) {
+      resourceTypeActions.push({
         id: '1',
         firstValue: 'Add Resource',
-        link: '',
-      },
+        link: {},
+      });
+    }
+
+    resourceTypeActions.push(
       {
         id: '2',
         firstValue: 'Edit Resource Type',
-        link: '',
+        link: {},
       },
       {
         id: '3',
         firstValue: 'Delete Resource Type',
-        link: '',
+        link: {},
       },
-    ];
+    );
+
+    return resourceTypeActions;
   }
   // endregion
 
@@ -99,22 +104,3 @@ export default class Types extends Vue {
   // endregion
 }
 </script>
-
-
-<style lang="less">
-
-.type {
-  h1 {
-    font-size: 30px;
-    margin-top: 40px;
-  }
-
-  .back-link-container {
-    margin-top: 20px;
-  }
-
-  .preview-container {
-    margin-top: 40px;
-  }
-}
-</style>
