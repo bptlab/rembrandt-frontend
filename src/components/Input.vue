@@ -1,8 +1,10 @@
 <template>
-  <fieldset class="f-input">
+  <fieldset class="f-input" @click="focusInput">
     <input
       :autofocus="autofocus"
       :placeholder="placeholder"
+      ref="input"
+      :required="required"
       type="text"
       :value="value"
       @input="$emit('update:value', $event.target.value)" />
@@ -13,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class Input extends Vue {
@@ -35,6 +37,9 @@ export default class Input extends Vue {
 
   @Prop(Boolean)
   public autofocus?: boolean;
+
+  @Prop(Boolean)
+  public required?: boolean;
   // endregion
 
   // region private members
@@ -44,6 +49,9 @@ export default class Input extends Vue {
   // endregion
 
   // region public methods
+  public focusInput() {
+    (this.$refs.input as any).focus();
+  }
   // endregion
 
   // region private methods
@@ -57,7 +65,7 @@ export default class Input extends Vue {
 
 fieldset.f-input {
   margin: @spacing 0;
-  border: 1px solid white;
+  border: 1px solid @primary;
   border-top: 0;
   border-radius: 7px;
   padding: 12px;

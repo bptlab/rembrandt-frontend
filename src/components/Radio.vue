@@ -1,14 +1,21 @@
 <template>
-  <fieldset class="f-toggle">
+  <fieldset class="f-radio">
     <input
-      :id="id"
-      type="checkbox"
-      :checked="value"
-      @change="$emit('update:value', $event.target.checked)" />
-    <label :for="id">
-      <div class="switch" />
-      <span>{{name}}</span>
-    </label>
+      v-model="newResourceType.abstract"
+      type="radio"
+      id="abstract-true"
+      name="abstract"
+      value="true"
+    >
+    <label for="abstract-true">Yes</label>
+    <input
+      v-model="newResourceType.abstract"
+      type="radio"
+      id="abstract-false"
+      name="abstract"
+      value="false"
+    >
+    <label for="abstract-false">No</label>
   </fieldset>
 </template>
 
@@ -56,54 +63,38 @@ export default class Toggle extends Vue {
 <style lang="less">
 @import "../colors.less";
 
-fieldset.f-toggle {
+fieldset.f-radio {
   margin: @spacing 0;
   border: 0;
   padding: 0;
+  display: flex;
+  flex-direction: row;
 
   input {
     display: none;
   }
 
-  input + label .switch {
-    content: "";
-    margin-right: 10px;
-    border: 1px solid @tertiary-bg;
-    padding: 2px;
-    border-radius: 18px;
-    width: 64px;
-    height: 32px;
-    display: block;
+  input + label::before {
+    width: 16px;
+    height: 16px;
     background-color: transparent;
-  }
-
-  input:checked + label .switch {
     border: 1px solid @accent;
-    position: relative;
-  }
-
-  input + label .switch:before {
-    content: "";
-    background-color: @tertiary-bg;
-    border-radius: 50%;
-    margin-left: 0px;
-    width: 32px;
-    height: 32px;
+    border-radius: 5px;
     display: block;
-    position: absolute;
-    transition: all 0.3s ease;
+    content: "";
+    float: left;
+    margin-right: 5px;
   }
 
-  input:checked + label .switch:before {
+  input:checked + label::before {
     background-color: @accent;
-    margin-left: 32px;
   }
 
   label {
-    display: flex;
-    align-items: center;
     color: @primary;
     font-size: 16px;
+    width: fit-content;
+
   }
 }
 </style>

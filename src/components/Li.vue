@@ -1,8 +1,8 @@
 <template>
-  <li v-if="this.$slots.default">
+  <li v-if="this.$slots.default" class="slot">
     <slot />
   </li>
-  <li v-else v-bind:class="{ disabled: !options.link.link && !options.link.onClick }">
+  <li v-else :class="{ disabled: !options.link.link && !options.link.onClick, options: true }">
     <Link :options="options.link">
       <div>
         <p class="first-value">{{options.firstValue}}</p>
@@ -59,7 +59,54 @@ export default class Li extends Vue {
 <style lang="less">
 @import "../colors";
 
-section.list {
+li.slot,
+li.options {
+  border-bottom: 1px solid @primary-bg;
+  min-height: 77px;
+  display: flex;
+
+  &:first-child {
+    border-top-left-radius: 5px;
+  }
+
+  &:last-child {
+    border-bottom-left-radius: 5px;
+    border-bottom: none;
+  }
+}
+
+li.slot {
+  flex-direction: column;
+  padding: @spacing;
+}
+
+li.options {
+  &:hover{
+    background-image: linear-gradient(to right, @accent, @accent);
+    background-position: 0 0;
+    background-size: 5px 100%;
+    background-repeat: no-repeat;
+  }
+
+  &.disabled {
+    &:hover {
+      background: none;
+    }
+
+    a {
+      pointer-events: none;
+    }
+  }
+
+  & > a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: @spacing;
+    text-decoration: none;
+    width: 100%;
+  }
+
   .first-value,
   .third-value {
     font-size: 18px;
@@ -68,47 +115,6 @@ section.list {
 
   .second-value {
     font-size: 16px;
-  }
-
-  li {
-    border-bottom: 1px solid @primary-bg;
-    min-height: 77px;
-    display: flex;
-
-    &:hover{
-      background-image: linear-gradient(to right, @accent, @accent);
-      background-position: 0 0;
-      background-size: 5px 100%;
-      background-repeat: no-repeat;
-    }
-
-    &:first-child {
-      border-top-left-radius: 5px;
-    }
-
-    &:last-child {
-      border-bottom-left-radius: 5px;
-      border-bottom: none;
-    }
-
-    & > a {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 15px;
-      text-decoration: none;
-      width: 100%;
-    }
-  }
-
-  li.disabled {
-    &:hover {
-      background: none;
-    }
-
-    a {
-      pointer-events: none;
-    }
   }
 }
 </style>

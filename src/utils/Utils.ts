@@ -1,11 +1,11 @@
 import { ResourceType, ResourceTypeAttribute } from '@/apis/rembrandt/rembrandt';
 import { LiOptions } from '@/components/Li.vue';
 
-export type OnClickFunction = (id: string) => void;
+export type clickHandler = (id: string) => void;
 
 export default class Utils {
   // region public static methods
-  public static resourceTypesToList(resourceTypes: ResourceType[], clickFunction?: OnClickFunction): LiOptions[] {
+  public static resourceTypesToList(resourceTypes: ResourceType[], onClick?: clickHandler): LiOptions[] {
     return resourceTypes.map((resourceType) => {
       return {
         id: resourceType.id || resourceType.name,
@@ -13,22 +13,22 @@ export default class Utils {
         secondValue: resourceType.parentType ? `Parent Type: ${resourceType.parentType}` : '',
         thirdValue: resourceType.abstract ? 'Abstract Type' : `300 Instances`,
         link: {
-          link: clickFunction ? '' : `/types/${resourceType.id}`,
-          onClick: clickFunction ? () => { clickFunction(resourceType.id || resourceType.name); } : undefined,
+          link: onClick ? '' : `/types/${resourceType.id}`,
+          onClick: onClick ? () => { onClick(resourceType.id || resourceType.name); } : undefined,
         },
       };
     });
   }
 
-  public static resourceTypeAttributesToList(resourceTypeAttributes: ResourceTypeAttribute[], clickFunction?: OnClickFunction): LiOptions[] {
-    return resourceTypeAttributes.map((resourceTypeAttribute) => {
+  public static resourceTypeAttributesToList(attributes: ResourceTypeAttribute[], onClick?: clickHandler): LiOptions[] {
+    return attributes.map((attribute) => {
       return {
-        id: resourceTypeAttribute.name,
-        firstValue: resourceTypeAttribute.name,
-        secondValue: resourceTypeAttribute.dataType,
-        thirdValue: resourceTypeAttribute.required ? 'required' : '',
+        id: attribute.name,
+        firstValue: attribute.name,
+        secondValue: attribute.dataType,
+        thirdValue: attribute.required ? 'required' : '',
         link: {
-          onClick: clickFunction ? () => { clickFunction(resourceTypeAttribute.name); } : undefined,
+          onClick: onClick ? () => { onClick(attribute.name); } : undefined,
         },
       };
     });

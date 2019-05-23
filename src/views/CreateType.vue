@@ -1,75 +1,63 @@
 <template>
-  <main class="create-type">
-    <div v-if="formState === 0">
-      <ViewHeader title="How should the resource type be called?" :backLink="{ link: '/types' }"/>
-      <Input :value.sync="newResourceType.name" name="Name" placeholder="Cars" :autofocus="true" />
-      <Button text="Continue" :onClick="nextStep" />
-    </div>
+  <main class="create-type" v-if="formState === 0" @keydown.enter="nextStep">
+    <ViewHeader title="How should the resource type be called?" :backLink="{ link: '/types' }"/>
+    <Input :value.sync="newResourceType.name" name="Name" placeholder="Cars" :autofocus="true"/>
+    <Button text="Continue" :onClick="nextStep"/>
+  </main>
 
-    <div v-if="formState === 1">
-      <ViewHeader
-        :title="`Is ${newResourceType.name} an abstract resource type?`"
-        :backLink="{ onClick: previousStep }"
-      />
-      <Toggle :value.sync="newResourceType.abstract" name="Abstract" />
-      <Button text="Continue" :onClick="nextStep" />
-    </div>
+  <main v-else-if="formState === 1">
+    <ViewHeader
+      :title="`Is ${newResourceType.name} an abstract resource type?`"
+      :backLink="{ onClick: previousStep }"
+    />
+    <Toggle :value.sync="newResourceType.abstract" name="Abstract"/>
+    <Button text="Continue" :onClick="nextStep"/>
+  </main>
 
-    <div v-if="formState === 2">
-      <ViewHeader
-        :title="`Choose a parent type for ${newResourceType.name}:`"
-        :backLink="{ onClick: previousStep }"
-      />
-      <ListSection :list="parentTypeList"/>
-    </div>
+  <main v-else-if="formState === 2">
+    <ViewHeader
+      :title="`Choose a parent type for ${newResourceType.name}`"
+      :backLink="{ onClick: previousStep }"
+    />
+    <ListSection :list="parentTypeList"/>
+  </main>
 
-    <div v-if="formState === 3">
-      <ViewHeader
-        :title="`Define attributes for ${newResourceType.name}:`"
-        :backLink="{ onClick: previousStep }"
-      />
-      <ListSection :title="`Attributes of ${parentType.name}:`" :list="parentTypeAttributeList"/>
+  <main v-else-if="formState === 3">
+    <ViewHeader
+      :title="`Define attributes for ${newResourceType.name}`"
+      :backLink="{ onClick: previousStep }"
+    />
+    <ListSection :title="`Attributes of ${parentType.name}`" :list="parentTypeAttributeList"/>
 
-      <ListSection :title="`Attributes of ${newResourceType.name}:`">
-        <Li v-for="attribute in attributeListLeft" :key="attribute.id" :options="attribute"/>
+    <ListSection :title="`Attributes of ${newResourceType.name}`">
+      <Li v-for="attribute in attributeListLeft" :key="attribute.id" :options="attribute"/>
 
-        <Li v-if="currentlyEditingAttribute >= 0">
-          <h2>New Attribute</h2>
-          <input v-model="editingAttribute.name" type="text" name="name" placeholder="Location">
-          <select v-model="editingAttribute.dataType">
-            <option disabled value>Data Type</option>
-            <option>string</option>
-            <option>number</option>
-            <option>boolean</option>
-          </select>
-          <fieldset>
-            <p>Is this attribute required?</p>
-            <input
-              v-model="editingAttribute.required"
-              type="radio"
-              id="required-true"
-              name="required"
-              value="true"
-            >
-            <label for="required-true">Yes</label>
-            <input
-              v-model="editingAttribute.required"
-              type="radio"
-              id="required-false"
-              name="required"
-              value="false"
-            >
-            <label for="required-false">No</label>
-          </fieldset>
-          <input type="button" value="Save Attribute" @click="saveAttribute">
-        </Li>
+      <Li v-if="currentlyEditingAttribute >= 0" class="attribute-form">
+        <h2>New Attribute</h2>
+        <Input
+          :value.sync="editingAttribute.name"
+          name="Name"
+          placeholder="Location"
+          :autofocus="true"
+          :required="true"
+        />
+        <Select
+          :value.sync="editingAttribute.dataType"
+          name="Data Type"
+          :required="true">
+          <option>string</option>
+          <option>number</option>
+          <option>boolean</option>
+        </Select>
+        <Toggle :value.sync="editingAttribute.required" name="Required"/>
+        <Button text="Save Attribute" :onClick="saveAttribute"/>
+      </Li>
 
-        <Li v-for="attribute in attributeListRight" :key="attribute.id" :options="attribute"/>
-        <Li :options="addButtonOptions"/>
-      </ListSection>
+      <Li v-for="attribute in attributeListRight" :key="attribute.id" :options="attribute"/>
+      <Li :options="addButtonOptions"/>
+    </ListSection>
 
-      <Button text="Create Resource Type" :onClick="createResourceType" />
-    </div>
+    <Button text="Create Resource Type" :onClick="createResourceType"/>
   </main>
 </template>
 
@@ -78,7 +66,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import {
   ResourceTypes,
   ResourceType,
-  ResourceTypeAttribute
+  ResourceTypeAttribute,
 } from '@/apis/rembrandt/rembrandt';
 import Li, { LiOptions } from '@/components/Li.vue';
 import ViewHeader from '@/components/ViewHeader.vue';
@@ -86,6 +74,7 @@ import ListSection from '@/components/ListSection.vue';
 import Input from '@/components/Input.vue';
 import Toggle from '@/components/Toggle.vue';
 import Button from '@/components/Button.vue';
+import Select from '@/components/Select.vue';
 import Utils from '@/utils/Utils';
 
 @Component({
@@ -96,6 +85,7 @@ import Utils from '@/utils/Utils';
     Input,
     Toggle,
     Button,
+    Select,
   },
 })
 export default class Types extends Vue {
@@ -105,7 +95,7 @@ export default class Types extends Vue {
       name: '',
       parentType: '',
       abstract: false,
-      attributes: []
+      attributes: [],
     };
   }
 
@@ -113,7 +103,7 @@ export default class Types extends Vue {
     return {
       name: '',
       dataType: 'string',
-      required: true
+      required: true,
     };
   }
   // endregion
@@ -133,7 +123,7 @@ export default class Types extends Vue {
 
   public get parentType(): ResourceType {
     const parentType = this.resourceTypes.find(
-      resourceType => resourceType.id === this.newResourceType.parentType
+      (resourceType) => resourceType.id === this.newResourceType.parentType,
     );
     return parentType || Types.emptyResourceType();
   }
@@ -145,19 +135,19 @@ export default class Types extends Vue {
   public get attributeList(): LiOptions[] {
     return Utils.resourceTypeAttributesToList(
       this.newResourceType.attributes,
-      this.editAttribute
+      this.editAttribute,
     );
   }
 
   public get attributeListLeft(): LiOptions[] {
     return this.attributeList.filter(
-      (attribute, index) => index < this.currentlyEditingAttribute
+      (attribute, index) => index < this.currentlyEditingAttribute,
     );
   }
 
   public get attributeListRight(): LiOptions[] {
     return this.attributeList.filter(
-      (attribute, index) => index > this.currentlyEditingAttribute
+      (attribute, index) => index > this.currentlyEditingAttribute,
     );
   }
 
@@ -170,8 +160,8 @@ export default class Types extends Vue {
       id: 'add',
       firstValue: 'Add Attribute',
       link: {
-        onClick: this.addAttribute
-      }
+        onClick: this.addAttribute,
+      },
     };
   }
   // endregion
@@ -202,14 +192,13 @@ export default class Types extends Vue {
   }
 
   public selectParentType(id: string) {
-    console.log('triggered');
     this.newResourceType.parentType = id;
     this.nextStep();
   }
 
   public editAttribute(name: string): void {
     this.currentlyEditingAttribute = this.newResourceType.attributes.findIndex(
-      attribute => attribute.name === name
+      (attribute) => attribute.name === name,
     );
   }
 
@@ -223,7 +212,6 @@ export default class Types extends Vue {
   }
 
   public createResourceType(): void {
-    // console.log(this.newResourceType);
     ResourceTypes.create(this.newResourceType);
   }
   // endregion
@@ -232,9 +220,3 @@ export default class Types extends Vue {
   // endregion
 }
 </script>
-
-
-<style lang="less">
-@import '../colors.less';
-
-</style>
