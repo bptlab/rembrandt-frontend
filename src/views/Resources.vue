@@ -1,14 +1,18 @@
 <template>
   <main>
-    <select multiple v-model="selectedTypes">
-      <option
-        :key="resourceType.id"
-        v-for="resourceType in nonAbstractResourceTypes"
-        :value="resourceType.name">
-        {{resourceType.name}}
-      </option>
-    </select>
-    <input v-model="searchTerm" placeholder="Search resources...">
+    <form class="search-form">
+      <Input :value.sync="searchTerm" name="Search" placeholder="Search resources..." />
+      <Select :value.sync="selectedTypes" name="Resource Type">
+        <option value="">All Resource Types</option>
+        <option
+          :key="resourceType.id"
+          :value="resourceType.name"
+          v-for="resourceType in nonAbstractResourceTypes">
+          {{resourceType.name}}
+        </option>
+      </Select>
+    </form>
+
     <ListSection
       :key="resourceType.id"
       v-for="resourceType in filteredResourceTypes"
@@ -21,6 +25,8 @@
 
 import { Component, Vue } from 'vue-property-decorator';
 import ListSection from '@/components/ListSection.vue';
+import Select from '@/components/Select.vue';
+import Input from '@/components/Input.vue';
 import { ResourceInstance, ResourceInstances, ResourceType, ResourceTypes } from '@/apis/rembrandt/rembrandt';
 import Utils from '@/utils/Utils';
 import { ListEntry } from '@/components/Li.vue';
@@ -28,6 +34,8 @@ import { ListEntry } from '@/components/Li.vue';
 @Component({
   components: {
     ListSection,
+    Select,
+    Input,
   },
 })
 export default class Resources extends Vue {
@@ -97,3 +105,25 @@ export default class Resources extends Vue {
   // endregion
 }
 </script>
+
+<style lang="less">
+@import "../colors.less";
+
+form.search-form {
+  margin-top: @spacing;
+  display: flex;
+
+  & > * {
+    margin-right: @spacing;
+
+    &:first-child {
+      flex-grow: 1;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+</style>
+

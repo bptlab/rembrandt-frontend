@@ -52,8 +52,10 @@ export default class ListSection extends Vue {
 @import "../colors";
 
 section.list {
+  padding: @spacing 0;
+
   h1 {
-    margin-top: 40px;
+    margin-top: @spacing;
     font-size: 19px;
     font-weight: 800;
   }
@@ -64,7 +66,7 @@ section.list {
     border-radius: 10px;
     background-color: @secondary-bg;
     box-shadow: 0 0 0.25em 0.1em @primary-shadow;
-    margin: @spacing 0;
+    margin-top: @spacing;
   }
 }
 </style>

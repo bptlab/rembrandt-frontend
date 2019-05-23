@@ -37,7 +37,7 @@ header {
   justify-content: space-between;
 
   & > * {
-    padding: 20px;
+    padding: @spacing;
   }
 
   a {
@@ -64,6 +64,7 @@ header {
 
   nav {
     width: 900px;
+    box-sizing: border-box;
     max-width: 100%;
     text-align: left;
     justify-self: center;
