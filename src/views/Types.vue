@@ -89,7 +89,6 @@ export default class Types extends Vue {
     background-position: 100% 100%;
     background-size: @spacing @spacing;
     background-repeat: no-repeat;
-    // transform: rotate(315deg);
     transform: rotate(-45deg);
 
     & > * {

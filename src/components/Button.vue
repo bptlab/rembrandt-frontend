@@ -54,6 +54,7 @@ button.f-button {
   font-size: 14px;
   font-weight: bold;
   box-shadow: @shadow;
+  cursor: pointer;
 
   &:focus {
     outline: none;
