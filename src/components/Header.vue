@@ -4,15 +4,15 @@
       <router-link to="/"><span class="logo">R</span></router-link>
     </div>
     <nav id="nav">
-      <router-link to="/types">Types</router-link>
       <router-link to="/resources">Resources</router-link>
+      <router-link to="/types">Types</router-link>
     </nav>
     <div class="user-container">
       <router-link to="/settings">
-        <span>Username</span>
+        <span>Christian</span>
       </router-link>
       <router-link to="/settings">
-        <img src="https://dummyimage.com/100/616161/616161.jpg" />
+        <img src="https://avatars2.githubusercontent.com/u/17351844?s=460&v=4" />
       </router-link>
     </div>
   </header>
@@ -90,6 +90,7 @@ header {
 
     span {
       padding-right: 10px;
+      font-weight: bold;
     }
 
     img {
