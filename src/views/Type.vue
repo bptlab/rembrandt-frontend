@@ -54,7 +54,6 @@ export default class Types extends Vue {
       resourceTypeActions.push({
         id: '1',
         firstValue: 'Add Resource',
-        link: {},
       });
     }
 
@@ -62,12 +61,10 @@ export default class Types extends Vue {
       {
         id: '2',
         firstValue: 'Edit Resource Type',
-        link: {},
       },
       {
         id: '3',
         firstValue: 'Delete Resource Type',
-        link: {},
       },
     );
 
