@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="logo-container">
-      <router-link to="/"><span class="logo">R</span></router-link>
+      <router-link to="/"><img alt="self-Logo" class="logo" src="/rembrandt_r_white.svg" /></router-link>
     </div>
     <nav id="nav">
       <router-link to="/resources">Resources</router-link>
@@ -56,10 +56,8 @@ header {
   }
 
   .logo {
-    width: 100px;
+    width: 45px;
     max-width: 100%;
-    font-size: 35px;
-    color: @primary;
   }
 
   nav {
@@ -70,7 +68,7 @@ header {
     justify-self: center;
 
     a {
-      padding-right: 30px;
+      padding-right: @spacing * 1.5;
       font-weight: bold;
       color: @primary;
       font-size: 18px;
