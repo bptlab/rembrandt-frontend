@@ -65,7 +65,7 @@ section.list {
     padding: 0;
     border-radius: 10px;
     background-color: @secondary-bg;
-    box-shadow: 0 0 0.25em 0.1em @primary-shadow;
+    box-shadow: @shadow;
     margin-top: @spacing;
   }
 }

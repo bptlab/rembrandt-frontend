@@ -49,13 +49,19 @@ button.f-button {
   border: 0;
   border-radius: 7px;
   padding: 15px 25px;
-  background-color: @accent;
-  color: @primary;
+  background-color: @primary;
+  color: @primary-bg;
   font-size: 14px;
   font-weight: bold;
+  box-shadow: @shadow;
 
   &:focus {
     outline: none;
+  }
+
+  &:hover {
+    background-color: @accent;
+    color: @primary;
   }
 }
 </style>

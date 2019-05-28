@@ -76,6 +76,7 @@ export default class Types extends Vue {
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: @shadow;
 
   &:hover {
     background-color: @accent;
