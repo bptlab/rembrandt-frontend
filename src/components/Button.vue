@@ -49,8 +49,8 @@ button.f-button {
   border: 0;
   border-radius: 7px;
   padding: 15px 25px;
-  background-color: @primary;
-  color: @primary-bg;
+  background-color: @accent;
+  color: @primary;
   font-size: 14px;
   font-weight: bold;
   box-shadow: @shadow;
@@ -60,8 +60,10 @@ button.f-button {
   }
 
   &:hover {
-    background-color: @accent;
-    color: @primary;
+    background-image: linear-gradient(to bottom right, @accent 0%, @accent 50%, @primary 50%, @primary 100%);
+    background-position: 100% 100%;
+    background-size: @spacing @spacing;
+    background-repeat: no-repeat;
   }
 }
 </style>
