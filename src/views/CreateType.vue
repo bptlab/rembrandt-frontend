@@ -43,11 +43,11 @@
         />
         <Select
           :value.sync="editingAttribute.dataType"
-          name="Data Type"
+          name="Type"
           :required="true">
-          <option>string</option>
-          <option>number</option>
-          <option>boolean</option>
+          <option value="string">Text</option>
+          <option value="number">Number</option>
+          <option value="boolean">Toggle (Yes / No)</option>
         </Select>
         <Toggle :value.sync="editingAttribute.required" name="Required"/>
         <Button text="Save Attribute" :onClick="saveAttribute"/>
