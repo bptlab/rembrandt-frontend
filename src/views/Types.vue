@@ -78,10 +78,10 @@ export default class Types extends Vue {
   align-items: center;
   justify-content: center;
   box-shadow: @shadow;
-  transition: transform 1s;
+  transition: transform 0.3s ease;
 
   & > * {
-    transition: transform 1s;
+    transition: transform 0.3s ease;
   }
 
   &:hover {

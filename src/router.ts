@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
 import Types from './views/Types.vue';
 import Type from './views/Type.vue';
 import CreateType from './views/CreateType.vue';
