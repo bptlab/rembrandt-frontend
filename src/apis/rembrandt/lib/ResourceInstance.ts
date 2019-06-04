@@ -1,7 +1,7 @@
 import { Serializer } from 'jsonapi-serializer';
 import Resource from '@/apis/jsonapi/Resource';
 import CRUDResource from '@/apis/jsonapi/CRUDResource';
-import config from '@/config';
+import config from '@/config/config.json';
 
 export interface ResourceInstanceAttribute {
   name: string;

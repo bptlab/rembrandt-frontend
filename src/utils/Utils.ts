@@ -1,7 +1,6 @@
 import { ResourceType, ResourceInstance, ResourceTypeAttribute } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
-
-import translations from './translations.json';
+import translations from '@/config/translations.json';
 
 export type clickHandler = (id: string) => void;
 
@@ -27,7 +26,7 @@ export default class Utils {
       return {
         id: attribute.name,
         firstValue: attribute.name,
-        secondValue: Utils.translateToNaturalLanguage(attribute.dataType),
+        secondValue: `Type: ${Utils.translateToNaturalLanguage(attribute.dataType)}`,
         thirdValue: attribute.required ? 'required' : '',
         link: onClick ? {
           onClick: () => { onClick(attribute.name); },
@@ -53,7 +52,7 @@ export default class Utils {
   }
 
   public static translateToNaturalLanguage(text: string): string {
-    return translations[text];
+    return (translations as any)[text];
   }
   // endregion
 
