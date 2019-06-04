@@ -2,6 +2,7 @@ import { ResourceType,
   ResourceInstance,
   ResourceTypeAttribute,
   ResourceInstanceAttribute,
+  ResourceTypes,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
 import translations from '@/config/translations.json';
@@ -41,11 +42,11 @@ export default class Utils {
 
   public static resourceInstancesToList(resourceInstances: ResourceInstance[], onClick?: clickHandler): ListEntry[] {
     // create list for specific type
-    return resourceInstances.map((resourceInstance) => {
+    return resourceInstances.map(async (resourceInstance) => {
       return {
         id: `${resourceInstance.id}`,
         // first value needs to be the identifying value
-        firstValue: `${resourceInstance.id}`,
+        firstValue: await this.takeEponymousAttribute(resourceInstance),
         secondValue: `Resource Type: ${resourceInstance.resourceType.name}`,
         link: {
           link: onClick ? '' : `/resources/${resourceInstance.id}`,
@@ -63,6 +64,11 @@ export default class Utils {
         secondValue: attribute.value,
       };
     });
+  }
+
+  public static async takeEponymousAttribute(resourceInstance: ResourceInstance): Promise<string> {
+    const parentType = await ResourceTypes.getOne(resourceInstance.resourceType);
+    return `${parentType.eponymousAttribute}`;
   }
 
   public static createRandomId(): string {
