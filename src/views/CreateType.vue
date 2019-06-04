@@ -45,9 +45,9 @@
           :value.sync="editingAttribute.dataType"
           name="Type"
           :required="true">
-          <option value="string">{{ Utils.translateToNaturalLanguage('string') }}</option>
-          <option value="number">{{ Utils.translateToNaturalLanguage('number') }}</option>
-          <option value="boolean">{{ Utils.translateToNaturalLanguage('boolean') }}</option>
+          <option value="string">{{ translateToNaturalLanguage('string') }}</option>
+          <option value="number">{{ translateToNaturalLanguage('number') }}</option>
+          <option value="boolean">{{ translateToNaturalLanguage('boolean') }}</option>
         </Select>
         <Toggle :value.sync="editingAttribute.required" name="Required"/>
         <Button text="Save Attribute" :onClick="saveAttribute"/>
@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Mixins } from 'vue-property-decorator';
 import {
   ResourceTypes,
   ResourceType,
@@ -76,6 +76,7 @@ import Toggle from '@/components/Toggle.vue';
 import Button from '@/components/Button.vue';
 import Select from '@/components/Select.vue';
 import Utils from '@/utils/Utils';
+import Translate from '@/mixins/Translate';
 
 @Component({
   components: {
@@ -88,7 +89,7 @@ import Utils from '@/utils/Utils';
     Select,
   },
 })
-export default class Types extends Vue {
+export default class Types extends Mixins(Translate) {
   // region public static methods
   public static emptyResourceType(): ResourceType {
     return {
