@@ -42,11 +42,11 @@ export default class Utils {
 
   public static resourceInstancesToList(resourceInstances: ResourceInstance[], onClick?: clickHandler): ListEntry[] {
     // create list for specific type
-    return resourceInstances.map(async (resourceInstance) => {
+    return resourceInstances.map( (resourceInstance) => {
       return {
         id: `${resourceInstance.id}`,
         // first value needs to be the identifying value
-        firstValue: await this.takeEponymousAttribute(resourceInstance),
+        firstValue: this.getEponymousAttributeName(resourceInstance),
         secondValue: `Resource Type: ${resourceInstance.resourceType.name}`,
         link: {
           link: onClick ? '' : `/resources/${resourceInstance.id}`,
@@ -66,9 +66,15 @@ export default class Utils {
     });
   }
 
-  public static async takeEponymousAttribute(resourceInstance: ResourceInstance): Promise<string> {
-    const parentType = await ResourceTypes.getOne(resourceInstance.resourceType);
-    return `${parentType.eponymousAttribute}`;
+  public static getEponymousAttributeName(resourceInstance: ResourceInstance): string {
+    const eponymousAttribute = resourceInstance.resourceType.attributes.filter( (resourceTypeAttribute) => {
+      console.log(resourceInstance.resourceType.eponymousAttribute);
+      console.log(resourceTypeAttribute.id);
+      console.log(resourceTypeAttribute);
+      return (resourceTypeAttribute.id === resourceInstance.resourceType.eponymousAttribute);
+    });
+
+    return eponymousAttribute[0].name;
   }
 
   public static createRandomId(): string {
