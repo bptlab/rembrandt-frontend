@@ -17,7 +17,7 @@
       :key="resourceType.id"
       v-for="resourceType in filteredResourceTypes"
       :title="resourceType.name"
-      :list="resourceInstanceForType(resourceType)" />
+      :list="resourceInstancesForType(resourceType)" />
   </main>
 </template>
 
@@ -66,12 +66,12 @@ export default class Resources extends Vue {
   // get all resourcetypes with instances
   public get typesWithResources(): ResourceType[] {
     return this.resourceTypes.filter((resourceType) => {
-      return this.resourceInstanceForType(resourceType).length;
+      return this.resourceInstancesForType(resourceType).length;
     });
   }
 
   // match resourceinstance and corresponding type and search filter
-  public resourceInstanceForType(resourceType: ResourceType): ListEntry[] {
+  public resourceInstancesForType(resourceType: ResourceType): ListEntry[] {
     const resourcesPerType = this.resourceInstances.filter((resourceInstance) => {
       return (resourceInstance.resourceType.id === resourceType.id &&
         this.resourceInstanceIncludesSearchTerm(resourceInstance));
