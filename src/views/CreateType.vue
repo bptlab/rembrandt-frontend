@@ -45,9 +45,9 @@
           :value.sync="editingAttribute.dataType"
           name="Type"
           :required="true">
-          <option value="string">Text</option>
-          <option value="number">Number</option>
-          <option value="boolean">Toggle (Yes / No)</option>
+          <option value="string">{{ Utils.translateToNaturalLanguage('string') }}</option>
+          <option value="number">{{ Utils.translateToNaturalLanguage('number') }}</option>
+          <option value="boolean">{{ Utils.translateToNaturalLanguage('boolean') }}</option>
         </Select>
         <Toggle :value.sync="editingAttribute.required" name="Required"/>
         <Button text="Save Attribute" :onClick="saveAttribute"/>
