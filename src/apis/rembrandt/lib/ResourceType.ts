@@ -7,7 +7,7 @@ export interface ResourceTypeAttribute {
   dataType: string;
   name: string;
   required: boolean;
-  id?: string;
+  Id?: string;
 }
 
 export interface ResourceType extends Resource {
