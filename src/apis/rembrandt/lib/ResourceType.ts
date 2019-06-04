@@ -13,6 +13,7 @@ export interface ResourceType extends Resource {
   parentType?: ResourceType;
   name: string;
   abstract: boolean;
+  eponymousAttribute?: ResourceTypeAttribute;
   attributes: ResourceTypeAttribute[];
 }
 
