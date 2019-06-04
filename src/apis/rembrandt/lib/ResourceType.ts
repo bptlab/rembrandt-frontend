@@ -7,13 +7,14 @@ export interface ResourceTypeAttribute {
   dataType: string;
   name: string;
   required: boolean;
+  id?: string;
 }
 
 export interface ResourceType extends Resource {
   parentType?: ResourceType;
   name: string;
   abstract: boolean;
-  eponymousAttribute?: ResourceTypeAttribute;
+  eponymousAttribute?: string;
   attributes: ResourceTypeAttribute[];
 }
 
