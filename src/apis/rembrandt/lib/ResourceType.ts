@@ -10,7 +10,7 @@ export interface ResourceTypeAttribute {
 }
 
 export interface ResourceType extends Resource {
-  parentType?: string;
+  parentType?: ResourceType;
   name: string;
   abstract: boolean;
   attributes: ResourceTypeAttribute[];

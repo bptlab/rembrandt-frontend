@@ -11,7 +11,7 @@ export default class Utils {
       return {
         id: resourceType.id || resourceType.name,
         firstValue: resourceType.name,
-        secondValue: resourceType.parentType ? `Parent Type: ${resourceType.parentType}` : '',
+        secondValue: resourceType.parentType ? `Parent Type: ${resourceType.parentType.name}` : '',
         thirdValue: resourceType.abstract ? 'Abstract Type' : `300 Instances`,
         link: {
           link: onClick ? '' : `/types/${resourceType.id}`,
@@ -42,7 +42,7 @@ export default class Utils {
         id: `${resourceInstance.id}`,
         // first value needs to be the identifying value
         firstValue: `${resourceInstance.id}`,
-        secondValue: `Resource Type: ${resourceInstance.resourceType}`,
+        secondValue: `Resource Type: ${resourceInstance.resourceType.name}`,
       };
     });
   }
