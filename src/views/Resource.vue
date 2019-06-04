@@ -5,12 +5,12 @@
   <main v-else class="type">
     <ViewHeader :title="this.resourceInstance.id" :backLink="{ link: '/resources' }" />
 
-    <!-- <ListSection class="preview-container" :list="resourceTypeList" />
+    <ListSection title="Resource Type" class="preview-container" :list="resourceTypeList" />
 
     <div class="row">
-      <ListSection title="Attributes" :list="resourceTypeAttributeList" />
-      <ListSection title="Actions" :list="resourceTypeActionsList" />
-    </div> -->
+      <ListSection title="Attributes" :list="resourceInstanceAttributeList" />
+      <ListSection title="Actions" :list="resourceInstanceActionsList" />
+    </div>
 
   </main>
 </template>
@@ -40,15 +40,15 @@ export default class Resource extends Vue {
   public resourceInstance: ResourceInstance;
   public error: string = '';
 
-  // public get resourceTypeList(): ListEntry[] {
-  //   return Utils.resourceTypesToList([ this.resourceInstance ]);
-  // }
+  public get resourceTypeList(): ListEntry[] {
+    return Utils.resourceTypesToList([ this.resourceInstance.resourceType ]);
+  }
 
-  // public get resourceTypeAttributeList(): ListEntry[] {
-  //   return Utils.resourceTypeAttributesToList(this.resourceInstance.attributes);
-  // }
+  public get resourceInstanceAttributeList(): ListEntry[] {
+    return Utils.resourceInstanceAttributesToList(this.resourceInstance.attributes);
+  }
 
-  public get resourceTypeActionsList(): ListEntry[] {
+  public get resourceInstanceActionsList(): ListEntry[] {
     const resourceInstanceActions = [];
 
     resourceInstanceActions.push(
