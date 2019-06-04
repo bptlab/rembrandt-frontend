@@ -45,7 +45,7 @@ export default class Utils {
     return resourceInstances.map( (resourceInstance) => {
       return {
         id: `${resourceInstance.id}`,
-        // first value needs to be the identifying value
+        // first value is the identifying value or the id, if no identifying value is set
         firstValue: this.getEponymousAttributeValue(resourceInstance),
         secondValue: `Resource Type: ${resourceInstance.resourceType.name}`,
         link: {
