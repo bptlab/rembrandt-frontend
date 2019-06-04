@@ -213,6 +213,7 @@ export default class Types extends Vue {
 
   public createResourceType(): void {
     ResourceTypes.create(this.newResourceType);
+    this.$router.push({ path: '/types' });
   }
   // endregion
 

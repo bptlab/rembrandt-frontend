@@ -27,9 +27,9 @@ export default class Utils {
         firstValue: attribute.name,
         secondValue: attribute.dataType,
         thirdValue: attribute.required ? 'required' : '',
-        link: {
-          onClick: onClick ? () => { onClick(attribute.name); } : undefined,
-        },
+        link: onClick ? {
+          onClick: () => { onClick(attribute.name); },
+        } : undefined,
       };
     });
   }
