@@ -93,7 +93,6 @@ export default class Types extends Vue {
   public static emptyResourceType(): ResourceType {
     return {
       name: '',
-      parentType: '',
       abstract: false,
       attributes: [],
     };
@@ -191,8 +190,8 @@ export default class Types extends Vue {
     this.formState++;
   }
 
-  public selectParentType(id: string) {
-    this.newResourceType.parentType = id;
+  public async selectParentType(id: string) {
+    this.newResourceType.parentType = await ResourceTypes.getOne(id);
     this.nextStep();
   }
 
