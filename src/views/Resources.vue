@@ -83,8 +83,8 @@ export default class Resources extends Vue {
     if (!resourceInstance.id) {
       return false;
     }
-    return (resourceInstance.resourceType.name.includes(this.searchTerm) ||
-            resourceInstance.id.includes(this.searchTerm));
+    return (Utils.getEponymousAttributeValue(resourceInstance).includes(this.searchTerm) ||
+            resourceInstance.resourceType.name.includes(this.searchTerm));
   }
   // endregion
 
