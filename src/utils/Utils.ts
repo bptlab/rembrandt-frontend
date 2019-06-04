@@ -73,8 +73,10 @@ export default class Utils {
     const eponymousAttribute = resourceInstance.resourceType.attributes.filter( (resourceTypeAttribute) => {
       return (resourceTypeAttribute.Id === resourceInstance.resourceType.eponymousAttribute);
     });
-    return eponymousAttribute[0].name;
-
+    const attribute = resourceInstance.attributes.filter( (resourceInstanceAttributes) => {
+      return (resourceInstanceAttributes.name === eponymousAttribute[0].name);
+    });
+    return attribute[0].value;
   }
 
   public static createRandomId(): string {
