@@ -46,7 +46,7 @@ export default class Utils {
       return {
         id: `${resourceInstance.id}`,
         // first value needs to be the identifying value
-        firstValue: this.getEponymousAttributeName(resourceInstance),
+        firstValue: this.getEponymousAttributeValue(resourceInstance),
         secondValue: `Resource Type: ${resourceInstance.resourceType.name}`,
         link: {
           link: onClick ? '' : `/resources/${resourceInstance.id}`,
@@ -66,15 +66,15 @@ export default class Utils {
     });
   }
 
-  public static getEponymousAttributeName(resourceInstance: ResourceInstance): string {
+  public static getEponymousAttributeValue(resourceInstance: ResourceInstance): string {
+    if (!resourceInstance.resourceType.eponymousAttribute) {
+      return '';
+    }
     const eponymousAttribute = resourceInstance.resourceType.attributes.filter( (resourceTypeAttribute) => {
-      console.log(resourceInstance.resourceType.eponymousAttribute);
-      console.log(resourceTypeAttribute.id);
-      console.log(resourceTypeAttribute);
-      return (resourceTypeAttribute.id === resourceInstance.resourceType.eponymousAttribute);
+      return (resourceTypeAttribute.Id === resourceInstance.resourceType.eponymousAttribute);
     });
-
     return eponymousAttribute[0].name;
+
   }
 
   public static createRandomId(): string {
