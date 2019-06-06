@@ -27,7 +27,7 @@
       :title="`Define attributes for ${newResourceType.name}`"
       :backLink="{ onClick: previousStep }"
     />
-    <ListSection :title="`Attributes of ${parentType.name}`" :list="parentTypeAttributeList"/>
+    <ListSection :title="`Attributes of ${newResourceType.parentType.name}`" :list="parentTypeAttributeList"/>
 
     <ListSection :title="`Attributes of ${newResourceType.name}`">
       <Li v-for="attribute in attributeListLeft" :key="attribute.id" :listEntry="attribute"/>
@@ -129,7 +129,10 @@ export default class Types extends Mixins(Translate) {
   }
 
   public get parentTypeAttributeList(): ListEntry[] {
-    return Utils.resourceTypeAttributesToList(this.parentType.attributes);
+    if (!this.newResourceType.parentType) {
+      return [];
+    }
+    return Utils.resourceTypeAttributesToList(this.newResourceType.parentType.attributes);
   }
 
   public get attributeList(): ListEntry[] {
