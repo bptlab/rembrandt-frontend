@@ -1,4 +1,8 @@
-import { ResourceType, ResourceInstance, ResourceTypeAttribute } from '@/apis/rembrandt/rembrandt';
+import { ResourceType,
+  ResourceInstance,
+  ResourceTypeAttribute,
+  ResourceInstanceAttribute,
+} from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
 import translations from '@/config/translations.json';
 
@@ -35,7 +39,7 @@ export default class Utils {
     });
   }
 
-  public static resourceInstancesToList(resourceInstances: ResourceInstance[]): ListEntry[] {
+  public static resourceInstancesToList(resourceInstances: ResourceInstance[], onClick?: clickHandler): ListEntry[] {
     // create list for specific type
     return resourceInstances.map((resourceInstance) => {
       return {
@@ -43,6 +47,20 @@ export default class Utils {
         // first value needs to be the identifying value
         firstValue: `${resourceInstance.id}`,
         secondValue: `Resource Type: ${resourceInstance.resourceType.name}`,
+        link: {
+          link: onClick ? '' : `/resources/${resourceInstance.id}`,
+          onClick: onClick ? () => { onClick(resourceInstance.id || ''); } : undefined,
+        },
+      };
+    });
+  }
+
+  public static resourceInstanceAttributesToList(attributes: ResourceInstanceAttribute[]): ListEntry[] {
+    return attributes.map((attribute) => {
+      return {
+        id: attribute.name,
+        firstValue: attribute.name,
+        secondValue: attribute.value,
       };
     });
   }

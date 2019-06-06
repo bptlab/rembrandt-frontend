@@ -4,6 +4,7 @@ import Types from './views/Types.vue';
 import Type from './views/Type.vue';
 import CreateType from './views/CreateType.vue';
 import Resources from './views/Resources.vue';
+import Resource from './views/Resource.vue';
 import Settings from './views/Settings.vue';
 
 Vue.use(Router);
@@ -18,6 +19,11 @@ export default new Router({
       path: '/resources',
       name: 'resources',
       component: Resources,
+    },
+    {
+      path: '/resources/:id',
+      name: 'resource',
+      component: Resource,
     },
     {
       path: '/types',

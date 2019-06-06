@@ -31,3 +31,9 @@ export const ResourceTypes = new CRUDResource<ResourceType>(
   `${config.backendHost}/resource-types`,
   serializer,
 );
+
+export const ResourceTypeNullObject = {
+  name: '',
+  abstract: true,
+  attributes: [],
+};
