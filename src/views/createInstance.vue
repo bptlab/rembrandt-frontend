@@ -59,7 +59,7 @@ export default class Types extends Mixins(Translate) {
   // endregion
 
   // region public members
-  public resourceTypes: ResourceType[] = [];
+  public resourceType: ResourceType;
   public newResourceInstance: ResourceInstance;
   public typeId: string ='';
 
@@ -72,16 +72,18 @@ export default class Types extends Mixins(Translate) {
   constructor() {
     super();
     this.newResourceInstance = ResourceInstanceNullObject;
+    this.resourceType = Types.emptyResourceType();
   }
   // endregion
 
   // region public methods
-  public created () {
+  public created() {
     this.typeId = this.$route.params.typeId;
   }
 
   public async mounted() {
-    this.resourceTypes = await ResourceTypes.get();
+    this.resourceType = await ResourceTypes.getOne(this.typeId);
+    console.log (this.resourceType)
   }
 
   public createResourceInstance(): void {
