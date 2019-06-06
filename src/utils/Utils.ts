@@ -71,7 +71,7 @@ export default class Utils {
       return `${resourceInstance.id}`;
     }
     const eponymousAttribute = resourceInstance.resourceType.attributes.filter( (resourceTypeAttribute) => {
-      return (resourceTypeAttribute.Id === resourceInstance.resourceType.eponymousAttribute);
+      return (resourceTypeAttribute.id === resourceInstance.resourceType.eponymousAttribute);
     });
     const attribute = resourceInstance.attributes.filter( (resourceInstanceAttributes) => {
       return (resourceInstanceAttributes.name === eponymousAttribute[0].name);
