@@ -2,6 +2,10 @@
   <main class="create-Instance">
     <h1>your type id is {{ typeId }}</h1>
     <ViewHeader title="Choose attribute values for the new Instance" :backLink="{ link: '/resources' }"/>
+    <ListSection :title="`Attributes of ${resourceType.name}`">
+      <Li v-for="attribute in attributeList" :key="attribute.name" :listEntry="attribute"/>
+    </ListSection>
+
     <Button text="save" :onClick="createResourceInstance"/>
   </main>
 </template>
@@ -23,7 +27,7 @@ import Button from '@/components/Button.vue';
 import Select from '@/components/Select.vue';
 import Utils from '@/utils/Utils';
 import Translate from '@/mixins/Translate';
-import {ResourceInstance,ResourceInstanceNullObject,} from '@/apis/rembrandt/rembrandt';
+import { ResourceInstance, ResourceInstanceNullObject } from '@/apis/rembrandt/rembrandt';
 
 @Component({
   components: {
@@ -61,7 +65,11 @@ export default class Types extends Mixins(Translate) {
   // region public members
   public resourceType: ResourceType;
   public newResourceInstance: ResourceInstance;
-  public typeId: string ='';
+  public typeId: string = '';
+
+  public get attributeList(): ListEntry[] {
+    return Utils.resourceTypeAttributesToList(this.resourceType.attributes);
+  }
 
   // endregion
 
@@ -83,7 +91,7 @@ export default class Types extends Mixins(Translate) {
 
   public async mounted() {
     this.resourceType = await ResourceTypes.getOne(this.typeId);
-    console.log (this.resourceType)
+    console.log (this.resourceType);
   }
 
   public createResourceInstance(): void {
