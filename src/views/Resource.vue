@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { ResourceInstances, ResourceInstance } from '@/apis/rembrandt/rembrandt';
+import { ResourceInstances, ResourceInstance, ResourceInstanceNullObject } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
 import ListSection from '@/components/ListSection.vue';
 import ViewHeader from '@/components/ViewHeader.vue';
@@ -76,10 +76,7 @@ export default class Resource extends Vue {
   // region constructor
   constructor() {
     super();
-    this.resourceInstance = {
-      resourceType: '',
-      attributes: [],
-    };
+    this.resourceInstance = ResourceInstanceNullObject;
   }
   // endregion
 

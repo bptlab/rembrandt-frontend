@@ -2,7 +2,7 @@ import { Serializer } from 'jsonapi-serializer';
 import Resource from '@/apis/jsonapi/Resource';
 import CRUDResource from '@/apis/jsonapi/CRUDResource';
 import config from '@/config/config.json';
-import { ResourceType } from '@/apis/rembrandt/rembrandt';
+import { ResourceType, ResourceTypeNullObject } from '@/apis/rembrandt/rembrandt';
 
 export interface ResourceInstanceAttribute {
   name: string;
@@ -26,3 +26,8 @@ export const ResourceInstances = new CRUDResource<ResourceInstance>(
   `${config.backendHost}/resource-instances`,
   serializer,
 );
+
+export const ResourceInstanceNullObject = {
+  resourceType: ResourceTypeNullObject,
+  attributes: [],
+};
