@@ -3,7 +3,7 @@
     <h1>your type id is {{ typeId }}</h1>
     <ViewHeader title="Choose attribute values for the new Instance" :backLink="{ link: '/resources' }"/>
     <ListSection :title="`Attributes of ${resourceType.name}`">
-      <Li v-for="attribute in attributeList" :key="attribute.name" :listEntry="attribute"/>
+    <Li v-for="attribute in attributeList" :key="attribute.name" :listEntry="attribute"/>
     </ListSection>
 
     <Button text="save" :onClick="createResourceInstance"/>
@@ -91,7 +91,6 @@ export default class Types extends Mixins(Translate) {
 
   public async mounted() {
     this.resourceType = await ResourceTypes.getOne(this.typeId);
-    console.log (this.resourceType);
   }
 
   public createResourceInstance(): void {
