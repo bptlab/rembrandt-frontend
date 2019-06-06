@@ -59,7 +59,7 @@ export default class Resource extends Vue {
     resourceInstanceActions.push(
       {
         id: '1',
-        firstValue: 'Create new Instance',
+        firstValue: 'Create another Instance',
       },
       {
         id: '2',

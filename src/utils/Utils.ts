@@ -55,18 +55,12 @@ export default class Utils {
     });
   }
 
-  public static resourceInstanceAttributesToList(
-    attributes: ResourceInstanceAttribute[],
-    onClick?: clickHandler,
-    ): ListEntry[] {
+  public static resourceInstanceAttributesToList(attributes: ResourceInstanceAttribute[]): ListEntry[] {
     return attributes.map((attribute) => {
       return {
         id: attribute.name,
         firstValue: attribute.name,
         secondValue: attribute.value,
-        link: onClick ? {
-          onClick: () => { onClick(attribute.name); },
-        } : undefined,
       };
     });
   }
