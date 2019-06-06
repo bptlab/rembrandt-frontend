@@ -27,7 +27,7 @@
       :title="`Define attributes for ${newResourceType.name}`"
       :backLink="{ onClick: previousStep }"
     />
-    <ListSection :title="`Attributes of ${parentType.name}`" :list="parentTypeAttributeList"/>
+    <ListSection :title="`Attributes of ${newResourceType.parentType.name}`" :list="parentTypeAttributeList"/>
 
     <ListSection :title="`Attributes of ${newResourceType.name}`">
       <Li v-for="attribute in attributeListLeft" :key="attribute.id" :listEntry="attribute"/>
@@ -43,11 +43,11 @@
         />
         <Select
           :value.sync="editingAttribute.dataType"
-          name="Data Type"
+          name="Type"
           :required="true">
-          <option>string</option>
-          <option>number</option>
-          <option>boolean</option>
+          <option value="string">{{ translateToNaturalLanguage('string') }}</option>
+          <option value="number">{{ translateToNaturalLanguage('number') }}</option>
+          <option value="boolean">{{ translateToNaturalLanguage('boolean') }}</option>
         </Select>
         <Toggle :value.sync="editingAttribute.required" name="Required"/>
         <Button text="Save Attribute" :onClick="saveAttribute"/>
@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Mixins } from 'vue-property-decorator';
 import {
   ResourceTypes,
   ResourceType,
@@ -76,6 +76,7 @@ import Toggle from '@/components/Toggle.vue';
 import Button from '@/components/Button.vue';
 import Select from '@/components/Select.vue';
 import Utils from '@/utils/Utils';
+import Translate from '@/mixins/Translate';
 
 @Component({
   components: {
@@ -88,12 +89,11 @@ import Utils from '@/utils/Utils';
     Select,
   },
 })
-export default class Types extends Vue {
+export default class Types extends Mixins(Translate) {
   // region public static methods
   public static emptyResourceType(): ResourceType {
     return {
       name: '',
-      parentType: '',
       abstract: false,
       attributes: [],
     };
@@ -129,7 +129,10 @@ export default class Types extends Vue {
   }
 
   public get parentTypeAttributeList(): ListEntry[] {
-    return Utils.resourceTypeAttributesToList(this.parentType.attributes);
+    if (!this.newResourceType.parentType) {
+      return [];
+    }
+    return Utils.resourceTypeAttributesToList(this.newResourceType.parentType.attributes);
   }
 
   public get attributeList(): ListEntry[] {
@@ -191,8 +194,8 @@ export default class Types extends Vue {
     this.formState++;
   }
 
-  public selectParentType(id: string) {
-    this.newResourceType.parentType = id;
+  public async selectParentType(id: string) {
+    this.newResourceType.parentType = await ResourceTypes.getOne(id);
     this.nextStep();
   }
 

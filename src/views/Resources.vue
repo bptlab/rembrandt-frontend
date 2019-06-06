@@ -2,7 +2,7 @@
   <main>
     <form class="search-form">
       <Input :value.sync="searchTerm" name="Search" placeholder="Search resources..." />
-      <Select :value.sync="selectedTypes" name="Resource Type">
+      <Select :value.sync="selectedType" name="Resource Type">
         <option value="">All Resource Types</option>
         <option
           :key="resourceType.id"
@@ -49,15 +49,15 @@ export default class Resources extends Vue {
   public resourceInstances: ResourceInstance[] = [];
   public resourceTypes: ResourceType[] = [];
   public searchTerm: string = '';
-  public selectedTypes: string[] = [];
+  public selectedType: string = '';
 
   public get nonAbstractResourceTypes(): ResourceType[] {
     return this.resourceTypes.filter((resourceType) => !resourceType.abstract);
   }
 
   public get filteredResourceTypes(): ResourceType[] {
-    if (this.selectedTypes.length) {
-      return this.typesWithResources.filter((resourceType) => this.selectedTypes.includes(resourceType.name));
+    if (this.selectedType.length > 0) {
+      return this.typesWithResources.filter((resourceType) => this.selectedType.includes(resourceType.name));
     } else {
       return this.typesWithResources;
     }
@@ -73,7 +73,7 @@ export default class Resources extends Vue {
   // match resourceinstance and corresponding type and search filter
   public resourceInstanceForType(resourceType: ResourceType): ListEntry[] {
     const resourcesPerType = this.resourceInstances.filter((resourceInstance) => {
-      return (resourceInstance.resourceType === resourceType.id &&
+      return (resourceInstance.resourceType.id === resourceType.id &&
         this.resourceInstanceIncludesSearchTerm(resourceInstance));
     });
     return Utils.resourceInstancesToList(resourcesPerType);
@@ -83,7 +83,7 @@ export default class Resources extends Vue {
     if (!resourceInstance.id) {
       return false;
     }
-    return (resourceInstance.resourceType.includes(this.searchTerm) ||
+    return (resourceInstance.resourceType.name.includes(this.searchTerm) ||
             resourceInstance.id.includes(this.searchTerm));
   }
   // endregion

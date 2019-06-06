@@ -1,5 +1,6 @@
 import { ResourceType, ResourceInstance, ResourceTypeAttribute } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
+import translations from '@/config/translations.json';
 
 export type clickHandler = (id: string) => void;
 
@@ -10,7 +11,7 @@ export default class Utils {
       return {
         id: resourceType.id || resourceType.name,
         firstValue: resourceType.name,
-        secondValue: resourceType.parentType ? `Parent Type: ${resourceType.parentType}` : '',
+        secondValue: resourceType.parentType ? `Parent Type: ${resourceType.parentType.name}` : '',
         thirdValue: resourceType.abstract ? 'Abstract Type' : `300 Instances`,
         link: {
           link: onClick ? '' : `/types/${resourceType.id}`,
@@ -25,7 +26,7 @@ export default class Utils {
       return {
         id: attribute.name,
         firstValue: attribute.name,
-        secondValue: attribute.dataType,
+        secondValue: `Type: ${Utils.translateToNaturalLanguage(attribute.dataType)}`,
         thirdValue: attribute.required ? 'required' : '',
         link: onClick ? {
           onClick: () => { onClick(attribute.name); },
@@ -41,13 +42,17 @@ export default class Utils {
         id: `${resourceInstance.id}`,
         // first value needs to be the identifying value
         firstValue: `${resourceInstance.id}`,
-        secondValue: `Resource Type: ${resourceInstance.resourceType}`,
+        secondValue: `Resource Type: ${resourceInstance.resourceType.name}`,
       };
     });
   }
 
   public static createRandomId(): string {
     return '_' + Math.random().toString(36).substr(2, 9);
+  }
+
+  public static translateToNaturalLanguage(text: string): string {
+    return (translations as any)[text];
   }
   // endregion
 

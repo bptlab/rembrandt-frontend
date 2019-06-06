@@ -29,7 +29,7 @@ import Utils from '@/utils/Utils';
     ViewHeader,
   },
 })
-export default class Types extends Vue {
+export default class Type extends Vue {
   // region public static methods
   // endregion
 
