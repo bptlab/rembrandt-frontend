@@ -49,6 +49,9 @@ export default class Type extends Vue {
       resourceTypeActions.push({
         id: '1',
         firstValue: 'Add Resource',
+        link: {
+          link: onclick ? '' : `/resources/create/${this.resourceType.id}`,
+        },
       });
     }
 

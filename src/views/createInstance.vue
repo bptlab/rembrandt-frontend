@@ -1,8 +1,8 @@
 <template>
-  <main class="create-Instance" v-if="formState === 0" @keydown.enter="nextStep">
+  <main class="create-Instance">
+    <h1>your type id is {{ typeId }}</h1>
     <ViewHeader title="Choose attribute values for the new Instance" :backLink="{ link: '/resources' }"/>
-    <Input :value.sync="newResourceType.name" name="Name" placeholder="Cars" :autofocus="true"/>
-    <Button text="Continue" :onClick="nextStep"/>
+    <Button text="save" :onClick="createResourceInstance"/>
   </main>
 </template>
 
@@ -23,6 +23,7 @@ import Button from '@/components/Button.vue';
 import Select from '@/components/Select.vue';
 import Utils from '@/utils/Utils';
 import Translate from '@/mixins/Translate';
+import {ResourceInstance,ResourceInstanceNullObject,} from '@/apis/rembrandt/rembrandt';
 
 @Component({
   components: {
@@ -59,8 +60,8 @@ export default class Types extends Mixins(Translate) {
 
   // region public members
   public resourceTypes: ResourceType[] = [];
-  public newResourceInstance: ResourceInstance = empty;
-  public formState: number = 0;
+  public newResourceInstance: ResourceInstance;
+  public typeId: string ='';
 
   // endregion
 
@@ -70,26 +71,20 @@ export default class Types extends Mixins(Translate) {
   // region constructor
   constructor() {
     super();
-    this.newResourceInstance = ResourceInstances.emptyResourceType();
+    this.newResourceInstance = ResourceInstanceNullObject;
   }
   // endregion
 
   // region public methods
+  public created () {
+    this.typeId = this.$route.params.typeId;
+  }
+
   public async mounted() {
     this.resourceTypes = await ResourceTypes.get();
   }
 
-  public previousStep(): void {
-    if (this.formState > 0) {
-      this.formState--;
-    }
-  }
-
-  public nextStep(): void {
-    this.formState++;
-  }
-
-  public createResourceType(): void {
+  public createResourceInstance(): void {
     ResourceInstances.create(this.newResourceInstance);
     this.$router.push({ path: '/resources' });
   }

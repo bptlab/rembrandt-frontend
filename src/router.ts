@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Types from './views/Types.vue';
 import Type from './views/Type.vue';
 import CreateType from './views/CreateType.vue';
+import CreateInstance from './views/CreateInstance.vue';
 import Resources from './views/Resources.vue';
 import Resource from './views/Resource.vue';
 import Settings from './views/Settings.vue';
@@ -19,6 +20,11 @@ export default new Router({
       path: '/resources',
       name: 'resources',
       component: Resources,
+    },
+    {
+      path: '/resources/create/:typeId',
+      name: 'create-resource',
+      component: CreateInstance,
     },
     {
       path: '/resources/:id',
