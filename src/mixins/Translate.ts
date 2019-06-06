@@ -2,7 +2,7 @@ import { Vue, Component } from 'vue-property-decorator';
 import Utils from '@/utils/Utils';
 
 @Component
-export default class MyMixin extends Vue {
+export default class Translate extends Vue {
   // region public static methods
   // endregion
 
