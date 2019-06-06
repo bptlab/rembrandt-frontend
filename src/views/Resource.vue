@@ -17,7 +17,12 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { ResourceInstances, ResourceInstance, ResourceInstanceNullObject } from '@/apis/rembrandt/rembrandt';
+import {
+  ResourceInstances,
+  ResourceInstance,
+  ResourceInstanceNullObject,
+  ResourceTypes,
+} from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
 import ListSection from '@/components/ListSection.vue';
 import ViewHeader from '@/components/ViewHeader.vue';
@@ -84,6 +89,10 @@ export default class Resource extends Vue {
   public async mounted() {
     try {
       this.resourceInstance = await ResourceInstances.getOne(this.$route.params.id);
+      if (this.resourceInstance.resourceType.id) {
+        this.resourceInstance.resourceType = await ResourceTypes.getOne(this.resourceInstance.resourceType.id);
+      }
+
       this.error = '';
     } catch (e) {
       this.error = e;
