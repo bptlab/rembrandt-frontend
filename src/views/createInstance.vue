@@ -3,7 +3,15 @@
     <h1>your type id is {{ typeId }}</h1>
     <ViewHeader title="Choose attribute values for the new Instance" :backLink="{ link: '/resources' }"/>
     <ListSection :title="`Attributes of ${resourceType.name}`">
-    <Li v-for="attribute in attributeList" :key="attribute.name" :listEntry="attribute"/>
+      <Li v-for="attribute in resourceType.attributes" :key="attribute.name">
+        <Input
+          :value.sync="attribute.value"
+          :name="attribute.name"
+          placeholder="Location"
+          :autofocus="true"
+          :required="true"
+        />
+      </Li>
     </ListSection>
 
     <Button text="save" :onClick="createResourceInstance"/>
@@ -66,10 +74,6 @@ export default class Types extends Mixins(Translate) {
   public resourceType: ResourceType;
   public newResourceInstance: ResourceInstance;
   public typeId: string = '';
-
-  public get attributeList(): ListEntry[] {
-    return Utils.resourceTypeAttributesToList(this.resourceType.attributes);
-  }
 
   // endregion
 
