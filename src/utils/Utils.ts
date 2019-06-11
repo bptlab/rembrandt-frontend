@@ -2,7 +2,6 @@ import { ResourceType,
   ResourceInstance,
   ResourceTypeAttribute,
   ResourceInstanceAttribute,
-  ResourceTypes,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
 import translations from '@/config/translations.json';
