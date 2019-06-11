@@ -3,11 +3,11 @@
     <h1>your type id is {{ typeId }}</h1>
     <ViewHeader title="Choose attribute values for the new Instance" :backLink="{ link: '/resources' }"/>
     <ListSection :title="`Attributes of ${resourceType.name}`">
-      <Li v-for="attribute in resourceType.attributes" :key="attribute.name">
+      <Li v-for="attribute in newResourceInstance.attributes" :key="attribute.name">
         <Input
           :value.sync="attribute.value"
           :name="attribute.name"
-          placeholder="Location"
+          placeholder="your value"
           :autofocus="true"
           :required="true"
         />
@@ -84,6 +84,7 @@ export default class Types extends Mixins(Translate) {
   constructor() {
     super();
     this.newResourceInstance = ResourceInstanceNullObject;
+    this.newResourceInstance.attributes = [];
     this.resourceType = Types.emptyResourceType();
   }
   // endregion
@@ -95,6 +96,10 @@ export default class Types extends Mixins(Translate) {
 
   public async mounted() {
     this.resourceType = await ResourceTypes.getOne(this.typeId);
+    this.resourceType.attributes.forEach( (attribute) => {
+      this.newResourceInstance.attributes.push({name: attribute.name, value: ''});
+    });
+    this.newResourceInstance.resourceType = this.resourceType;
   }
 
   public createResourceInstance(): void {
