@@ -41,11 +41,11 @@ export default class Utils {
 
   public static resourceInstancesToList(resourceInstances: ResourceInstance[], onClick?: clickHandler): ListEntry[] {
     // create list for specific type
-    return resourceInstances.map((resourceInstance) => {
+    return resourceInstances.map( (resourceInstance) => {
       return {
         id: `${resourceInstance.id}`,
-        // first value needs to be the identifying value
-        firstValue: `${resourceInstance.id}`,
+        // first value is the identifying value or the id, if no identifying value is set
+        firstValue: this.getEponymousAttributeValue(resourceInstance),
         secondValue: `Resource Type: ${resourceInstance.resourceType.name}`,
         link: {
           link: onClick ? '' : `/resources/${resourceInstance.id}`,
@@ -63,6 +63,23 @@ export default class Utils {
         secondValue: attribute.value,
       };
     });
+  }
+
+  public static getEponymousAttributeValue(resourceInstance: ResourceInstance): string {
+    if (resourceInstance.resourceType.eponymousAttribute) {
+      const eponymousAttribute = resourceInstance.resourceType.attributes.find( (resourceTypeAttribute) => {
+        return (resourceTypeAttribute.id === resourceInstance.resourceType.eponymousAttribute);
+      });
+      if (eponymousAttribute) {
+        const attribute = resourceInstance.attributes.find( (resourceInstanceAttributes) => {
+          return (resourceInstanceAttributes.name === eponymousAttribute.name);
+        });
+        if (attribute) {
+          return attribute.value;
+        }
+      }
+    }
+    return resourceInstance.id ? resourceInstance.id : '';
   }
 
   public static createRandomId(): string {
