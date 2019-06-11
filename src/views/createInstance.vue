@@ -9,7 +9,7 @@
           :name="attribute.name"
           placeholder="your value"
           :autofocus="true"
-          :required="true"
+          :required="newResourceInstance.resourceType.attributes.find( (typeattribute) => { return attribute.name === typeattribute.name}).required? true : false"
         />
       </Li>
     </ListSection>
@@ -103,6 +103,7 @@ export default class Types extends Mixins(Translate) {
   }
 
   public createResourceInstance(): void {
+    console.log(this.newResourceInstance);
     ResourceInstances.create(this.newResourceInstance);
     this.$router.push({ path: '/resources' });
   }
