@@ -9,7 +9,7 @@
           :name="attribute.name"
           placeholder="your value"
           :autofocus="true"
-          :required="newResourceInstance.resourceType.attributes.find( (typeattribute) => { return attribute.name === typeattribute.name}).required? true : false"
+          :required="newResourceInstance.resourceType.attributes.find( (typeattribute) => { return attribute.name === typeattribute.name}).required"
         />
       </Li>
     </ListSection>
