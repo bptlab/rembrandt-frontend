@@ -66,25 +66,20 @@ export default class Utils {
   }
 
   public static getEponymousAttributeValue(resourceInstance: ResourceInstance): string {
-    if (!resourceInstance.resourceType.eponymousAttribute) {
-      if (!resourceInstance.id) {
-        return '';
+    if (resourceInstance.resourceType.eponymousAttribute) {
+      const eponymousAttribute = resourceInstance.resourceType.attributes.find( (resourceTypeAttribute) => {
+        return (resourceTypeAttribute.id === resourceInstance.resourceType.eponymousAttribute);
+      });
+      if (eponymousAttribute) {
+        const attribute = resourceInstance.attributes.find( (resourceInstanceAttributes) => {
+          return (resourceInstanceAttributes.name === eponymousAttribute.name);
+        });
+        if (attribute) {
+          return attribute.value;
+        }
       }
-      return resourceInstance.id;
     }
-    const eponymousAttribute = resourceInstance.resourceType.attributes.find( (resourceTypeAttribute) => {
-      return (resourceTypeAttribute.id === resourceInstance.resourceType.eponymousAttribute);
-    });
-    if (!eponymousAttribute) {
-      return '';
-    }
-    const attribute = resourceInstance.attributes.find( (resourceInstanceAttributes) => {
-      return (resourceInstanceAttributes.name === eponymousAttribute.name);
-    });
-    if (!attribute) {
-      return '';
-    }
-    return attribute.value;
+    return resourceInstance.id ? resourceInstance.id : '';
   }
 
   public static createRandomId(): string {
