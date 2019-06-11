@@ -72,13 +72,19 @@ export default class Utils {
       }
       return resourceInstance.id;
     }
-    const eponymousAttribute = resourceInstance.resourceType.attributes.filter( (resourceTypeAttribute) => {
+    const eponymousAttribute = resourceInstance.resourceType.attributes.find( (resourceTypeAttribute) => {
       return (resourceTypeAttribute.id === resourceInstance.resourceType.eponymousAttribute);
     });
-    const attribute = resourceInstance.attributes.filter( (resourceInstanceAttributes) => {
-      return (resourceInstanceAttributes.name === eponymousAttribute[0].name);
+    if (!eponymousAttribute) {
+      return '';
+    }
+    const attribute = resourceInstance.attributes.find( (resourceInstanceAttributes) => {
+      return (resourceInstanceAttributes.name === eponymousAttribute.name);
     });
-    return attribute[0].value;
+    if (!attribute) {
+      return '';
+    }
+    return attribute.value;
   }
 
   public static createRandomId(): string {
