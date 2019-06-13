@@ -1,9 +1,9 @@
 <template>
-<div>
-<Link class="create-button" :linkOptions="link">
-  <i class="fas fa-plus"></i>
-</Link>
-</div>
+  <div>
+    <Link class="create-button" :linkOptions="link">
+      <i class="fas fa-plus"></i>
+    </Link>
+  </div>
 </template>
 
 <script lang="ts">
