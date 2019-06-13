@@ -41,7 +41,8 @@ export default class TypeSensitiveInput extends Vue {
   public resourceInstanceAttribute!: ResourceInstanceAttribute;
 
   public get attributeDataType(): string {
-    const currentAttribute = this.resourceType.attributes.find( (typeattribute) => this.resourceInstanceAttribute.name === typeattribute.name);
+    const currentAttribute = this.resourceType.attributes.find(
+      (typeattribute) => this.resourceInstanceAttribute.name === typeattribute.name);
     if (!currentAttribute) {
       return '';
     }

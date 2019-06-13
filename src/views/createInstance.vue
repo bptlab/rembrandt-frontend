@@ -8,7 +8,6 @@
   </main>
 
   <main v-else-if="formState === 1" class="create-Instance">
-    <h1>your type id is {{ typeId }}</h1>
     <ViewHeader title="Choose attribute values for the new Instance" :backLink="{ onClick: previousStep }"/>
     <ListSection :title="`Attributes of ${resourceType.name}`">
       <Li v-for="attribute in newResourceInstance.attributes" :key="attribute.name">
@@ -141,7 +140,6 @@ export default class Types extends Mixins(Translate) {
   }
 
   public async createResourceInstance(): Promise<void> {
-    console.log(this.newResourceInstance);
     try {
       // Todo: check if all required attributes have values
       await ResourceInstances.create(this.newResourceInstance);
