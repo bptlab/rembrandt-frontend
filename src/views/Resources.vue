@@ -22,8 +22,8 @@
 </template>
 
 <script lang="ts">
-
-import { Component, Vue } from 'vue-property-decorator';
+import Vue from 'vue';
+import { Component } from 'vue-property-decorator';
 import ListSection from '@/components/ListSection.vue';
 import Select from '@/components/Select.vue';
 import Input from '@/components/Input.vue';
@@ -96,8 +96,12 @@ export default class Resources extends Vue {
 
   // region public methods
   public async mounted() {
-    this.resourceTypes = await ResourceTypes.get();
-    this.resourceInstances = await ResourceInstances.get();
+    try {
+      this.resourceTypes = await ResourceTypes.get();
+      this.resourceInstances = await ResourceInstances.get();
+    } catch (e) {
+      this.$notifications.create(e);
+    }
   }
   // endregion
 

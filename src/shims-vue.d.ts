@@ -1,4 +1,12 @@
+import Vue from 'vue';
+import { NotificationCenter } from './plugins/Notification';
+
 declare module '*.vue' {
-  import Vue from 'vue';
   export default Vue;
+}
+
+declare module 'vue/types/vue' {
+  interface Vue {
+    $notifications: NotificationCenter;
+  }
 }

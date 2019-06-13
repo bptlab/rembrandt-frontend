@@ -43,7 +43,6 @@ export default class Resource extends Vue {
 
   // region public members
   public resourceInstance: ResourceInstance;
-  public error: string = '';
 
   public get resourceTypeList(): ListEntry[] {
     return Utils.resourceTypesToList([ this.resourceInstance.resourceType ]);
@@ -96,10 +95,8 @@ export default class Resource extends Vue {
       if (this.resourceInstance.resourceType.id) {
         this.resourceInstance.resourceType = await ResourceTypes.getOne(this.resourceInstance.resourceType.id);
       }
-
-      this.error = '';
     } catch (e) {
-      this.error = e;
+      this.$notifications.create(e);
     }
   }
   // endregion

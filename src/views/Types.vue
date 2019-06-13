@@ -53,7 +53,12 @@ export default class Types extends Vue {
 
   // region public methods
   public async mounted() {
-    this.resourceTypes = await ResourceTypes.get();
+    try {
+      this.resourceTypes = await ResourceTypes.get();
+    } catch (e) {
+      this.$notifications.create(e);
+    }
+
   }
   // endregion
 
