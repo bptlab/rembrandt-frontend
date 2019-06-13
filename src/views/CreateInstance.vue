@@ -1,14 +1,14 @@
 <template>
-  <main v-if="formState === 0" class="create-Instance">
+  <main v-if="formState === 0" class="create-instance">
     <ViewHeader
-      :title="`Choose a resource type for the new instance`"
+      title="Choose a resource type for the new instance"
       :backLink="{ link: '/resources' }"
     />
     <ListSection :list="nonAbstractResourceTypesList"/>
   </main>
 
-  <main v-else-if="formState === 1" class="create-Instance">
-    <ViewHeader title="Choose attribute values for the new Instance" :backLink="{ onClick: previousStep }"/>
+  <main v-else-if="formState === 1" class="create-instance">
+    <ViewHeader title="Choose attribute values for the new instance" :backLink="{ onClick: previousStep }"/>
     <ListSection :title="`Attributes of ${resourceType.name}`">
       <Li v-for="attribute in newResourceInstance.attributes" :key="attribute.name">
         <TypeSensitiveInput
@@ -40,7 +40,7 @@ import Button from '@/components/Button.vue';
 import Select from '@/components/Select.vue';
 import Utils from '@/utils/Utils';
 import Translate from '@/mixins/Translate';
-import { ResourceInstance, ResourceInstanceNullObject } from '@/apis/rembrandt/rembrandt';
+import { ResourceInstance, ResourceInstanceNullObject, ResourceTypeNullObject } from '@/apis/rembrandt/rembrandt';
 
 @Component({
   components: {
@@ -54,16 +54,8 @@ import { ResourceInstance, ResourceInstanceNullObject } from '@/apis/rembrandt/r
     Select,
   },
 })
-export default class Types extends Mixins(Translate) {
+export default class Instances extends Mixins(Translate) {
   // region public static methods
-  public static emptyResourceType(): ResourceType {
-    return {
-      name: '',
-      abstract: false,
-      attributes: [],
-    };
-  }
-
   public static emptyResourceTypeAttribute(): ResourceTypeAttribute {
     return {
       name: '',
@@ -99,7 +91,7 @@ export default class Types extends Mixins(Translate) {
     super();
     this.newResourceInstance = ResourceInstanceNullObject;
     this.newResourceInstance.attributes = [];
-    this.resourceType = Types.emptyResourceType();
+    this.resourceType = ResourceTypeNullObject;
   }
   // endregion
 
@@ -129,8 +121,8 @@ export default class Types extends Mixins(Translate) {
     if (this.formState === 1) {
       this.newResourceInstance.resourceType = this.resourceType;
       this.resourceType.attributes.forEach( (attribute) => {
-      this.newResourceInstance.attributes.push({name: attribute.name, value: ''});
-    });
+        this.newResourceInstance.attributes.push({name: attribute.name, value: ''});
+      });
     }
   }
 

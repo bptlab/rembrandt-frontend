@@ -17,9 +17,7 @@
       v-for="resourceType in filteredResourceTypes"
       :title="resourceType.name"
       :list="resourceInstancesForType(resourceType)" />
-    <Link class="create-instance-button" :linkOptions="{link: '/resources/create/'}">
-          <i class="fas fa-plus"></i>
-    </Link>
+    <AddButton :link="{link: '/resources/create/'}"/>
   </main>
 </template>
 
@@ -28,6 +26,7 @@ import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import ListSection from '@/components/ListSection.vue';
 import Select, { Option } from '@/components/Select.vue';
+import AddButton from '@/components/AddButton.vue';
 import Input from '@/components/Input.vue';
 import { ResourceInstance, ResourceInstances, ResourceType, ResourceTypes } from '@/apis/rembrandt/rembrandt';
 import Utils from '@/utils/Utils';
@@ -40,6 +39,7 @@ import Link from '@/components/Link.vue';
     Select,
     Input,
     Link,
+    AddButton,
   },
 })
 export default class Resources extends Vue {
@@ -122,38 +122,6 @@ export default class Resources extends Vue {
 
 <style lang="less">
 @import "../colors.less";
-
-.create-instance-button {
-  position: absolute;
-  bottom: @spacing;
-  right: @spacing;
-  border-radius: 7px;
-  background-color: @accent;
-  color: @primary;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: @shadow;
-  transition: transform 0.3s ease;
-
-  & > * {
-    transition: transform 0.3s ease;
-  }
-
-  &:hover {
-    background-image: linear-gradient(to bottom right, @accent 0%, @accent 50%, @primary 50%, @primary 100%);
-    background-position: 100% 100%;
-    background-size: @spacing @spacing;
-    background-repeat: no-repeat;
-    transform: rotate(-45deg);
-
-    & > * {
-      transform: rotate(45deg);
-    }
-  }
-}
 
 form.search-form {
   margin-top: @spacing;

@@ -2,9 +2,7 @@
   <main>
     <ListSection title="Abstract Types" :list="abstractResourceTypesList" />
     <ListSection title="Non-Abstract Types" :list="nonAbstractResourceTypesList" />
-    <Link class="create-type-button" :linkOptions="{link: '/types/create'}">
-      <i class="fas fa-plus"></i>
-    </Link>
+    <AddButton :link="{link: '/types/create'}"/>
   </main>
 </template>
 
@@ -15,11 +13,13 @@ import { ListEntry } from '@/components/Li.vue';
 import ListSection from '@/components/ListSection.vue';
 import Link from '@/components/Link.vue';
 import Utils from '@/utils/Utils';
+import AddButton from '@/components/AddButton.vue';
 
 @Component({
   components: {
     ListSection,
     Link,
+    AddButton,
   },
 })
 export default class Types extends Vue {
