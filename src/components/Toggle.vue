@@ -76,6 +76,7 @@ fieldset.f-toggle {
     height: 32px;
     display: block;
     background-color: transparent;
+    cursor: pointer;
   }
 
   input:checked + label .switch {

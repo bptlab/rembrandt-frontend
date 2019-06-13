@@ -1,31 +1,30 @@
 <template>
   <main>
     <form class="search-form">
-      <Input :value.sync="searchTerm" name="Search" placeholder="Search resources..." />
-      <Select :value.sync="selectedTypes" name="Resource Type">
-        <option value="">All Resource Types</option>
-        <option
-          :key="resourceType.id"
-          :value="resourceType.name"
-          v-for="resourceType in nonAbstractResourceTypes">
-          {{resourceType.name}}
-        </option>
-      </Select>
+      <Input
+        :value.sync="searchTerm"
+        name="Search"
+        placeholder="Search resources..." />
+      <Select
+        :value.sync="selectedType"
+        placeholder="All Resource Types"
+        name="Resource Type"
+        :options="nonAbstractResourceTypes" />
     </form>
 
     <ListSection
       :key="resourceType.id"
       v-for="resourceType in filteredResourceTypes"
       :title="resourceType.name"
-      :list="resourceInstanceForType(resourceType)" />
+      :list="resourceInstancesForType(resourceType)" />
   </main>
 </template>
 
 <script lang="ts">
-
-import { Component, Vue } from 'vue-property-decorator';
+import Vue from 'vue';
+import { Component } from 'vue-property-decorator';
 import ListSection from '@/components/ListSection.vue';
-import Select from '@/components/Select.vue';
+import Select, { Option } from '@/components/Select.vue';
 import Input from '@/components/Input.vue';
 import { ResourceInstance, ResourceInstances, ResourceType, ResourceTypes } from '@/apis/rembrandt/rembrandt';
 import Utils from '@/utils/Utils';
@@ -49,15 +48,21 @@ export default class Resources extends Vue {
   public resourceInstances: ResourceInstance[] = [];
   public resourceTypes: ResourceType[] = [];
   public searchTerm: string = '';
-  public selectedTypes: string[] = [];
+  public selectedType: string = '';
 
-  public get nonAbstractResourceTypes(): ResourceType[] {
-    return this.resourceTypes.filter((resourceType) => !resourceType.abstract);
+  public get nonAbstractResourceTypes(): Option[] {
+    return this.resourceTypes
+      .filter((resourceType) => !resourceType.abstract)
+      .map((resourceType) => {
+        return {
+          value: resourceType.name,
+        };
+      });
   }
 
   public get filteredResourceTypes(): ResourceType[] {
-    if (this.selectedTypes.length) {
-      return this.typesWithResources.filter((resourceType) => this.selectedTypes.includes(resourceType.name));
+    if (this.selectedType.length > 0) {
+      return this.typesWithResources.filter((resourceType) => this.selectedType.includes(resourceType.name));
     } else {
       return this.typesWithResources;
     }
@@ -66,14 +71,14 @@ export default class Resources extends Vue {
   // get all resourcetypes with instances
   public get typesWithResources(): ResourceType[] {
     return this.resourceTypes.filter((resourceType) => {
-      return this.resourceInstanceForType(resourceType).length;
+      return this.resourceInstancesForType(resourceType).length;
     });
   }
 
   // match resourceinstance and corresponding type and search filter
-  public resourceInstanceForType(resourceType: ResourceType): ListEntry[] {
+  public resourceInstancesForType(resourceType: ResourceType): ListEntry[] {
     const resourcesPerType = this.resourceInstances.filter((resourceInstance) => {
-      return (resourceInstance.resourceType === resourceType.id &&
+      return (resourceInstance.resourceType.id === resourceType.id &&
         this.resourceInstanceIncludesSearchTerm(resourceInstance));
     });
     return Utils.resourceInstancesToList(resourcesPerType);
@@ -83,8 +88,8 @@ export default class Resources extends Vue {
     if (!resourceInstance.id) {
       return false;
     }
-    return (resourceInstance.resourceType.includes(this.searchTerm) ||
-            resourceInstance.id.includes(this.searchTerm));
+    return (Utils.getEponymousAttributeValue(resourceInstance).includes(this.searchTerm) ||
+            resourceInstance.resourceType.name.includes(this.searchTerm));
   }
   // endregion
 
@@ -96,8 +101,12 @@ export default class Resources extends Vue {
 
   // region public methods
   public async mounted() {
-    this.resourceTypes = await ResourceTypes.get();
-    this.resourceInstances = await ResourceInstances.get();
+    try {
+      this.resourceTypes = await ResourceTypes.get();
+      this.resourceInstances = await ResourceInstances.get();
+    } catch (e) {
+      this.$notifications.create(e);
+    }
   }
   // endregion
 

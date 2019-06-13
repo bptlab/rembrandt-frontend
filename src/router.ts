@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
 import Types from './views/Types.vue';
 import Type from './views/Type.vue';
 import CreateType from './views/CreateType.vue';
 import Resources from './views/Resources.vue';
+import Resource from './views/Resource.vue';
 import Settings from './views/Settings.vue';
 
 Vue.use(Router);
@@ -13,8 +13,17 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home,
+      redirect: '/resources',
+    },
+    {
+      path: '/resources',
+      name: 'resources',
+      component: Resources,
+    },
+    {
+      path: '/resources/:id',
+      name: 'resource',
+      component: Resource,
     },
     {
       path: '/types',
@@ -30,11 +39,6 @@ export default new Router({
       path: '/types/:id',
       name: 'type',
       component: Type,
-    },
-    {
-      path: '/resources',
-      name: 'resources',
-      component: Resources,
     },
     {
       path: '/settings',

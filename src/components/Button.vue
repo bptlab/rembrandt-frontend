@@ -53,9 +53,18 @@ button.f-button {
   color: @primary;
   font-size: 14px;
   font-weight: bold;
+  box-shadow: @shadow;
+  cursor: pointer;
 
   &:focus {
     outline: none;
+  }
+
+  &:hover {
+    background-image: linear-gradient(to bottom right, @accent 0%, @accent 50%, @primary 50%, @primary 100%);
+    background-position: 100% 100%;
+    background-size: @spacing @spacing;
+    background-repeat: no-repeat;
   }
 }
 </style>

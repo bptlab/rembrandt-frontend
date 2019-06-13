@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { ResourceTypes, ResourceType } from '@/apis/rembrandt/rembrandt';
+import { ResourceTypes, ResourceType, ResourceTypeNullObject } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
 import ListSection from '@/components/ListSection.vue';
 import ViewHeader from '@/components/ViewHeader.vue';
@@ -29,7 +29,7 @@ import Utils from '@/utils/Utils';
     ViewHeader,
   },
 })
-export default class Types extends Vue {
+export default class Type extends Vue {
   // region public static methods
   // endregion
 
@@ -38,7 +38,6 @@ export default class Types extends Vue {
 
   // region public members
   public resourceType: ResourceType;
-  public error: string = '';
 
   public get resourceTypeList(): ListEntry[] {
     return Utils.resourceTypesToList([ this.resourceType ]);
@@ -54,7 +53,6 @@ export default class Types extends Vue {
       resourceTypeActions.push({
         id: '1',
         firstValue: 'Add Resource',
-        link: {},
       });
     }
 
@@ -62,12 +60,10 @@ export default class Types extends Vue {
       {
         id: '2',
         firstValue: 'Edit Resource Type',
-        link: {},
       },
       {
         id: '3',
         firstValue: 'Delete Resource Type',
-        link: {},
       },
     );
 
@@ -81,11 +77,7 @@ export default class Types extends Vue {
   // region constructor
   constructor() {
     super();
-    this.resourceType = {
-      name: '',
-      abstract: true,
-      attributes: [],
-    };
+    this.resourceType = ResourceTypeNullObject;
   }
   // endregion
 
@@ -93,9 +85,8 @@ export default class Types extends Vue {
   public async mounted() {
     try {
       this.resourceType = await ResourceTypes.getOne(this.$route.params.id);
-      this.error = '';
     } catch (e) {
-      this.error = e;
+      this.$notifications.create(e);
     }
   }
   // endregion
