@@ -22,14 +22,15 @@
 </template>
 
 <script lang="ts">
-
-import { Component, Vue } from 'vue-property-decorator';
+import Vue from 'vue';
+import { Component } from 'vue-property-decorator';
 import ListSection from '@/components/ListSection.vue';
 import Select from '@/components/Select.vue';
 import Input from '@/components/Input.vue';
 import { ResourceInstance, ResourceInstances, ResourceType, ResourceTypes } from '@/apis/rembrandt/rembrandt';
 import Utils from '@/utils/Utils';
 import { ListEntry } from '@/components/Li.vue';
+import { Level } from '@/plugins/Notification';
 
 @Component({
   components: {
@@ -96,8 +97,16 @@ export default class Resources extends Vue {
 
   // region public methods
   public async mounted() {
-    this.resourceTypes = await ResourceTypes.get();
-    this.resourceInstances = await ResourceInstances.get();
+    try {
+      this.resourceTypes = await ResourceTypes.get();
+      this.resourceInstances = await ResourceInstances.get();
+    } catch (e) {
+      this.$notifications.create({
+        level: Level.Critical,
+        title: 'No connection to server: Resources could not be retrieved.',
+        details: e,
+      });
+    }
   }
   // endregion
 

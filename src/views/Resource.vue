@@ -27,6 +27,7 @@ import { ListEntry } from '@/components/Li.vue';
 import ListSection from '@/components/ListSection.vue';
 import ViewHeader from '@/components/ViewHeader.vue';
 import Utils from '@/utils/Utils';
+import { Level } from '@/plugins/Notification';
 
 @Component({
   components: {
@@ -43,7 +44,6 @@ export default class Resource extends Vue {
 
   // region public members
   public resourceInstance: ResourceInstance;
-  public error: string = '';
 
   public get resourceTypeList(): ListEntry[] {
     return Utils.resourceTypesToList([ this.resourceInstance.resourceType ]);
@@ -96,10 +96,12 @@ export default class Resource extends Vue {
       if (this.resourceInstance.resourceType.id) {
         this.resourceInstance.resourceType = await ResourceTypes.getOne(this.resourceInstance.resourceType.id);
       }
-
-      this.error = '';
     } catch (e) {
-      this.error = e;
+      this.$notifications.create({
+        level: Level.Critical,
+        title: 'No connection to server: Resource could not be retrieved. Please reload the page.',
+        details: e,
+      });
     }
   }
   // endregion
