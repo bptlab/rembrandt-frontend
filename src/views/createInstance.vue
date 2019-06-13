@@ -4,12 +4,9 @@
     <ViewHeader title="Choose attribute values for the new Instance" :backLink="{ link: '/resources' }"/>
     <ListSection :title="`Attributes of ${resourceType.name}`">
       <Li v-for="attribute in newResourceInstance.attributes" :key="attribute.name">
-        <Input
-          :value.sync="attribute.value"
-          :name="attribute.name"
-          placeholder="your value"
-          :autofocus="true"
-          :required="newResourceInstance.resourceType.attributes.find( (typeattribute) => { return attribute.name === typeattribute.name}).required"
+        <TypeSensitiveInput
+          :resourceType="newResourceInstance.resourceType"
+          :resourceInstanceAttribute="attribute"
         />
       </Li>
     </ListSection>
