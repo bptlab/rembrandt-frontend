@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { NotificationCenter, Notification } from './plugins/Notification';
+import { NotificationCenter } from './plugins/Notification';
 
 declare module '*.vue' {
   export default Vue;

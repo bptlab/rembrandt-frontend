@@ -30,7 +30,6 @@ import Input from '@/components/Input.vue';
 import { ResourceInstance, ResourceInstances, ResourceType, ResourceTypes } from '@/apis/rembrandt/rembrandt';
 import Utils from '@/utils/Utils';
 import { ListEntry } from '@/components/Li.vue';
-import { Level } from '@/plugins/Notification';
 
 @Component({
   components: {
@@ -101,11 +100,7 @@ export default class Resources extends Vue {
       this.resourceTypes = await ResourceTypes.get();
       this.resourceInstances = await ResourceInstances.get();
     } catch (e) {
-      this.$notifications.create({
-        level: Level.Critical,
-        title: 'No connection to server: Resources could not be retrieved.',
-        details: e,
-      });
+      this.$notifications.create(e);
     }
   }
   // endregion

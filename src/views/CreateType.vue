@@ -77,7 +77,6 @@ import Button from '@/components/Button.vue';
 import Select from '@/components/Select.vue';
 import Utils from '@/utils/Utils';
 import Translate from '@/mixins/Translate';
-import { Level } from '@/plugins/Notification';
 
 @Component({
   components: {
@@ -220,11 +219,7 @@ export default class Types extends Mixins(Translate) {
       await ResourceTypes.create(this.newResourceType);
       this.$router.push({ path: '/types' });
     } catch (e) {
-      this.$notifications.create({
-        level: Level.Critical,
-        title: 'No connection to server: Resources type could not be created. Please try again.',
-        details: e,
-      });
+      this.$notifications.create(e);
     }
   }
   // endregion

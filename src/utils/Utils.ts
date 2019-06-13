@@ -4,8 +4,8 @@ import { ResourceType,
   ResourceInstanceAttribute,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
-import { Notification } from '@/plugins/Notification';
 import translations from '@/config/translations.json';
+import ApiError from '@/apis/jsonapi/ApiError';
 export type clickHandler = (id: string) => void;
 
 // tslint:disable-next-line: no-var-requires
@@ -68,7 +68,7 @@ export default class Utils {
     });
   }
 
-  public static notificationsToList(notifications: Notification[]): ListEntry[] {
+  public static notificationsToList(notifications: ApiError[]): ListEntry[] {
     return notifications.sort((a, b) => {
       return b.timestamp!.getTime() - a.timestamp!.getTime();
     }).map((notification) => {

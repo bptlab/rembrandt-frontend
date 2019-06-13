@@ -1,20 +1,8 @@
 import _Vue from 'vue';
+import ApiError from '@/apis/jsonapi/ApiError';
 
 export default function install(Vue: typeof _Vue, options = {}) {
   Vue.prototype.$notifications = new NotificationCenter();
-}
-
-export enum Level {
-  Info = 'info',
-  Warning = 'warning',
-  Critical = 'critical',
-}
-
-export interface Notification {
-  level: Level;
-  title: string;
-  details: string;
-  timestamp?: Date;
 }
 
 // tslint:disable-next-line: max-classes-per-file
@@ -34,7 +22,7 @@ export class NotificationCenter {
     },
   });
 
-  get notifications(): Notification[] {
+  get notifications(): ApiError[] {
     return this.storeVM.$data.notifications;
   }
   // endregion
@@ -46,9 +34,9 @@ export class NotificationCenter {
   // endregion
 
   // region public methods
-  public create(notification: Notification): void {
-    notification.timestamp = new Date();
-    this.notifications.push(notification);
+  public create(error: ApiError): void {
+    error.timestamp = new Date();
+    this.notifications.push(error);
   }
   // endregion
 

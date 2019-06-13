@@ -15,7 +15,6 @@ import { ListEntry } from '@/components/Li.vue';
 import ListSection from '@/components/ListSection.vue';
 import Link from '@/components/Link.vue';
 import Utils from '@/utils/Utils';
-import { Level } from '@/plugins/Notification';
 
 @Component({
   components: {
@@ -57,11 +56,7 @@ export default class Types extends Vue {
     try {
       this.resourceTypes = await ResourceTypes.get();
     } catch (e) {
-      this.$notifications.create({
-        level: Level.Critical,
-        title: 'No connection to server: Resource types could not be retrieved.',
-        details: e,
-      });
+      this.$notifications.create(e);
     }
 
   }
