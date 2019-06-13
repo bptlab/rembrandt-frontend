@@ -1,10 +1,6 @@
-export enum ErrorLevel {
-  Info = 'info',
-  Warning = 'warning',
-  Critical = 'critical',
-}
+import Notification, { NotificationLevel } from '@/interfaces/Notification';
 
-export default class ApiError extends Error {
+export default class ApiError extends Error implements Notification {
   // region public static methods
   // endregion
 
@@ -14,7 +10,7 @@ export default class ApiError extends Error {
   // region public members
   public title: string;
   public details: string;
-  public level: ErrorLevel;
+  public level: NotificationLevel;
   public timestamp: Date;
   // endregion
 
@@ -22,7 +18,7 @@ export default class ApiError extends Error {
   // endregion
 
   // region constructor
-  constructor(title: string, details: string, level: ErrorLevel, ...params: any[]) {
+  constructor(title: string, details: string, level: NotificationLevel, ...params: any[]) {
     super(...params);
     this.title = title;
     this.details = details;

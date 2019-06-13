@@ -37,12 +37,7 @@ export default class NotificationPopup extends Vue {
 
   get notificationList(): ListEntry[] {
     const newNotifications = this.$notifications.notifications.filter(
-      (notification) => {
-        if (!notification.timestamp) {
-          return false;
-        }
-        return 5000 > this.lastUpdate - notification.timestamp.getTime();
-      },
+      (notification) => 5000 > this.lastUpdate - notification.timestamp.getTime(),
     );
     return Utils.notificationsToList(newNotifications);
   }

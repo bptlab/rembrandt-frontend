@@ -5,11 +5,12 @@ import { ResourceType,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
 import translations from '@/config/translations.json';
-import ApiError from '@/apis/jsonapi/ApiError';
-export type clickHandler = (id: string) => void;
+import Notification from '@/interfaces/Notification';
 
 // tslint:disable-next-line: no-var-requires
 const ta = require('time-ago');
+
+export type clickHandler = (id: string) => void;
 
 export default class Utils {
   // region public static methods
@@ -68,9 +69,9 @@ export default class Utils {
     });
   }
 
-  public static notificationsToList(notifications: ApiError[]): ListEntry[] {
+  public static notificationsToList(notifications: Notification[]): ListEntry[] {
     return notifications.sort((a, b) => {
-      return b.timestamp!.getTime() - a.timestamp!.getTime();
+      return b.timestamp.getTime() - a.timestamp.getTime();
     }).map((notification) => {
       return {
         id: Utils.createRandomId(),

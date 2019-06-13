@@ -1,5 +1,6 @@
 import { Serializer, Deserializer } from 'jsonapi-serializer';
-import ApiError, { ErrorLevel } from './ApiError';
+import { NotificationLevel } from '@/interfaces/Notification';
+import ApiError from '@/apis/jsonapi/ApiError';
 
 export default class ApiUtils {
   // region public static methods
@@ -48,14 +49,14 @@ export default class ApiUtils {
     try {
       response = await fetch(url, options);
     } catch (e) {
-      throw new ApiError('Connection to server failed. Please try again.', e, ErrorLevel.Critical);
+      throw new ApiError('Connection to server failed. Please try again.', e, NotificationLevel.Critical);
     }
 
     const responseJson = await response.json();
 
     if (response.status >= 300) {
       const error = responseJson.errors[0];
-      throw new ApiError(`${error.status} - ${error.title}`, error.detail, ErrorLevel.Critical);
+      throw new ApiError(`${error.status} - ${error.title}`, error.detail, NotificationLevel.Critical);
     }
 
     const deserializer = new Deserializer({ keyForAttribute: 'camelCase' });

@@ -1,5 +1,5 @@
 import _Vue from 'vue';
-import ApiError from '@/apis/jsonapi/ApiError';
+import Notification from '@/interfaces/Notification';
 
 export default function install(Vue: typeof _Vue, options = {}) {
   Vue.prototype.$notifications = new NotificationCenter();
@@ -22,7 +22,7 @@ export class NotificationCenter {
     },
   });
 
-  get notifications(): ApiError[] {
+  get notifications(): Notification[] {
     return this.storeVM.$data.notifications;
   }
   // endregion
@@ -34,9 +34,9 @@ export class NotificationCenter {
   // endregion
 
   // region public methods
-  public create(error: ApiError): void {
-    error.timestamp = new Date();
-    this.notifications.push(error);
+  public create(notification: Notification): void {
+    notification.timestamp = new Date();
+    this.notifications.push(notification);
   }
   // endregion
 
