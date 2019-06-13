@@ -105,10 +105,11 @@ export default class Types extends Mixins(Translate) {
   public async createResourceInstance(): Promise<void> {
     console.log(this.newResourceInstance);
     try {
+      // Todo: check if all required attributes have values
       await ResourceInstances.create(this.newResourceInstance);
       this.$router.push({ path: '/resources' });
     } catch (e) {
-      // todo: errorhandling mit neuer Komponente
+      // Todo: use the new component for nice errorhandling
     }
 
   }
