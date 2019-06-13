@@ -3,7 +3,7 @@
     <h1>Resource Instance not found.</h1>
   </main>
   <main v-else class="type">
-    <ViewHeader :title="this.resourceInstance.id" :backLink="{ link: '/resources' }" />
+    <ViewHeader :title="resourceName" :backLink="{ link: '/resources' }" />
 
     <ListSection title="Resource Type" class="preview-container" :list="resourceTypeList" />
 
@@ -51,6 +51,10 @@ export default class Resource extends Vue {
 
   public get resourceInstanceAttributeList(): ListEntry[] {
     return Utils.resourceInstanceAttributesToList(this.resourceInstance.attributes);
+  }
+
+  public get resourceName(): string {
+    return Utils.getEponymousAttributeValue(this.resourceInstance);
   }
 
   public get resourceInstanceActionsList(): ListEntry[] {
