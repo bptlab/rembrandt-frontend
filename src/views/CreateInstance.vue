@@ -59,7 +59,6 @@ export default class CreateResource extends Mixins(Translate) {
   // region public members
   public resourceType: ResourceType;
   public resourceTypes: ResourceType[] = [];
-  public nonAbstractResourceTypes: ResourceType[] = [];
   public newResourceInstance: ResourceInstance;
   public typeId: string = '';
   public formState: number = 0;
