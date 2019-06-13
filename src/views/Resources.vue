@@ -1,16 +1,15 @@
 <template>
   <main>
     <form class="search-form">
-      <Input :value.sync="searchTerm" name="Search" placeholder="Search resources..." />
-      <Select :value.sync="selectedType" name="Resource Type">
-        <option value="">All Resource Types</option>
-        <option
-          :key="resourceType.id"
-          :value="resourceType.name"
-          v-for="resourceType in nonAbstractResourceTypes">
-          {{resourceType.name}}
-        </option>
-      </Select>
+      <Input
+        :value.sync="searchTerm"
+        name="Search"
+        placeholder="Search resources..." />
+      <Select
+        :value.sync="selectedType"
+        placeholder="All Resource Types"
+        name="Resource Type"
+        :options="nonAbstractResourceTypes" />
     </form>
 
     <ListSection
@@ -25,7 +24,7 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import ListSection from '@/components/ListSection.vue';
-import Select from '@/components/Select.vue';
+import Select, { Option } from '@/components/Select.vue';
 import Input from '@/components/Input.vue';
 import { ResourceInstance, ResourceInstances, ResourceType, ResourceTypes } from '@/apis/rembrandt/rembrandt';
 import Utils from '@/utils/Utils';
@@ -51,8 +50,14 @@ export default class Resources extends Vue {
   public searchTerm: string = '';
   public selectedType: string = '';
 
-  public get nonAbstractResourceTypes(): ResourceType[] {
-    return this.resourceTypes.filter((resourceType) => !resourceType.abstract);
+  public get nonAbstractResourceTypes(): Option[] {
+    return this.resourceTypes
+      .filter((resourceType) => !resourceType.abstract)
+      .map((resourceType) => {
+        return {
+          value: resourceType.name,
+        };
+      });
   }
 
   public get filteredResourceTypes(): ResourceType[] {

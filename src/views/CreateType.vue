@@ -44,11 +44,8 @@
         <Select
           :value.sync="editingAttribute.dataType"
           name="Type"
-          :required="true">
-          <option value="string">{{ translateToNaturalLanguage('string') }}</option>
-          <option value="number">{{ translateToNaturalLanguage('number') }}</option>
-          <option value="boolean">{{ translateToNaturalLanguage('boolean') }}</option>
-        </Select>
+          :required="true"
+          :options='dataTypeOptions' />
         <Toggle :value.sync="editingAttribute.required" name="Required"/>
         <Button text="Save Attribute" :onClick="saveAttribute"/>
       </Li>
@@ -74,9 +71,10 @@ import ListSection from '@/components/ListSection.vue';
 import Input from '@/components/Input.vue';
 import Toggle from '@/components/Toggle.vue';
 import Button from '@/components/Button.vue';
-import Select from '@/components/Select.vue';
+import Select, { Option } from '@/components/Select.vue';
 import Utils from '@/utils/Utils';
 import Translate from '@/mixins/Translate';
+import { dataTypes } from '@/apis/rembrandt/rembrandt';
 
 @Component({
   components: {
@@ -166,6 +164,15 @@ export default class Types extends Mixins(Translate) {
         onClick: this.addAttribute,
       },
     };
+  }
+
+  public get dataTypeOptions(): Option[] {
+    return dataTypes.map((dataType) => {
+      return {
+        value: dataType,
+        text: this.translateToNaturalLanguage(dataType),
+      };
+    });
   }
   // endregion
 
