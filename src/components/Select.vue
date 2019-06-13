@@ -92,6 +92,7 @@ fieldset.f-select {
   padding: 12px;
   position: relative;
   min-width: 200px;
+  cursor: pointer;
 
   &.active {
     border-color: @accent;
@@ -115,7 +116,7 @@ fieldset.f-select {
   ul {
     list-style: none;
     padding: 0;
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: @tertiary-bg;
     box-shadow: @shadow;
     position: absolute;
