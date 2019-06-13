@@ -42,7 +42,6 @@ export default class AddButton extends Vue {
 }
 </script>
 
-
 <style lang="less">
 @import "../colors.less";
 

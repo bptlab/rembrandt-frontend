@@ -1,15 +1,15 @@
 <template>
-    <Input
-      v-if="this.attributeDataType === 'string' || this.attributeDataType === 'number'"
-      :required="resourceType.attributes.find( (typeattribute) => { return this.resourceInstanceAttribute.name === typeattribute.name}).required"
-      :value.sync="resourceInstanceAttribute.value"
-      :name="resourceInstanceAttribute.name"
-      :autofocus="true"
-      placeholder="type your value here"/>
-    <Toggle
-      v-else-if="this.attributeDataType === 'boolean'"
-      :value.sync="resourceInstanceAttribute.value"
-      :name="resourceInstanceAttribute.name"/>
+  <Input
+    v-if="this.attributeDataType === 'string' || this.attributeDataType === 'number'"
+    :required="resourceType.attributes.find( (typeattribute) => { return this.resourceInstanceAttribute.name === typeattribute.name}).required"
+    :value.sync="resourceInstanceAttribute.value"
+    :name="resourceInstanceAttribute.name"
+    :autofocus="true"
+    placeholder="type your value here"/>
+  <Toggle
+    v-else-if="this.attributeDataType === 'boolean'"
+    :value.sync="resourceInstanceAttribute.value"
+    :name="resourceInstanceAttribute.name"/>
 </template>
 
 <script lang="ts">
