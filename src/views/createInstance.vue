@@ -1,7 +1,15 @@
 <template>
-  <main class="create-Instance">
+  <main v-if="formState === 0" class="create-Instance">
+    <ViewHeader
+      :title="`Choose a resource type for the new instance`"
+      :backLink="{ link: '/resources' }"
+    />
+    <ListSection :list="nonAbstractResourceTypesList"/>
+  </main>
+
+  <main v-else-if="formState === 1" class="create-Instance">
     <h1>your type id is {{ typeId }}</h1>
-    <ViewHeader title="Choose attribute values for the new Instance" :backLink="{ link: '/resources' }"/>
+    <ViewHeader title="Choose attribute values for the new Instance" :backLink="{ onClick: previousStep }"/>
     <ListSection :title="`Attributes of ${resourceType.name}`">
       <Li v-for="attribute in newResourceInstance.attributes" :key="attribute.name">
         <TypeSensitiveInput
@@ -71,8 +79,16 @@ export default class Types extends Mixins(Translate) {
 
   // region public members
   public resourceType: ResourceType;
+  public resourceTypes: ResourceType[] = [];
+  public nonAbstractResourceTypes: ResourceType[] = [];
   public newResourceInstance: ResourceInstance;
   public typeId: string = '';
+  public formState: number = 0;
+
+  public get nonAbstractResourceTypesList(): ListEntry[] {
+    const nonAbstractResourceTypes =  this.resourceTypes.filter((resourceType) => !resourceType.abstract);
+    return Utils.resourceTypesToList(nonAbstractResourceTypes, this.selectResourceType);
+  }
 
   // endregion
 
@@ -89,17 +105,39 @@ export default class Types extends Mixins(Translate) {
   // endregion
 
   // region public methods
-  public created() {
+  public async created() {
     this.typeId = this.$route.params.typeId;
+    if ( this.typeId !== '') {
+      this.selectResourceType(this.typeId);
+    }
   }
 
   public async mounted() {
-    this.resourceType = await ResourceTypes.getOne(this.typeId);
-    this.resourceType.attributes.forEach( (attribute) => {
+    this.resourceTypes = await ResourceTypes.get();
+  }
+
+  public previousStep(): void {
+    if (this.formState > 0) {
+      this.formState--;
+    }
+    if (this.formState === 0) {
+      this.newResourceInstance.attributes = [];
+    }
+  }
+
+  public nextStep(): void {
+    this.formState++;
+    if (this.formState === 1) {
+      this.newResourceInstance.resourceType = this.resourceType;
+      this.resourceType.attributes.forEach( (attribute) => {
       this.newResourceInstance.attributes.push({name: attribute.name, value: ''});
     });
-    this.newResourceInstance.resourceType = this.resourceType;
-    console.log(this.newResourceInstance);
+    }
+  }
+
+  public async selectResourceType(id: string) {
+    this.resourceType = await ResourceTypes.getOne(id);
+    this.nextStep();
   }
 
   public async createResourceInstance(): Promise<void> {
