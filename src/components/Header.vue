@@ -20,6 +20,7 @@
     </div>
 
     <NotificationCenter :visible="notificationCenterIsVisible" />
+    <NotificationPopup :visible="!notificationCenterIsVisible" />
   </header>
 </template>
 
@@ -27,11 +28,13 @@
 
 import { Component, Vue } from 'vue-property-decorator';
 import NotificationCenter from '@/components/NotificationCenter.vue';
+import NotificationPopup from '@/components/NotificationPopup.vue';
 import Link from '@/components/Link.vue';
 
 @Component({
   components: {
     NotificationCenter,
+    NotificationPopup,
     Link,
   },
 })
