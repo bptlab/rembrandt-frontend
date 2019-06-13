@@ -29,6 +29,7 @@ import {
 import Li, { ListEntry } from '@/components/Li.vue';
 import ViewHeader from '@/components/ViewHeader.vue';
 import ListSection from '@/components/ListSection.vue';
+import TypeSensitiveInput from '@/components/TypeSensitiveInput.vue';
 import Input from '@/components/Input.vue';
 import Toggle from '@/components/Toggle.vue';
 import Button from '@/components/Button.vue';
@@ -102,10 +103,15 @@ export default class Types extends Mixins(Translate) {
     this.newResourceInstance.resourceType = this.resourceType;
   }
 
-  public createResourceInstance(): void {
+  public async createResourceInstance(): Promise<void> {
     console.log(this.newResourceInstance);
-    ResourceInstances.create(this.newResourceInstance);
-    this.$router.push({ path: '/resources' });
+    try {
+      await ResourceInstances.create(this.newResourceInstance);
+      this.$router.push({ path: '/resources' });
+    } catch (e) {
+      // todo: errorhandling mit neuer Komponente
+    }
+
   }
   // endregion
 
