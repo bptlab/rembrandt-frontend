@@ -1,13 +1,13 @@
 <template>
     <Input
-      v-if="attributeDataType === 'string' || attributeDataType === 'number'"
+      v-if="this.attributeDataType === 'string' || this.attributeDataType === 'number'"
       :required="resourceType.attributes.find( (typeattribute) => { return this.resourceInstanceAttribute.name === typeattribute.name}).required"
       :value.sync="resourceInstanceAttribute.value"
       :name="resourceInstanceAttribute.name"
       :autofocus="true"
       placeholder="type your value here"/>
     <Toggle
-      v-else-if="attributeDataType === 'boolean'"
+      v-else-if="this.attributeDataType === 'boolean'"
       :value.sync="resourceInstanceAttribute.value"
       :name="resourceInstanceAttribute.name"/>
 </template>
@@ -18,7 +18,13 @@ import Input from '@/components/Input.vue';
 import Toggle from '@/components/Toggle.vue';
 import { ResourceInstanceAttribute, ResourceType } from '@/apis/rembrandt/rembrandt';
 
-@Component
+@Component({
+  components: {
+    Input,
+    Toggle,
+  },
+})
+
 export default class TypeSensitiveInput extends Vue {
   // region public static methods
   // endregion
@@ -51,9 +57,7 @@ export default class TypeSensitiveInput extends Vue {
   // endregion
 
   // region public methods
-  public focusInput() {
-    (this.$refs.input as any).focus();
-  }
+
   // endregion
 
   // region private methods

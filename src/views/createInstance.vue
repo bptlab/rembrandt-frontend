@@ -40,6 +40,7 @@ import { ResourceInstance, ResourceInstanceNullObject } from '@/apis/rembrandt/r
     ListSection,
     Li,
     ViewHeader,
+    TypeSensitiveInput,
     Input,
     Toggle,
     Button,
@@ -98,6 +99,7 @@ export default class Types extends Mixins(Translate) {
       this.newResourceInstance.attributes.push({name: attribute.name, value: ''});
     });
     this.newResourceInstance.resourceType = this.resourceType;
+    console.log(this.newResourceInstance);
   }
 
   public async createResourceInstance(): Promise<void> {
