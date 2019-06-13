@@ -87,7 +87,7 @@ import { dataTypes } from '@/apis/rembrandt/rembrandt';
     Select,
   },
 })
-export default class Types extends Mixins(Translate) {
+export default class CreateType extends Mixins(Translate) {
   // region public static methods
   public static emptyResourceType(): ResourceType {
     return {

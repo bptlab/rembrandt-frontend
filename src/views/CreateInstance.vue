@@ -48,15 +48,9 @@ import { ResourceInstance, ResourceInstanceNullObject, ResourceTypeNullObject } 
     Button,
   },
 })
-export default class Instances extends Mixins(Translate) {
+export default class CreateResource extends Mixins(Translate) {
   // region public static methods
-  public static emptyResourceTypeAttribute(): ResourceTypeAttribute {
-    return {
-      name: '',
-      dataType: 'string',
-      required: true,
-    };
-  }
+
   // endregion
 
   // region private static methods
