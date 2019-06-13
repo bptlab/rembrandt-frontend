@@ -1,5 +1,5 @@
 <template>
-  <main v-if="formState === 0" class="create-instance">
+  <main v-if="formState === 0">
     <ViewHeader
       title="Choose a resource type for the new instance"
       :backLink="{ link: '/resources' }"
@@ -7,7 +7,7 @@
     <ListSection :list="nonAbstractResourceTypesList"/>
   </main>
 
-  <main v-else-if="formState === 1" class="create-instance">
+  <main v-else-if="formState === 1">
     <ViewHeader title="Choose attribute values for the new instance" :backLink="{ onClick: previousStep }"/>
     <ListSection :title="`Attributes of ${resourceType.name}`">
       <Li v-for="attribute in newResourceInstance.attributes" :key="attribute.name">
