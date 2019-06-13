@@ -2,7 +2,7 @@
   <fieldset class="f-select" :class="{active: optionsVisible}" @click="toggleOptionsVisibility">
     <div class="select">
       <span class="selected">{{ selectedOption.text || selectedOption.value || placeholder}}</span>
-      <ul class="options" v-if="optionsVisible">
+      <ul class="options" v-if="optionsVisible" v-click-outside="toggleOptionsVisibility">
         <li v-if="placeholder" @click="selectOption('')">{{placeholder}}</li>
         <li v-for="option in options" :key="option.value" @click="selectOption(option.value)">
           {{option.text || option.value}}
@@ -18,6 +18,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Li from '@/components/Li.vue';
+import vClickOutside from 'v-click-outside';
 
 export interface Option {
   value: string;
@@ -27,6 +28,9 @@ export interface Option {
 @Component({
   components: {
     Li,
+  },
+  directives: {
+    clickOutside: vClickOutside.directive,
   },
 })
 export default class Select extends Vue {
