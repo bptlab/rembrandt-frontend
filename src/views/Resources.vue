@@ -1,8 +1,15 @@
 <template>
   <main>
     <form class="search-form">
-      <Input :value.sync="searchTerm" name="Search" placeholder="Search resources..." />
-      <Select :value.sync="selectedType" placeholder="All Resource Types" name="Resource Type" :options="nonAbstractResourceTypes" />
+      <Input
+        :value.sync="searchTerm"
+        name="Search"
+        placeholder="Search resources..." />
+      <Select
+        :value.sync="selectedType"
+        placeholder="All Resource Types"
+        name="Resource Type"
+        :options="nonAbstractResourceTypes" />
     </form>
 
     <ListSection

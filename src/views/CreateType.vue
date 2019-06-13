@@ -74,6 +74,7 @@ import Button from '@/components/Button.vue';
 import Select, { Option } from '@/components/Select.vue';
 import Utils from '@/utils/Utils';
 import Translate from '@/mixins/Translate';
+import { dataTypes } from '@/apis/rembrandt/rembrandt';
 
 @Component({
   components: {
@@ -166,20 +167,12 @@ export default class Types extends Mixins(Translate) {
   }
 
   public get dataTypeOptions(): Option[] {
-    return [
-      {
-        value: 'string',
-        text: this.translateToNaturalLanguage('string'),
-      },
-      {
-        value: 'number',
-        text: this.translateToNaturalLanguage('number'),
-      },
-      {
-        value: 'boolean',
-        text: this.translateToNaturalLanguage('boolean'),
-      },
-    ];
+    return dataTypes.map((dataType) => {
+      return {
+        value: dataType,
+        text: this.translateToNaturalLanguage(dataType),
+      };
+    });
   }
   // endregion
 
