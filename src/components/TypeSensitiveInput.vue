@@ -65,8 +65,3 @@ export default class TypeSensitiveInput extends Vue {
   // endregion
 }
 </script>
-
-
-<style lang="less">
-
-</style>
