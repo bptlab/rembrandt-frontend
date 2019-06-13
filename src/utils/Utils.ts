@@ -4,9 +4,12 @@ import { ResourceType,
   ResourceInstanceAttribute,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
+import { Notification } from '@/plugins/Notification';
 import translations from '@/config/translations.json';
-
 export type clickHandler = (id: string) => void;
+
+// tslint:disable-next-line: no-var-requires
+const ta = require('time-ago');
 
 export default class Utils {
   // region public static methods
@@ -61,6 +64,20 @@ export default class Utils {
         id: attribute.name,
         firstValue: attribute.name,
         secondValue: attribute.value,
+      };
+    });
+  }
+
+  public static notificationsToList(notifications: Notification[]): ListEntry[] {
+    return notifications.sort((a, b) => {
+      return b.timestamp!.getTime() - a.timestamp!.getTime();
+    }).map((notification) => {
+      return {
+        id: Utils.createRandomId(),
+        firstValue: notification.title,
+        secondValue: notification.details,
+        thirdValue: ta.ago(notification.timestamp, true),
+        level: notification.level,
       };
     });
   }
