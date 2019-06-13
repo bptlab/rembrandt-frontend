@@ -18,7 +18,7 @@
       </Li>
     </ListSection>
 
-    <Button text="save" :onClick="createResourceInstance"/>
+    <Button text="Create Resource" :onClick="createResourceInstance"/>
   </main>
 </template>
 
@@ -34,10 +34,7 @@ import Li, { ListEntry } from '@/components/Li.vue';
 import ViewHeader from '@/components/ViewHeader.vue';
 import ListSection from '@/components/ListSection.vue';
 import TypeSensitiveInput from '@/components/TypeSensitiveInput.vue';
-import Input from '@/components/Input.vue';
-import Toggle from '@/components/Toggle.vue';
 import Button from '@/components/Button.vue';
-import Select from '@/components/Select.vue';
 import Utils from '@/utils/Utils';
 import Translate from '@/mixins/Translate';
 import { ResourceInstance, ResourceInstanceNullObject, ResourceTypeNullObject } from '@/apis/rembrandt/rembrandt';
@@ -48,10 +45,7 @@ import { ResourceInstance, ResourceInstanceNullObject, ResourceTypeNullObject } 
     Li,
     ViewHeader,
     TypeSensitiveInput,
-    Input,
-    Toggle,
     Button,
-    Select,
   },
 })
 export default class Instances extends Mixins(Translate) {
