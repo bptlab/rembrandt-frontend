@@ -30,16 +30,16 @@ export default class CRUDResource<T extends Resource> {
   }
 
   public async create(resource: T): Promise<T> {
-    return await ApiUtils.postJsonResource(this.resourceUrl, this.serializer, resource);
+    return ApiUtils.postJsonResource(this.resourceUrl, this.serializer, resource);
   }
 
   public async get(): Promise<T[]> {
-    return await ApiUtils.getJsonResource(this.resourceUrl);
+    return ApiUtils.getJsonResource(this.resourceUrl);
   }
 
   public async getOne(id: string): Promise<T> {
     const singleResourceUrl = this.singleResourceUrl(id);
-    return await ApiUtils.getJsonResource(singleResourceUrl);
+    return ApiUtils.getJsonResource(singleResourceUrl);
   }
 
   public async update(id: string, resource: T): Promise<void> {
