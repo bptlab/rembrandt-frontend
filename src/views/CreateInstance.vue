@@ -85,9 +85,10 @@ export default class CreateResource extends Mixins(Translate) {
   // region public methods
   public async created() {
     this.typeId = this.$route.params.typeId;
-    if ( this.typeId !== '') {
-      this.selectResourceType(this.typeId);
+    if ( this.typeId === '') {
+      return;
     }
+    this.selectResourceType(this.typeId);
   }
 
   public async mounted() {
