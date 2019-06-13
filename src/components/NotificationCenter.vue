@@ -8,7 +8,6 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import ListSection from '@/components/ListSection.vue';
 import Li, { ListEntry } from '@/components/Li.vue';
-import { Notification } from '@/plugins/Notification';
 import Utils from '@/utils/Utils';
 
 @Component({
