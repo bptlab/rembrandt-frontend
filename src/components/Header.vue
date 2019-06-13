@@ -8,6 +8,9 @@
       <router-link to="/types">Types</router-link>
     </nav>
     <div class="user-container">
+      <Link class="notification-button" :linkOptions="{ onClick: toggleNotificationCenter }">
+        <i class="far fa-bell"></i>
+      </Link>
       <router-link to="/settings">
         <span>Christian</span>
       </router-link>
@@ -15,15 +18,36 @@
         <img src="https://avatars2.githubusercontent.com/u/17351844?s=460&v=4" />
       </router-link>
     </div>
+
+    <NotificationCenter :visible="notificationCenterIsVisible" />
   </header>
 </template>
 
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
+import NotificationCenter from '@/components/NotificationCenter.vue';
+import Link from '@/components/Link.vue';
 
-@Component
-export default class Header extends Vue {}
+@Component({
+  components: {
+    NotificationCenter,
+    Link,
+  },
+})
+export default class Header extends Vue {
+  public notificationCenterIsVisible: boolean = false;
+
+  constructor() {
+    super();
+
+    this.toggleNotificationCenter = this.toggleNotificationCenter.bind(this);
+  }
+
+  public toggleNotificationCenter() {
+    this.notificationCenterIsVisible = ! this.notificationCenterIsVisible;
+  }
+}
 
 </script>
 
@@ -87,6 +111,10 @@ header {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+
+    .notification-button {
+      padding-right: @spacing;
+    }
 
     span {
       padding-right: 10px;
