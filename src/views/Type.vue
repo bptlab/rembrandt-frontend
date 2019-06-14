@@ -1,8 +1,5 @@
 <template>
-  <main v-if="this.error">
-    <h1>Resource Type not found.</h1>
-  </main>
-  <main v-else class="type">
+  <main class="type">
     <ViewHeader :title="this.resourceType.name" :backLink="{ link: '/types' }" />
 
     <ListSection class="preview-container" :list="resourceTypeList" />
@@ -11,7 +8,6 @@
       <ListSection title="Attributes" :list="resourceTypeAttributeList" />
       <ListSection title="Actions" :list="resourceTypeActionsList" />
     </div>
-
   </main>
 </template>
 
@@ -59,11 +55,10 @@ export default class Type extends Vue {
     resourceTypeActions.push(
       {
         id: '2',
-        firstValue: 'Edit Resource Type',
-      },
-      {
-        id: '3',
         firstValue: 'Delete Resource Type',
+        link: {
+          onClick: this.deleteResourceType,
+        },
       },
     );
 
@@ -85,6 +80,15 @@ export default class Type extends Vue {
   public async mounted() {
     try {
       this.resourceType = await ResourceTypes.getOne(this.$route.params.id);
+    } catch (e) {
+      this.$notifications.create(e);
+    }
+  }
+
+  public async deleteResourceType(): Promise<void> {
+    try {
+      await ResourceTypes.delete(this.resourceType.id!);
+      this.$router.push({ path: '/types' });
     } catch (e) {
       this.$notifications.create(e);
     }

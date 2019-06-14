@@ -52,6 +52,10 @@ export default class ApiUtils {
       throw new ApiError('Connection to server failed. Please try again.', e, NotificationLevel.Critical);
     }
 
+    if (response.statusText === 'No Content') {
+      return;
+    }
+
     const responseJson = await response.json();
 
     if (response.status >= 300) {
