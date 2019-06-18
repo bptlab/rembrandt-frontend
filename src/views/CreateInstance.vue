@@ -122,7 +122,7 @@ export default class CreateResource extends Mixins(Translate) {
       // Todo: check if all required attributes have values (rewrite Interface to class first)
       await ResourceInstances.create(this.newResourceInstance);
       this.$notifications.create({
-        title: `Resource '${Utils.getEponymousAttributeValue(this.newResourceInstance)}' has been created.`,
+        title: 'Resource has been created.',
         details: '',
         level: NotificationLevel.Success,
         timestamp: new Date(),
