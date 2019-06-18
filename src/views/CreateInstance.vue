@@ -123,7 +123,7 @@ export default class CreateResource extends Mixins(Translate) {
       await ResourceInstances.create(this.newResourceInstance);
       this.$router.push({ path: '/resources' });
     } catch (e) {
-      // Todo: use the new component for nice errorhandling
+      this.$notifications.create(e);
     }
 
   }
