@@ -29,13 +29,13 @@ export default class Utils {
     });
   }
 
-  public static resourceTypeAttributesToList(attributes: ResourceTypeAttribute[], onClick?: clickHandler): ListEntry[] {
-    return attributes.map((attribute) => {
+  public static resourceTypeAttributesToList(resourceType: ResourceType, onClick?: clickHandler): ListEntry[] {
+    return resourceType.attributes.map((attribute) => {
       return {
         id: attribute.name,
         firstValue: attribute.name,
         secondValue: `Type: ${Utils.translateToNaturalLanguage(attribute.dataType)}`,
-        thirdValue: attribute.required ? 'required' : '',
+        thirdValue: `${attribute.required ? 'required' : ''} ${resourceType.eponymousAttribute === attribute.name ? 'naming' : ''}`,
         link: onClick ? {
           onClick: () => { onClick(attribute.name); },
         } : undefined,

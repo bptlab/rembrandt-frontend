@@ -46,8 +46,14 @@
           name="Type"
           :required="true"
           :options='dataTypeOptions' />
-        <Toggle :value.sync="editingAttribute.required" name="Required"/>
-        <Button text="Save Attribute" :onClick="saveAttribute"/>
+        <Toggle :value.sync="editingAttribute.required" name="Required attribute"/>
+        <Toggle @update:value="setEponymousAttribute" :value.sync="editingAttribute.isEponymousAttribute" name="Name giving attribute"/>
+        <div class="row">
+          <Button text="Save Attribute" :onClick="saveAttribute"/>
+          <SmallButton :link="{ onClick: deleteAttribute }">
+            <i class="fas fa-times"></i>
+          </SmallButton>
+        </div>
       </Li>
 
       <Li v-for="attribute in attributeListRight" :key="attribute.id" :listEntry="attribute"/>
@@ -71,11 +77,20 @@ import ListSection from '@/components/ListSection.vue';
 import Input from '@/components/Input.vue';
 import Toggle from '@/components/Toggle.vue';
 import Button from '@/components/Button.vue';
+import SmallButton from '@/components/SmallButton.vue';
 import Select, { Option } from '@/components/Select.vue';
 import Utils from '@/utils/Utils';
 import Translate from '@/mixins/Translate';
 import { dataTypes } from '@/apis/rembrandt/rembrandt';
 import { NotificationLevel } from '@/interfaces/Notification';
+
+interface NewResourceTypeAttribute extends ResourceTypeAttribute {
+  isEponymousAttribute: boolean;
+}
+
+interface NewResourceType extends ResourceType {
+  attributes: NewResourceTypeAttribute[];
+}
 
 @Component({
   components: {
@@ -86,11 +101,12 @@ import { NotificationLevel } from '@/interfaces/Notification';
     Toggle,
     Button,
     Select,
+    SmallButton,
   },
 })
 export default class CreateType extends Mixins(Translate) {
   // region public static methods
-  public static emptyResourceType(): ResourceType {
+  public static emptyResourceType(): NewResourceType {
     return {
       name: '',
       abstract: false,
@@ -98,11 +114,12 @@ export default class CreateType extends Mixins(Translate) {
     };
   }
 
-  public static emptyResourceTypeAttribute(): ResourceTypeAttribute {
+  public static emptyResourceTypeAttribute(): NewResourceTypeAttribute {
     return {
       name: '',
       dataType: 'string',
       required: true,
+      isEponymousAttribute: false,
     };
   }
   // endregion
@@ -112,7 +129,7 @@ export default class CreateType extends Mixins(Translate) {
 
   // region public members
   public resourceTypes: ResourceType[] = [];
-  public newResourceType: ResourceType;
+  public newResourceType: NewResourceType;
   public formState: number = 0;
   public currentlyEditingAttribute: number = -1;
 
@@ -131,12 +148,13 @@ export default class CreateType extends Mixins(Translate) {
     if (!this.newResourceType.parentType) {
       return [];
     }
-    return Utils.resourceTypeAttributesToList(this.newResourceType.parentType.attributes);
+    return Utils.resourceTypeAttributesToList(this.newResourceType.parentType);
   }
 
   public get attributeList(): ListEntry[] {
+    this.currentlyEditingAttribute;
     return Utils.resourceTypeAttributesToList(
-      this.newResourceType.attributes,
+      this.newResourceType,
       this.editAttribute,
     );
   }
@@ -153,7 +171,7 @@ export default class CreateType extends Mixins(Translate) {
     );
   }
 
-  public get editingAttribute(): ResourceTypeAttribute {
+  public get editingAttribute(): NewResourceTypeAttribute {
     return this.newResourceType.attributes[this.currentlyEditingAttribute];
   }
 
@@ -208,17 +226,46 @@ export default class CreateType extends Mixins(Translate) {
   }
 
   public editAttribute(name: string): void {
+    this.setEponymousAttribute();
     this.currentlyEditingAttribute = this.newResourceType.attributes.findIndex(
       (attribute) => attribute.name === name,
     );
   }
 
   public addAttribute(): void {
+    this.setEponymousAttribute();
     this.newResourceType.attributes.push(CreateType.emptyResourceTypeAttribute());
     this.currentlyEditingAttribute = this.newResourceType.attributes.length - 1;
   }
 
+  public deleteAttribute(): void {
+    if (this.editingAttribute.isEponymousAttribute) {
+      this.newResourceType.eponymousAttribute = undefined;
+    }
+    this.newResourceType.attributes.splice(this.currentlyEditingAttribute, 1);
+    this.currentlyEditingAttribute = -1;
+  }
+
+  public setEponymousAttribute(): void {
+    if (!this.editingAttribute) {
+      return;
+    }
+
+    if (!this.editingAttribute.isEponymousAttribute) {
+      return;
+    }
+
+    this.newResourceType.attributes.forEach((attribute) => {
+      if (attribute.name === this.editingAttribute.name) {
+        return;
+      }
+      attribute.isEponymousAttribute = false;
+    });
+    this.newResourceType.eponymousAttribute = this.editingAttribute.name;
+  }
+
   public saveAttribute(): void {
+    this.setEponymousAttribute();
     this.currentlyEditingAttribute = -1;
   }
 
