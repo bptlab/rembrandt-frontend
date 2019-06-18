@@ -1,8 +1,5 @@
 <template>
-  <main v-if="this.error">
-    <h1>Resource Instance not found.</h1>
-  </main>
-  <main v-else class="type">
+  <main class="type">
     <ViewHeader :title="resourceName" :backLink="{ link: '/resources' }" />
 
     <ListSection title="Resource Type" class="preview-container" :list="resourceTypeList" />
@@ -71,6 +68,9 @@ export default class Resource extends Vue {
       {
         id: '3',
         firstValue: 'Delete Resource',
+        link: {
+          onClick: this.deleteResource,
+        },
       },
     );
 
@@ -95,6 +95,15 @@ export default class Resource extends Vue {
       if (this.resourceInstance.resourceType.id) {
         this.resourceInstance.resourceType = await ResourceTypes.getOne(this.resourceInstance.resourceType.id);
       }
+    } catch (e) {
+      this.$notifications.create(e);
+    }
+  }
+
+  public async deleteResource(): Promise<void> {
+    try {
+      await ResourceInstances.delete(this.resourceInstance.id!);
+      this.$router.push({ path: '/resources' });
     } catch (e) {
       this.$notifications.create(e);
     }
