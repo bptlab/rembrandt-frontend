@@ -106,16 +106,14 @@ export default class CreateResource extends Mixins(Translate) {
 
   public nextStep(): void {
     this.formState++;
-    if (this.formState === 1) {
-      this.newResourceInstance.resourceType = this.resourceType;
-      this.resourceType.attributes.forEach( (attribute) => {
-        this.newResourceInstance.attributes.push({name: attribute.name, value: ''});
-      });
-    }
   }
 
   public async selectResourceType(id: string) {
     this.resourceType = await ResourceTypes.getOne(id);
+    this.newResourceInstance.resourceType = this.resourceType;
+    this.resourceType.attributes.forEach( (attribute) => {
+      this.newResourceInstance.attributes.push({name: attribute.name, value: ''});
+    });
     this.nextStep();
   }
 
