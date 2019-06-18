@@ -60,6 +60,9 @@ export default class Resource extends Vue {
       {
         id: '1',
         firstValue: 'Create another Instance',
+        link: {
+          link: onclick ? '' : `/resources/create/${this.resourceInstance.resourceType.id}`,
+        },
       },
       {
         id: '2',

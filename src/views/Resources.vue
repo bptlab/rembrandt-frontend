@@ -17,6 +17,7 @@
       v-for="resourceType in filteredResourceTypes"
       :title="resourceType.name"
       :list="resourceInstancesForType(resourceType)" />
+    <AddButton :link="{link: '/resources/create/'}"/>
   </main>
 </template>
 
@@ -25,16 +26,20 @@ import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import ListSection from '@/components/ListSection.vue';
 import Select, { Option } from '@/components/Select.vue';
+import AddButton from '@/components/AddButton.vue';
 import Input from '@/components/Input.vue';
 import { ResourceInstance, ResourceInstances, ResourceType, ResourceTypes } from '@/apis/rembrandt/rembrandt';
 import Utils from '@/utils/Utils';
 import { ListEntry } from '@/components/Li.vue';
+import Link from '@/components/Link.vue';
 
 @Component({
   components: {
     ListSection,
     Select,
     Input,
+    Link,
+    AddButton,
   },
 })
 export default class Resources extends Vue {

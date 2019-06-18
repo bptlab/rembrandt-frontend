@@ -87,7 +87,7 @@ import { dataTypes } from '@/apis/rembrandt/rembrandt';
     Select,
   },
 })
-export default class Types extends Mixins(Translate) {
+export default class CreateType extends Mixins(Translate) {
   // region public static methods
   public static emptyResourceType(): ResourceType {
     return {
@@ -123,7 +123,7 @@ export default class Types extends Mixins(Translate) {
     const parentType = this.resourceTypes.find(
       (resourceType) => resourceType.id === this.newResourceType.parentType,
     );
-    return parentType || Types.emptyResourceType();
+    return parentType || CreateType.emptyResourceType();
   }
 
   public get parentTypeAttributeList(): ListEntry[] {
@@ -182,7 +182,7 @@ export default class Types extends Mixins(Translate) {
   // region constructor
   constructor() {
     super();
-    this.newResourceType = Types.emptyResourceType();
+    this.newResourceType = CreateType.emptyResourceType();
   }
   // endregion
 
@@ -213,7 +213,7 @@ export default class Types extends Mixins(Translate) {
   }
 
   public addAttribute(): void {
-    this.newResourceType.attributes.push(Types.emptyResourceTypeAttribute());
+    this.newResourceType.attributes.push(CreateType.emptyResourceTypeAttribute());
     this.currentlyEditingAttribute = this.newResourceType.attributes.length - 1;
   }
 
