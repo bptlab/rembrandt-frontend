@@ -75,6 +75,7 @@ import Select, { Option } from '@/components/Select.vue';
 import Utils from '@/utils/Utils';
 import Translate from '@/mixins/Translate';
 import { dataTypes } from '@/apis/rembrandt/rembrandt';
+import { NotificationLevel } from '@/interfaces/Notification';
 
 @Component({
   components: {
@@ -224,6 +225,12 @@ export default class CreateType extends Mixins(Translate) {
   public async createResourceType(): Promise<void> {
     try {
       await ResourceTypes.create(this.newResourceType);
+      this.$notifications.create({
+        title: `Type '${this.newResourceType.name}' has been created.`,
+        details: '',
+        level: NotificationLevel.Success,
+        timestamp: new Date(),
+      });
       this.$router.push({ path: '/types' });
     } catch (e) {
       this.$notifications.create(e);

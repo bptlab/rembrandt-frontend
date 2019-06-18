@@ -24,6 +24,7 @@ import { ListEntry } from '@/components/Li.vue';
 import ListSection from '@/components/ListSection.vue';
 import ViewHeader from '@/components/ViewHeader.vue';
 import Utils from '@/utils/Utils';
+import { NotificationLevel } from '@/interfaces/Notification';
 
 @Component({
   components: {
@@ -106,6 +107,12 @@ export default class Resource extends Vue {
   public async deleteResource(): Promise<void> {
     try {
       await ResourceInstances.delete(this.resourceInstance.id!);
+      this.$notifications.create({
+        title: `Resource '${this.resourceName}' has been deleted.`,
+        details: '',
+        level: NotificationLevel.Success,
+        timestamp: new Date(),
+      });
       this.$router.push({ path: '/resources' });
     } catch (e) {
       this.$notifications.create(e);
