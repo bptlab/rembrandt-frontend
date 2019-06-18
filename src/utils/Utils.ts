@@ -1,6 +1,5 @@
 import { ResourceType,
   ResourceInstance,
-  ResourceTypeAttribute,
   ResourceInstanceAttribute,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
