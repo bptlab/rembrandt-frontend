@@ -1,4 +1,5 @@
 export enum NotificationLevel {
+  Success = 'success',
   Info = 'info',
   Warning = 'warning',
   Critical = 'critical',

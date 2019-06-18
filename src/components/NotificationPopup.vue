@@ -90,8 +90,7 @@ section.notification-popup {
       background-size: 5px 100%;
       background-repeat: no-repeat;
 
-      &.critical,
-      &:hover {
+      &.critical {
         background-image: linear-gradient(to right, red, red);
       }
       &.warning {
@@ -99,6 +98,9 @@ section.notification-popup {
       }
       &.info {
         background-image: linear-gradient(to right, white, white);
+      }
+      &.success {
+        background-image: linear-gradient(to right, green, green);
       }
     }
   }

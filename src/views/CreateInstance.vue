@@ -37,6 +37,7 @@ import Button from '@/components/Button.vue';
 import Utils from '@/utils/Utils';
 import Translate from '@/mixins/Translate';
 import { ResourceInstance, ResourceInstanceNullObject, ResourceTypeNullObject } from '@/apis/rembrandt/rembrandt';
+import { NotificationLevel } from '@/interfaces/Notification';
 
 @Component({
   components: {
@@ -84,7 +85,7 @@ export default class CreateResource extends Mixins(Translate) {
   // region public methods
   public async created() {
     this.typeId = this.$route.params.typeId;
-    if ( this.typeId === '') {
+    if (!this.typeId) {
       return;
     }
     this.selectResourceType(this.typeId);
@@ -120,6 +121,12 @@ export default class CreateResource extends Mixins(Translate) {
     try {
       // Todo: check if all required attributes have values (rewrite Interface to class first)
       await ResourceInstances.create(this.newResourceInstance);
+      this.$notifications.create({
+        title: 'Resource has been created.',
+        details: '',
+        level: NotificationLevel.Success,
+        timestamp: new Date(),
+      });
       this.$router.push({ path: '/resources' });
     } catch (e) {
       this.$notifications.create(e);

@@ -108,9 +108,9 @@ export default class Resource extends Vue {
     try {
       await ResourceInstances.delete(this.resourceInstance.id!);
       this.$notifications.create({
-        title: 'Resource has been deleted.',
-        details: `Resource '${this.resourceInstance.id}' has successfully been deleted.`,
-        level: NotificationLevel.Info,
+        title: `Resource '${this.resourceInstance.id}' has been deleted.`,
+        details: '',
+        level: NotificationLevel.Success,
         timestamp: new Date(),
       });
       this.$router.push({ path: '/resources' });

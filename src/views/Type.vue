@@ -93,9 +93,9 @@ export default class Type extends Vue {
     try {
       await ResourceTypes.delete(this.resourceType.id!);
       this.$notifications.create({
-        title: 'Type has been deleted.',
-        details: `Type ${this.resourceType.name} has successfully been deleted.`,
-        level: NotificationLevel.Info,
+        title: `Type '${this.resourceType.name}' has been deleted.`,
+        details: '',
+        level: NotificationLevel.Success,
         timestamp: new Date(),
       });
       this.$router.push({ path: '/types' });

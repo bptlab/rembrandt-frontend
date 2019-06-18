@@ -28,7 +28,7 @@ export default new Router({
     },
     {
       path: '/resources/create/:typeId',
-      name: 'create-resource',
+      name: 'create-resource-id',
       component: CreateInstance,
     },
     {

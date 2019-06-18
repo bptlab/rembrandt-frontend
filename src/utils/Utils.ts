@@ -77,7 +77,8 @@ export default class Utils {
         id: Utils.createRandomId(),
         firstValue: notification.title,
         secondValue: notification.details,
-        thirdValue: ta.ago(notification.timestamp, true),
+        thirdValue: (new Date() as any) - (notification.timestamp as any) > 60000 ?
+          ta.ago(notification.timestamp, true) : 'now',
         level: notification.level,
       };
     });

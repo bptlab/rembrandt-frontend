@@ -81,12 +81,12 @@ section.notifications {
     max-height: 500px;
     overflow-y: scroll;
 
-    li {
+    li, li.options.disabled:hover {
       background-position: 0 0;
       background-size: 5px 100%;
       background-repeat: no-repeat;
 
-      &.critical, &:hover {
+      &.critical {
         background-image: linear-gradient(to right, red, red);
       }
       &.warning {
@@ -94,6 +94,9 @@ section.notifications {
       }
       &.info {
         background-image: linear-gradient(to right, white, white);
+      }
+      &.success {
+        background-image: linear-gradient(to right, green, green);
       }
     }
   }
