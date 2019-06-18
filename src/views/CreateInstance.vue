@@ -27,7 +27,6 @@ import { Component, Mixins } from 'vue-property-decorator';
 import {
   ResourceTypes,
   ResourceType,
-  ResourceTypeAttribute,
   ResourceInstances,
 } from '@/apis/rembrandt/rembrandt';
 import Li, { ListEntry } from '@/components/Li.vue';
