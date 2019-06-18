@@ -152,6 +152,7 @@ export default class CreateType extends Mixins(Translate) {
   }
 
   public get attributeList(): ListEntry[] {
+    // tslint:disable-next-line
     this.currentlyEditingAttribute;
     return Utils.resourceTypeAttributesToList(
       this.newResourceType,
