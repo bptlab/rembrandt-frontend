@@ -18,6 +18,7 @@ import { ListEntry } from '@/components/Li.vue';
 import ListSection from '@/components/ListSection.vue';
 import ViewHeader from '@/components/ViewHeader.vue';
 import Utils from '@/utils/Utils';
+import { NotificationLevel } from '@/interfaces/Notification';
 
 @Component({
   components: {
@@ -91,6 +92,12 @@ export default class Type extends Vue {
   public async deleteResourceType(): Promise<void> {
     try {
       await ResourceTypes.delete(this.resourceType.id!);
+      this.$notifications.create({
+        title: 'Type has been deleted.',
+        details: `Type ${this.resourceType.name} has successfully been deleted.`,
+        level: NotificationLevel.Info,
+        timestamp: new Date(),
+      });
       this.$router.push({ path: '/types' });
     } catch (e) {
       this.$notifications.create(e);
