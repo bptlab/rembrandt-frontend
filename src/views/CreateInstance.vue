@@ -119,7 +119,7 @@ export default class CreateResource extends Mixins(Translate) {
 
   public async createResourceInstance(): Promise<void> {
     try {
-      // Todo: check if all required attributes have values
+      // Todo: check if all required attributes have values (rewrite Interface to class first)
       await ResourceInstances.create(this.newResourceInstance);
       this.$router.push({ path: '/resources' });
     } catch (e) {
