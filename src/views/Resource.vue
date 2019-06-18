@@ -108,7 +108,7 @@ export default class Resource extends Vue {
     try {
       await ResourceInstances.delete(this.resourceInstance.id!);
       this.$notifications.create({
-        title: `Resource '${this.resourceInstance.id}' has been deleted.`,
+        title: `Resource '${this.resourceName}' has been deleted.`,
         details: '',
         level: NotificationLevel.Success,
         timestamp: new Date(),
