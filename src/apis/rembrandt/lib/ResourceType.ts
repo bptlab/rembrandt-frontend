@@ -30,7 +30,7 @@ const serializer = new Serializer('resourceType', {
 });
 
 export const ResourceTypes = new CRUDResource<ResourceType>(
-  `${config.backendHost}/resource-types`,
+  `${config.backendHost}/organization/resource-types`,
   serializer,
 );
 
