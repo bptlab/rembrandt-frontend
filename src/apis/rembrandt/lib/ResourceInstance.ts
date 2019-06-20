@@ -23,7 +23,7 @@ const serializer = new Serializer('resourceInstance', {
 });
 
 export const ResourceInstances = new CRUDResource<ResourceInstance>(
-  `${config.backendHost}/resource-instances`,
+  `${config.backendHost}/organization/resource-instances`,
   serializer,
 );
 
