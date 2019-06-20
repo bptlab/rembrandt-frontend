@@ -14,42 +14,52 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/resources',
+      name: 'home',
+      redirect: '/organization',
     },
     {
-      path: '/resources',
+      path: '/organization',
+      name: 'organization',
+      redirect: '/organization/resources',
+    },
+    {
+      path: '/organization/resources',
       name: 'resources',
       component: Resources,
     },
     {
-      path: '/resources/create/',
+      path: '/organization/resources/create',
       name: 'create-resource',
       component: CreateInstance,
     },
     {
-      path: '/resources/create/:typeId',
+      path: '/organization/resources/create/:typeId',
       name: 'create-resource-id',
       component: CreateInstance,
     },
     {
-      path: '/resources/:id',
+      path: '/organization/resources/:id',
       name: 'resource',
       component: Resource,
     },
     {
-      path: '/types',
+      path: '/organization/types',
       name: 'types',
       component: Types,
     },
     {
-      path: '/types/create',
+      path: '/organization/types/create',
       name: 'create-type',
       component: CreateType,
     },
     {
-      path: '/types/:id',
+      path: '/organization/types/:id',
       name: 'type',
       component: Type,
+    },
+    {
+      path: '/optimization',
+      name: 'optimization',
     },
     {
       path: '/settings',
