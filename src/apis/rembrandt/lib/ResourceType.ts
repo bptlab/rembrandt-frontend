@@ -23,6 +23,7 @@ const serializer = new Serializer('resourceType', {
   attributes: [
     'name',
     'abstract',
+    'eponymousAttribute',
     'attributes',
     'parentType',
   ],
