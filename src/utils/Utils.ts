@@ -85,13 +85,11 @@ export default class Utils {
   }
 
   public static getEponymousAttributeValue(resourceInstance: ResourceInstance): string {
+    console.log(resourceInstance);
     if (resourceInstance.resourceType.eponymousAttribute) {
-      const eponymousAttribute = resourceInstance.resourceType.attributes.find( (resourceTypeAttribute) => {
-        return (resourceTypeAttribute.id === resourceInstance.resourceType.eponymousAttribute);
-      });
-      if (eponymousAttribute) {
+      if (resourceInstance.resourceType.eponymousAttribute) {
         const attribute = resourceInstance.attributes.find( (resourceInstanceAttributes) => {
-          return (resourceInstanceAttributes.name === eponymousAttribute.name);
+          return (resourceInstanceAttributes.name === resourceInstance.resourceType.eponymousAttribute);
         });
         if (attribute) {
           return attribute.value;
