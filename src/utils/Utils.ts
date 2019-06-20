@@ -85,7 +85,6 @@ export default class Utils {
   }
 
   public static getEponymousAttributeValue(resourceInstance: ResourceInstance): string {
-    console.log(resourceInstance);
     if (resourceInstance.resourceType.eponymousAttribute) {
       if (resourceInstance.resourceType.eponymousAttribute) {
         const attribute = resourceInstance.attributes.find( (resourceInstanceAttributes) => {
