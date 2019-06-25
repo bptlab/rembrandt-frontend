@@ -1,7 +1,7 @@
 <template>
   <main>
     <ViewHeader title="Choose new attribute values for the instance" :backLink="{ link: `/resources/${this.instanceId}` }"/>
-    <ListSection :title="`Attributes of this ${updatedResourceInstance.resourceType.name}`">
+    <ListSection :title="`Attributes of ${updatedResourceInstance.resourceType.name}`">
       <Li v-for="attribute in updatedResourceInstance.attributes" :key="attribute.name">
         <TypeSensitiveInput
           :resourceType="updatedResourceInstance.resourceType"
@@ -57,9 +57,6 @@ export default class EditResource extends Mixins(Translate) {
   // endregion
 
   // region constructor
-  constructor() {
-    super();
-  }
   // endregion
 
   // region public methods
@@ -81,7 +78,6 @@ export default class EditResource extends Mixins(Translate) {
     } catch (e) {
       this.$notifications.create(e);
     }
-
   }
 
   }
