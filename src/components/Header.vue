@@ -1,26 +1,65 @@
 <template>
-  <header>
+  <header class="header">
     <div class="logo-container">
-      <router-link to="/"><img alt="self-Logo" class="logo" src="/rembrandt_r_white.svg" /></router-link>
+      <router-link :to="{ name: 'home' }"><img alt="self-Logo" class="logo" src="/rembrandt_r_white.svg" /></router-link>
     </div>
-    <nav id="nav">
-      <router-link to="/resources">Resources</router-link>
-      <router-link to="/types">Types</router-link>
+    <nav id="nav" v-if="this.$route.path.startsWith('/organization')">
+      <router-link :to="{ name: 'resources' }">Resources</router-link>
+      <router-link :to="{ name: 'types' }">Types</router-link>
     </nav>
     <div class="user-container">
       <Link class="notification-button" :linkOptions="{ onClick: toggleNotificationCenter }">
         <i class="far fa-bell"></i>
       </Link>
-      <router-link to="/settings">
-        <span>Christian</span>
-      </router-link>
-      <router-link to="/settings">
-        <img src="https://avatars2.githubusercontent.com/u/17351844?s=460&v=4" />
-      </router-link>
+      <div class="menu-button">
+        <span class="burger-menu" @click="toggleMenu()">
+          <span></span>
+        </span>
+      </div>
     </div>
 
     <NotificationCenter :visible="notificationCenterIsVisible" />
     <NotificationPopup :visible="!notificationCenterIsVisible" />
+
+    <div class="menu" v-if="menuIsVisible">
+      <header>
+        <div class="logo-container">
+          <router-link to="/"><img class="logo" src="/rembrandt_r_white.svg" /></router-link>
+        </div>
+        <div class="user-container">
+          <div class="menu-button ">
+            <span class="burger-menu" @click="toggleMenu()">
+              <span></span>
+            </span>
+          </div>
+        </div>
+      </header>
+      <nav>
+        <div class="row">
+          <div>
+            <ul @click="toggleMenu()">
+              <router-link :to="{ name: 'organization' }">
+                <h1>Organization</h1>
+              </router-link>
+              <li>
+                <router-link :to="{ name: 'resources' }">Resources</router-link>
+              </li>
+              <li>
+                <router-link :to="{ name: 'types' }">Types</router-link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul @click="toggleMenu()">
+              <router-link :to="{ name: 'optimization' }">
+                <h1>Optimization</h1>
+              </router-link>
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
   </header>
 </template>
 
@@ -40,15 +79,14 @@ import Link from '@/components/Link.vue';
 })
 export default class Header extends Vue {
   public notificationCenterIsVisible: boolean = false;
-
-  constructor() {
-    super();
-
-    this.toggleNotificationCenter = this.toggleNotificationCenter.bind(this);
-  }
+  public menuIsVisible: boolean = false;
 
   public toggleNotificationCenter() {
-    this.notificationCenterIsVisible = ! this.notificationCenterIsVisible;
+    this.notificationCenterIsVisible = !this.notificationCenterIsVisible;
+  }
+
+  public toggleMenu() {
+    this.menuIsVisible = !this.menuIsVisible;
   }
 }
 
@@ -89,7 +127,7 @@ header {
     max-width: 100%;
   }
 
-  nav {
+  nav#nav {
     width: 900px;
     box-sizing: border-box;
     max-width: 100%;
@@ -127,6 +165,106 @@ header {
     img {
       width: 40px;
       border-radius: 7px;
+    }
+
+    .menu-button {
+      margin: 0 @spacing;
+    }
+
+    @burger-spacing: 8px;
+
+    .burger-menu {
+      padding: 0;
+      width: 30px;
+      height: 20px;
+      display: block;
+      position: relative;
+      cursor: pointer;
+
+      span, &:before, &:after {
+        content: " ";
+        position: absolute;
+        right: 0;
+        height: 2px;
+        border-radius: 6px;
+        background: @primary;
+        transition: all 0.3s;
+      }
+
+      &:before {
+        top: 0;
+        width: 30px;
+      }
+
+      span {
+        margin: 8px 0;
+        width: 25px;
+        padding: 0;
+      }
+
+      &:after {
+        bottom: 0;
+        width: 20px;
+      }
+    }
+  }
+
+  .menu {
+    padding: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(to right, @accent-bg 50%, @primary-bg 50%);
+
+    .burger-menu {
+      &:before {
+        transform: rotate(45deg);
+        top: 8px;
+      }
+
+      span {
+        display: none;
+      }
+
+      &:after {
+        transform: rotate(-45deg);
+        width: 30px;
+        top: 8px;
+      }
+    }
+
+    nav {
+      text-align: left;
+      display: flex;
+      align-items: center;
+      height: 100%;
+
+      h1 {
+        font-size: 70px;
+      }
+
+      .row  {
+        width: 100%;
+
+        & > * {
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+        }
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+          font-size: 30px;
+          margin-top: @spacing * 0.5;
+          margin-left: @spacing;
+        }
+      }
     }
   }
 }

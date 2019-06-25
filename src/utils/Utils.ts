@@ -20,9 +20,10 @@ export default class Utils {
         firstValue: resourceType.name,
         secondValue: resourceType.parentType ? `Parent Type: ${resourceType.parentType.name}` : '',
         thirdValue: resourceType.abstract ? 'Abstract Type' : `300 Instances`,
-        link: {
-          link: onClick ? '' : `/types/${resourceType.id}`,
-          onClick: onClick ? () => { onClick(resourceType.id || resourceType.name); } : undefined,
+        link: onClick ? {
+          onClick: () => { onClick(resourceType.id || resourceType.name); },
+        } : {
+          link: { name: 'type', params: { id: resourceType.id }},
         },
       };
     });
@@ -51,9 +52,10 @@ export default class Utils {
         // first value is the identifying value or the id, if no identifying value is set
         firstValue: this.getEponymousAttributeValue(resourceInstance),
         secondValue: `Resource Type: ${resourceInstance.resourceType.name}`,
-        link: {
-          link: onClick ? '' : `/resources/${resourceInstance.id}`,
-          onClick: onClick ? () => { onClick(resourceInstance.id || ''); } : undefined,
+        link: onClick ? {
+          onClick: () => { onClick(resourceInstance.id || ''); },
+        } : {
+          link: { name: 'resource', params: { id: resourceInstance.id }},
         },
       };
     });

@@ -1,6 +1,6 @@
 <template>
   <main class="create-type" v-if="formState === 0" @keydown.enter="nextStep">
-    <ViewHeader title="How should the resource type be called?" :backLink="{ link: '/types' }"/>
+    <ViewHeader title="How should the resource type be called?" :backLink="{ link: { name: 'types' } }"/>
     <Input :value.sync="newResourceType.name" name="Name" placeholder="Cars" :autofocus="true"/>
     <Button text="Continue" :onClick="nextStep"/>
   </main>
@@ -293,7 +293,7 @@ export default class CreateType extends Mixins(Translate) {
         level: NotificationLevel.Success,
         timestamp: new Date(),
       });
-      this.$router.push({ path: '/types' });
+      this.$router.push({ name: 'types' });
     } catch (e) {
       this.$notifications.create(e);
     }

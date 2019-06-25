@@ -2,7 +2,7 @@
   <main v-if="formState === 0">
     <ViewHeader
       title="Choose a resource type for the new instance"
-      :backLink="{ link: '/resources' }"
+      :backLink="{ link: { name: 'resources' } }"
     />
     <ListSection :list="nonAbstractResourceTypesList"/>
   </main>
@@ -127,7 +127,7 @@ export default class CreateResource extends Mixins(Translate) {
         level: NotificationLevel.Success,
         timestamp: new Date(),
       });
-      this.$router.push({ path: '/resources' });
+      this.$router.push({ name: 'resources' });
     } catch (e) {
       this.$notifications.create(e);
     }

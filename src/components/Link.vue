@@ -11,7 +11,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 
 export interface LinkOptions {
-  link?: string;
+  link?: any;
   onClick?: () => void;
 }
 

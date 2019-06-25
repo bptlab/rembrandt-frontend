@@ -1,6 +1,6 @@
 <template>
   <main class="type">
-    <ViewHeader :title="this.resourceType.name" :backLink="{ link: '/types' }" />
+    <ViewHeader :title="this.resourceType.name" :backLink="{ link: { name: 'types' } }" />
 
     <ListSection class="preview-container" :list="resourceTypeList" />
 
@@ -51,7 +51,7 @@ export default class Type extends Vue {
         id: '1',
         firstValue: 'Add Resource',
         link: {
-          link: onclick ? '' : `/resources/create/${this.resourceType.id}`,
+          link: { name: 'create-resource-id', params: { typeId: this.resourceType.id } },
         },
       });
     }
@@ -98,7 +98,7 @@ export default class Type extends Vue {
         level: NotificationLevel.Success,
         timestamp: new Date(),
       });
-      this.$router.push({ path: '/types' });
+      this.$router.push({ name: 'types' });
     } catch (e) {
       this.$notifications.create(e);
     }
