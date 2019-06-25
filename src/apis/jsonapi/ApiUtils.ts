@@ -23,7 +23,7 @@ export default class ApiUtils {
 
   public static async patchJsonResource(url: string, serializer: Serializer, resource: any): Promise<void> {
     const requestOptions = {
-      method: 'POST',
+      method: 'PATCH',
       headers: ApiUtils.headers(),
       body: JSON.stringify(serializer.serialize(resource)),
     };
