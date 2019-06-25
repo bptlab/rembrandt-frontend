@@ -112,7 +112,7 @@ export default class CreateResource extends Mixins(Translate) {
     this.resourceType = await ResourceTypes.getOne(id);
     this.newResourceInstance.resourceType = this.resourceType;
     this.resourceType.attributes.forEach( (attribute) => {
-      if (attribute.dataType === 'boolean'){
+      if (attribute.dataType === 'boolean') {
         this.newResourceInstance.attributes.push({name: attribute.name, value: false});
       } else {
         this.newResourceInstance.attributes.push({name: attribute.name, value: ''});

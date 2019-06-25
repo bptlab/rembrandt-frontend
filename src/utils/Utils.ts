@@ -66,7 +66,7 @@ export default class Utils {
       return {
         id: attribute.name,
         firstValue: attribute.name,
-        secondValue: attribute.value,
+        secondValue: `${attribute.value}`,
       };
     });
   }
