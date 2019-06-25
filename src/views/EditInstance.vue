@@ -1,8 +1,7 @@
 <template>
   <main>
-    <h2>the id is: {{this.instanceId}}</h2>
     <ViewHeader title="Choose new attribute values for the instance" :backLink="{ link: `/resources/${this.instanceId}` }"/>
-    <ListSection :title="`Attributes of ${resourceType.name}`">
+    <ListSection :title="`Attributes of this ${updatedResourceInstance.resourceType.name}`">
       <Li v-for="attribute in updatedResourceInstance.attributes" :key="attribute.name">
         <TypeSensitiveInput
           :resourceType="updatedResourceInstance.resourceType"
@@ -18,12 +17,9 @@
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import {
-  ResourceTypes,
-  ResourceType,
   ResourceInstances,
   ResourceInstance,
   ResourceInstanceNullObject,
-  ResourceTypeNullObject,
 } from '@/apis/rembrandt/rembrandt';
 import Li, { ListEntry } from '@/components/Li.vue';
 import ViewHeader from '@/components/ViewHeader.vue';
@@ -55,7 +51,6 @@ export default class EditResource extends Mixins(Translate) {
 
   public instanceId: string = '';
   public updatedResourceInstance: ResourceInstance = ResourceInstanceNullObject;
-  public resourceType: ResourceType = ResourceTypeNullObject;
   // endregion
 
   // region private members
