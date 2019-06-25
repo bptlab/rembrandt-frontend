@@ -21,12 +21,11 @@ import {
   ResourceInstance,
   ResourceInstanceNullObject,
 } from '@/apis/rembrandt/rembrandt';
-import Li, { ListEntry } from '@/components/Li.vue';
+import Li from '@/components/Li.vue';
 import ViewHeader from '@/components/ViewHeader.vue';
 import ListSection from '@/components/ListSection.vue';
 import TypeSensitiveInput from '@/components/TypeSensitiveInput.vue';
 import Button from '@/components/Button.vue';
-import Utils from '@/utils/Utils';
 import Translate from '@/mixins/Translate';
 import { NotificationLevel } from '@/interfaces/Notification';
 
