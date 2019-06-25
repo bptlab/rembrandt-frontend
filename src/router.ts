@@ -8,6 +8,7 @@ import EditInstance from './views/EditInstance.vue';
 import Resources from './views/Resources.vue';
 import Resource from './views/Resource.vue';
 import Algorithms from './views/Algorithms.vue';
+import Algorithm from './views/Algorithm.vue';
 import Settings from './views/Settings.vue';
 
 Vue.use(Router);
@@ -72,6 +73,11 @@ export default new Router({
       path: '/optimization/algorithms',
       name: 'algorithms',
       component: Algorithms,
+    },
+    {
+      path: '/optimization/algorithms/:id',
+      name: 'algorithm',
+      component: Algorithm,
     },
       path: '/settings',
       name: 'settings',
