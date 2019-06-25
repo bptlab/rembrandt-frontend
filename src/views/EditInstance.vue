@@ -1,7 +1,7 @@
 <template>
   <main>
     <h2>the id is: {{this.instanceId}}</h2>
-    <ViewHeader title="Choose attribute values for the new instance" :backLink="{ onClick: previousStep }"/>
+    <ViewHeader title="Choose new attribute values for the instance" :backLink="{ link: `/resources/${this.instanceId}` }"/>
     <ListSection :title="`Attributes of ${resourceType.name}`">
       <Li v-for="attribute in updatedResourceInstance.attributes" :key="attribute.name">
         <TypeSensitiveInput
@@ -21,6 +21,9 @@ import {
   ResourceTypes,
   ResourceType,
   ResourceInstances,
+  ResourceInstance,
+  ResourceInstanceNullObject,
+  ResourceTypeNullObject,
 } from '@/apis/rembrandt/rembrandt';
 import Li, { ListEntry } from '@/components/Li.vue';
 import ViewHeader from '@/components/ViewHeader.vue';
@@ -29,7 +32,6 @@ import TypeSensitiveInput from '@/components/TypeSensitiveInput.vue';
 import Button from '@/components/Button.vue';
 import Utils from '@/utils/Utils';
 import Translate from '@/mixins/Translate';
-import { ResourceInstance, ResourceInstanceNullObject, ResourceTypeNullObject } from '@/apis/rembrandt/rembrandt';
 import { NotificationLevel } from '@/interfaces/Notification';
 
 @Component({
@@ -53,6 +55,7 @@ export default class EditResource extends Mixins(Translate) {
 
   public instanceId: string = '';
   public updatedResourceInstance: ResourceInstance = ResourceInstanceNullObject;
+  public resourceType: ResourceType = ResourceTypeNullObject;
   // endregion
 
   // region private members
@@ -72,7 +75,6 @@ export default class EditResource extends Mixins(Translate) {
 
   public async saveResourceInstance(): Promise<void> {
     try {
-      // Todo: check if all required attributes have values (rewrite Interface to class first)
       await ResourceInstances.update(this.instanceId, this.updatedResourceInstance);
       this.$notifications.create({
         title: 'Resource has been updated.',
