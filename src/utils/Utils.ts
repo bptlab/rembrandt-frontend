@@ -1,6 +1,5 @@
 import { ResourceType,
   ResourceInstance,
-  ResourceTypeAttribute,
   ResourceInstanceAttribute,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
@@ -29,13 +28,14 @@ export default class Utils {
     });
   }
 
-  public static resourceTypeAttributesToList(attributes: ResourceTypeAttribute[], onClick?: clickHandler): ListEntry[] {
-    return attributes.map((attribute) => {
+  public static resourceTypeAttributesToList(resourceType: ResourceType, onClick?: clickHandler): ListEntry[] {
+    return resourceType.attributes.map((attribute) => {
       return {
         id: attribute.name,
         firstValue: attribute.name,
         secondValue: `Type: ${Utils.translateToNaturalLanguage(attribute.dataType)}`,
-        thirdValue: attribute.required ? 'required' : '',
+        thirdValue: `${attribute.required ? 'required' : ''}
+          ${resourceType.eponymousAttribute === attribute.name ? 'naming' : ''}`,
         link: onClick ? {
           onClick: () => { onClick(attribute.name); },
         } : undefined,
@@ -85,20 +85,18 @@ export default class Utils {
   }
 
   public static getEponymousAttributeValue(resourceInstance: ResourceInstance): string {
-    if (resourceInstance.resourceType.eponymousAttribute) {
-      const eponymousAttribute = resourceInstance.resourceType.attributes.find( (resourceTypeAttribute) => {
-        return (resourceTypeAttribute.id === resourceInstance.resourceType.eponymousAttribute);
-      });
-      if (eponymousAttribute) {
-        const attribute = resourceInstance.attributes.find( (resourceInstanceAttributes) => {
-          return (resourceInstanceAttributes.name === eponymousAttribute.name);
-        });
-        if (attribute) {
-          return attribute.value;
-        }
-      }
+    if (!resourceInstance.resourceType.eponymousAttribute) {
+      return resourceInstance.id ? resourceInstance.id : '';
     }
-    return resourceInstance.id ? resourceInstance.id : '';
+
+    const attribute = resourceInstance.attributes.find( (resourceInstanceAttributes) => {
+      return resourceInstanceAttributes.name === resourceInstance.resourceType.eponymousAttribute;
+    });
+
+    if (attribute) {
+      return attribute.value;
+    }
+    return '';
   }
 
   public static createRandomId(): string {

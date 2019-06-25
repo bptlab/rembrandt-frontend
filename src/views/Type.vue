@@ -41,7 +41,7 @@ export default class Type extends Vue {
   }
 
   public get resourceTypeAttributeList(): ListEntry[] {
-    return Utils.resourceTypeAttributesToList(this.resourceType.attributes);
+    return Utils.resourceTypeAttributesToList(this.resourceType);
   }
 
   public get resourceTypeActionsList(): ListEntry[] {

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Link class="create-button" :linkOptions="link">
-      <i class="fas fa-plus"></i>
+    <Link class="small-button" :linkOptions="link">
+      <slot />
     </Link>
   </div>
 </template>
@@ -15,7 +15,7 @@ import Link, { LinkOptions } from '@/components/Link.vue';
     Link,
   },
 })
-export default class AddButton extends Vue {
+export default class SmallButton extends Vue {
   // region public static methods
   // endregion
 
@@ -45,13 +45,12 @@ export default class AddButton extends Vue {
 <style lang="less">
 @import "../colors.less";
 
-.create-button {
-  position: absolute;
-  bottom: @spacing;
-  right: @spacing;
+.small-button {
   border-radius: 7px;
+  font-size: 14px;
   background-color: @accent;
   color: @primary;
+  margin: @spacing 0;
   height: 50px;
   width: 50px;
   display: flex;
