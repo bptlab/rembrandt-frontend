@@ -1,6 +1,6 @@
 <template>
   <main>
-    <ViewHeader title="Choose new attribute values for the instance" :backLink="{ link: `/resources/${this.instanceId}` }"/>
+    <ViewHeader title="Choose new attribute values for the instance" :backLink="{ link: {name: 'resource', params: { id: this.instanceId }} }"/>
     <ListSection :title="`Attributes of ${updatedResourceInstance.resourceType.name}`">
       <Li v-for="attribute in updatedResourceInstance.attributes" :key="attribute.name">
         <TypeSensitiveInput

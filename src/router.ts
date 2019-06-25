@@ -39,14 +39,14 @@ export default new Router({
       component: CreateInstance,
     },
     {
-      path: '/organization/resources/:id',
-      name: 'resource',
-      component: Resource,
-    },
-    {
       path: 'organization/resources/edit/:instanceId',
       name: 'edit-resource',
       component: EditInstance,
+    },
+    {
+      path: '/organization/resources/:id',
+      name: 'resource',
+      component: Resource,
     },
     {
       path: '/organization/types',
