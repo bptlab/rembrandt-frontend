@@ -265,8 +265,10 @@ export default class CreateType extends Mixins(Translate) {
       this.newResourceType.eponymousAttribute = this.editingAttribute.name;
       this.resetEponymousAttribute();
     } else {
-      this.newResourceType.eponymousAttribute = undefined;
-      this.resetEponymousAttribute();
+      if (this.newResourceType.eponymousAttribute === this.editingAttribute.name) {
+        this.newResourceType.eponymousAttribute = undefined;
+        this.resetEponymousAttribute();
+      }
     }
   }
 
