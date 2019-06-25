@@ -87,7 +87,6 @@ export default class Header extends Vue {
 
   public toggleMenu() {
     this.menuIsVisible = !this.menuIsVisible;
-    console.log(this.$route);
   }
 }
 

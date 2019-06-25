@@ -17,7 +17,7 @@
       v-for="resourceType in filteredResourceTypes"
       :title="resourceType.name"
       :list="resourceInstancesForType(resourceType)" />
-    <SmallButton :link="{link: '/resources/create/'}" class="create-instance-button">
+    <SmallButton :link="{ link: { name: 'create-resource' } }" class="create-instance-button">
       <i class="fas fa-plus"></i>
     </SmallButton>
   </main>

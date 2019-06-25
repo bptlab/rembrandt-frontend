@@ -2,7 +2,7 @@
   <main>
     <ListSection title="Abstract Types" :list="abstractResourceTypesList" />
     <ListSection title="Non-Abstract Types" :list="nonAbstractResourceTypesList" />
-    <SmallButton :link="{link: '/types/create'}" class="create-type-button">
+    <SmallButton :link="{link: { name: 'create-type' } }" class="create-type-button">
       <i class="fas fa-plus"></i>
     </SmallButton>
   </main>
