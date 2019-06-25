@@ -27,7 +27,10 @@
       :title="`Define attributes for ${newResourceType.name}`"
       :backLink="{ onClick: previousStep }"
     />
-    <ListSection :title="`Attributes of ${newResourceType.parentType.name}`" :list="parentTypeAttributeList"/>
+    <ListSection
+      :title="`Attributes of ${newResourceType.parentType.name}`"
+      :list="parentTypeAttributeList"
+    />
 
     <ListSection :title="`Attributes of ${newResourceType.name}`">
       <Li v-for="attribute in attributeListLeft" :key="attribute.id" :listEntry="attribute"/>
@@ -45,9 +48,13 @@
           :value.sync="editingAttribute.dataType"
           name="Type"
           :required="true"
-          :options='dataTypeOptions' />
+          :options="dataTypeOptions"
+        />
         <Toggle :value.sync="editingAttribute.required" name="Required attribute"/>
-        <Toggle @update:value="setEponymousAttribute" :value.sync="editingAttribute.isEponymousAttribute" name="Name giving attribute"/>
+        <Toggle
+          :value.sync="editingAttribute.isEponymousAttribute"
+          name="Name giving attribute"
+        />
         <div class="row">
           <Button text="Save Attribute" :onClick="saveAttribute"/>
           <SmallButton :link="{ onClick: deleteAttribute }">
@@ -227,15 +234,16 @@ export default class CreateType extends Mixins(Translate) {
   }
 
   public editAttribute(name: string): void {
-    this.setEponymousAttribute();
     this.currentlyEditingAttribute = this.newResourceType.attributes.findIndex(
       (attribute) => attribute.name === name,
     );
   }
 
   public addAttribute(): void {
+    this.newResourceType.attributes.push(
+      CreateType.emptyResourceTypeAttribute(),
+    );
     this.setEponymousAttribute();
-    this.newResourceType.attributes.push(CreateType.emptyResourceTypeAttribute());
     this.currentlyEditingAttribute = this.newResourceType.attributes.length - 1;
   }
 
@@ -244,6 +252,7 @@ export default class CreateType extends Mixins(Translate) {
       this.newResourceType.eponymousAttribute = undefined;
     }
     this.newResourceType.attributes.splice(this.currentlyEditingAttribute, 1);
+    this.setEponymousAttribute();
     this.currentlyEditingAttribute = -1;
   }
 
@@ -252,17 +261,22 @@ export default class CreateType extends Mixins(Translate) {
       return;
     }
 
-    if (!this.editingAttribute.isEponymousAttribute) {
-      return;
+    if (this.editingAttribute.isEponymousAttribute) {
+      this.newResourceType.eponymousAttribute = this.editingAttribute.name;
+      this.resetEponymousAttribute();
+    } else {
+      this.newResourceType.eponymousAttribute = undefined;
+      this.resetEponymousAttribute();
     }
+  }
 
-    this.newResourceType.attributes.forEach((attribute) => {
+  public resetEponymousAttribute() {
+    this.newResourceType.attributes.forEach( (attribute) => {
       if (attribute.name === this.editingAttribute.name) {
         return;
       }
       attribute.isEponymousAttribute = false;
     });
-    this.newResourceType.eponymousAttribute = this.editingAttribute.name;
   }
 
   public saveAttribute(): void {

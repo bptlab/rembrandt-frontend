@@ -85,17 +85,18 @@ export default class Utils {
   }
 
   public static getEponymousAttributeValue(resourceInstance: ResourceInstance): string {
-    if (resourceInstance.resourceType.eponymousAttribute) {
-      if (resourceInstance.resourceType.eponymousAttribute) {
-        const attribute = resourceInstance.attributes.find( (resourceInstanceAttributes) => {
-          return (resourceInstanceAttributes.name === resourceInstance.resourceType.eponymousAttribute);
-        });
-        if (attribute) {
-          return attribute.value;
-        }
-      }
+    if (!resourceInstance.resourceType.eponymousAttribute) {
+      return resourceInstance.id ? resourceInstance.id : '';
     }
-    return resourceInstance.id ? resourceInstance.id : '';
+
+    const attribute = resourceInstance.attributes.find( (resourceInstanceAttributes) => {
+      return resourceInstanceAttributes.name === resourceInstance.resourceType.eponymousAttribute;
+    });
+
+    if (attribute) {
+      return attribute.value;
+    }
+    return '';
   }
 
   public static createRandomId(): string {
