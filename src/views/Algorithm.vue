@@ -5,7 +5,7 @@
     <ListSection class="preview-container" :list="algorithmList"/>
 
     <div class="row">
-      <ListSection title="Attributes" :list="optimizationAlgorithmsAttributesList"/>
+      <ListSection title="Configuration" :list="optimizationAlgorithmsAttributesList"/>
       <ListSection title="Actions" :list="optimizationAlgorithmActionsList"/>
     </div>
   </main>

@@ -76,14 +76,14 @@ export default new Router({
       component: Algorithms,
     },
     {
-      path: '/optimization/algorithms/:id',
-      name: 'algorithm',
-      component: Algorithm,
-    },
-    {
       path: '/optimization/algorithms/create',
       name: 'create-algorithm',
       component: CreateAlgorithm,
+    },
+    {
+      path: '/optimization/algorithms/:id',
+      name: 'algorithm',
+      component: Algorithm,
     },
     {
       path: '/settings',
