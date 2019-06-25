@@ -9,6 +9,7 @@ import Resources from './views/Resources.vue';
 import Resource from './views/Resource.vue';
 import Algorithms from './views/Algorithms.vue';
 import Algorithm from './views/Algorithm.vue';
+import CreateAlgorithm from './views/CreateAlgorithm.vue';
 import Settings from './views/Settings.vue';
 
 Vue.use(Router);
@@ -79,6 +80,12 @@ export default new Router({
       name: 'algorithm',
       component: Algorithm,
     },
+    {
+      path: '/optimization/algorithms/create',
+      name: 'create-algorithm',
+      component: CreateAlgorithm,
+    },
+    {
       path: '/settings',
       name: 'settings',
       component: Settings,
