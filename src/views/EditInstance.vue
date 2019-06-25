@@ -74,7 +74,9 @@ export default class EditResource extends Mixins(Translate) {
         level: NotificationLevel.Success,
         timestamp: new Date(),
       });
-      this.$router.push({ path: `/resources/${this.instanceId}` });
+      if (this.updatedResourceInstance.id) {
+        this.$router.push({ name: 'resource', params: { id: this.updatedResourceInstance.id } });
+      }
     } catch (e) {
       this.$notifications.create(e);
     }

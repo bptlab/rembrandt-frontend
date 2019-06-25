@@ -69,7 +69,7 @@ export default class Resource extends Vue {
         id: '2',
         firstValue: 'Edit Resource',
         link: {
-          link: onclick ? '' : `/resources/edit/${this.resourceInstance.id}`,
+          link: { name: 'edit-resource', params: { instanceId: this.resourceInstance.id } },
         },
       },
       {
