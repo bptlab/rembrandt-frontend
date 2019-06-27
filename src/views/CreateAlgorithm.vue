@@ -15,7 +15,7 @@
         <div class="checkbox" :class="{checked: resourceType.selected}" />
         <div>
           <p class="first-value">{{resourceType.name}}</p>
-          <p class="second-value">{{resourceType.parentType ? resourceType.parentType.name : ''}}</p>
+          <p class="second-value">Parent Type: {{resourceType.parentType ? resourceType.parentType.name : ''}}</p>
         </div>
       </li>
     </ListSection>
