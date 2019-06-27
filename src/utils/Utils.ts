@@ -1,6 +1,7 @@
 import { ResourceType,
   ResourceInstance,
   ResourceInstanceAttribute,
+  OptimizationAlgorithm,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
 import translations from '@/config/translations.json';
@@ -84,6 +85,49 @@ export default class Utils {
         level: notification.level,
       };
     });
+  }
+
+  public static optimizationAlgorithmsToList(algorithms: OptimizationAlgorithm[], onClick?: clickHandler) {
+    return algorithms.map((algorithm) => {
+      return {
+        id: algorithm.id || algorithm.name,
+        firstValue: algorithm.name,
+        secondValue:
+          `( ${algorithm.inputs.map((input) => input.name).join(', ')} ) => ${algorithm.outputs.name}`,
+        link: onClick ? {
+          onClick: () => { onClick(algorithm.id || algorithm.name); },
+        } : {
+          link: { name: 'algorithm', params: { id: algorithm.id }},
+        },
+      };
+    });
+  }
+
+  public static optimizationAlgorithmsAttributesToList(algorithm: OptimizationAlgorithm): ListEntry[] {
+    return [
+      {
+        id: 'name',
+        firstValue: 'Name',
+        secondValue: algorithm.name,
+      },
+      {
+        id: 'inputs',
+        firstValue: 'Inputs',
+        secondValue: algorithm.inputs.map((input) => input.name).join(', '),
+      },
+      {
+        id: 'outpus',
+        firstValue: 'Output',
+        secondValue: algorithm.outputs.name,
+      },
+      {
+        id: 'docker-info',
+        firstValue: 'Docker Image',
+        secondValue: `${algorithm.dockerConfig.name}${algorithm.dockerConfig.tag ?
+          `:${algorithm.dockerConfig.tag}` :
+          `@${algorithm.dockerConfig.digest}`}`,
+      },
+    ];
   }
 
   public static getEponymousAttributeValue(resourceInstance: ResourceInstance): string {

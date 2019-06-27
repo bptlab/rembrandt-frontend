@@ -7,6 +7,9 @@
       <router-link :to="{ name: 'resources' }">Resources</router-link>
       <router-link :to="{ name: 'types' }">Types</router-link>
     </nav>
+    <nav id="nav" v-else-if="this.$route.path.startsWith('/optimization')">
+      <router-link :to="{ name: 'algorithms' }">Algorithms</router-link>
+    </nav>
     <div class="user-container">
       <Link class="notification-button" :linkOptions="{ onClick: toggleNotificationCenter }">
         <i class="far fa-bell"></i>
@@ -54,7 +57,9 @@
               <router-link :to="{ name: 'optimization' }">
                 <h1>Optimization</h1>
               </router-link>
-              <li></li>
+              <li>
+                <router-link :to="{ name: 'algorithms' }">Algorithms</router-link>
+              </li>
             </ul>
           </div>
         </div>
