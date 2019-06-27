@@ -68,6 +68,9 @@ export default class Resource extends Vue {
       {
         id: '2',
         firstValue: 'Edit Resource',
+        link: {
+          link: { name: 'edit-resource', params: { instanceId: this.resourceInstance.id } },
+        },
       },
       {
         id: '3',

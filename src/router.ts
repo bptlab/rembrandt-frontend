@@ -4,6 +4,7 @@ import Types from './views/Types.vue';
 import Type from './views/Type.vue';
 import CreateType from './views/CreateType.vue';
 import CreateInstance from './views/CreateInstance.vue';
+import EditInstance from './views/EditInstance.vue';
 import Resources from './views/Resources.vue';
 import Resource from './views/Resource.vue';
 import Settings from './views/Settings.vue';
@@ -36,6 +37,11 @@ export default new Router({
       path: '/organization/resources/create/:typeId',
       name: 'create-resource-id',
       component: CreateInstance,
+    },
+    {
+      path: 'organization/resources/edit/:instanceId',
+      name: 'edit-resource',
+      component: EditInstance,
     },
     {
       path: '/organization/resources/:id',
