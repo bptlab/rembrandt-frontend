@@ -282,8 +282,21 @@ export default class CreateType extends Mixins(Translate) {
   }
 
   public saveAttribute(): void {
-    this.setEponymousAttribute();
-    this.currentlyEditingAttribute = -1;
+    const numberOfUses = this.newResourceType.attributes.filter( (attribute) => {
+      return (this.editingAttribute.name === attribute.name);
+    }).length;
+
+    if (numberOfUses < 2) {
+      this.setEponymousAttribute();
+      this.currentlyEditingAttribute = -1;
+    } else {
+      this.$notifications.create({
+        title: `there is already an attribute with the choosen name, please rename it.`,
+        details: '',
+        level: NotificationLevel.Critical,
+        timestamp: new Date(),
+      });
+    }
   }
 
   public async createResourceType(): Promise<void> {
