@@ -296,7 +296,7 @@ export default class CreateType extends Mixins(Translate) {
         details: '',
         level: NotificationLevel.Critical,
         timestamp: new Date(),
-      });
+        });
       }
     } else {
       this.$notifications.create({
