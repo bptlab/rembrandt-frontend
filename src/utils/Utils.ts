@@ -93,8 +93,7 @@ export default class Utils {
         id: algorithm.id || algorithm.name,
         firstValue: algorithm.name,
         secondValue:
-          `( ${algorithm.inputs.join(', ')} ) => ${algorithm.outputs}`,
-        thirdValue: '',
+          `( ${algorithm.inputs.map((input) => input.name).join(', ')} ) => ${algorithm.outputs.name}`,
         link: onClick ? {
           onClick: () => { onClick(algorithm.id || algorithm.name); },
         } : {
@@ -114,12 +113,12 @@ export default class Utils {
       {
         id: 'inputs',
         firstValue: 'Inputs',
-        secondValue: algorithm.inputs.join(', '),
+        secondValue: algorithm.inputs.map((input) => input.name).join(', '),
       },
       {
         id: 'outpus',
         firstValue: 'Output',
-        secondValue: algorithm.outputs,
+        secondValue: algorithm.outputs.name,
       },
       {
         id: 'docker-info',

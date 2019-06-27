@@ -145,15 +145,15 @@ export default class CreateAlgorithm extends Vue {
   }
 
   public addInputResourceType(resourceType: SelectableResourceType) {
-    if (this.newAlgorithm.inputs.findIndex((input) => input === resourceType.id) >= 0) {
+    if (this.newAlgorithm.inputs.findIndex((input) => input === resourceType) >= 0) {
       return;
     }
 
-    this.newAlgorithm.inputs.push(resourceType.id!);
+    this.newAlgorithm.inputs.push(resourceType!);
   }
 
   public removeInputResourceType(resourceType: SelectableResourceType) {
-    const inputToRemoveIndex = this.newAlgorithm.inputs.findIndex((input) => input === resourceType.id);
+    const inputToRemoveIndex = this.newAlgorithm.inputs.findIndex((input) => input === resourceType);
 
     if (inputToRemoveIndex < 0) {
       return;
@@ -162,8 +162,9 @@ export default class CreateAlgorithm extends Vue {
     this.newAlgorithm.inputs.splice(inputToRemoveIndex, 1);
   }
 
-  public selectOutputResourceType(id: string) {
-    this.newAlgorithm.outputs = id;
+  public async selectOutputResourceType(id: string) {
+    const resourceType = await ResourceTypes.getOne(id);
+    this.newAlgorithm.outputs = resourceType;
     this.nextStep();
   }
 

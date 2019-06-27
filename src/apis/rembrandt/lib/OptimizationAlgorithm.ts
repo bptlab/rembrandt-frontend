@@ -1,5 +1,6 @@
 import { Serializer } from 'jsonapi-serializer';
 import Resource from '@/apis/jsonapi/Resource';
+import { ResourceType, ResourceTypeNullObject } from '@/apis/rembrandt/rembrandt';
 import CRUDResource from '@/apis/jsonapi/CRUDResource';
 import config from '@/config/config.json';
 
@@ -11,8 +12,8 @@ export interface DockerConfiguration {
 
 export interface OptimizationAlgorithm extends Resource {
   name: string;
-  inputs: string[];
-  outputs: string;
+  inputs: ResourceType[];
+  outputs: ResourceType;
   dockerConfig: DockerConfiguration;
 }
 
@@ -36,7 +37,7 @@ export function createOptimizationAlgorithmNullObject() {
   return {
     name: '',
     inputs: [],
-    outputs: '',
+    outputs: ResourceTypeNullObject,
     dockerConfig: {
       name: '',
       tag: '',
