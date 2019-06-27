@@ -287,11 +287,20 @@ export default class CreateType extends Mixins(Translate) {
     }).length;
 
     if (numberOfUses < 2) {
-      this.setEponymousAttribute();
-      this.currentlyEditingAttribute = -1;
+      if (this.editingAttribute.name) {
+        this.setEponymousAttribute();
+        this.currentlyEditingAttribute = -1;
+      } else {
+        this.$notifications.create({
+        title: `Please choose a name for the attribute.`,
+        details: '',
+        level: NotificationLevel.Critical,
+        timestamp: new Date(),
+      });
+      }
     } else {
       this.$notifications.create({
-        title: `There is already an attribute with the choosen name, please rename it.`,
+        title: `There is already an attribute with the choosen name, please choose an other name.`,
         details: '',
         level: NotificationLevel.Critical,
         timestamp: new Date(),
