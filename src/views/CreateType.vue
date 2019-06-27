@@ -291,7 +291,7 @@ export default class CreateType extends Mixins(Translate) {
       this.currentlyEditingAttribute = -1;
     } else {
       this.$notifications.create({
-        title: `there is already an attribute with the choosen name, please rename it.`,
+        title: `There is already an attribute with the choosen name, please rename it.`,
         details: '',
         level: NotificationLevel.Critical,
         timestamp: new Date(),
