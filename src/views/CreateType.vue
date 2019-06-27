@@ -300,7 +300,7 @@ export default class CreateType extends Mixins(Translate) {
 
     if (numberOfUses >= 2) {
       this.$notifications.create({
-        title: 'There is already an attribute with the choosen name, please choose an other name.',
+        title: 'There is already an attribute with the chosen name, please choose an other name.',
         details: '',
         level: NotificationLevel.Critical,
         timestamp: new Date(),
