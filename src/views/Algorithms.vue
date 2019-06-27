@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { OptimizationAlgorithms, OptimizationAlgorithm, ResourceTypes } from '@/apis/rembrandt/rembrandt';
+import { OptimizationAlgorithms, OptimizationAlgorithm } from '@/apis/rembrandt/rembrandt';
 import ListSection from '@/components/ListSection.vue';
 import SmallButton from '@/components/SmallButton.vue';
 import { ListEntry } from '@/components/Li.vue';
