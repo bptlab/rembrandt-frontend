@@ -1,5 +1,5 @@
 <template>
-  <ListSection class="notification-popup" v-if="visible">
+  <ListSection class="notification-popup" v-if="visible && notificationList.length">
     <Li
       v-for="notification in notificationList"
       :key="notification.id"
@@ -80,18 +80,17 @@ section.notification-popup {
   margin: 0;
   padding: 0;
   background: @tertiary-bg;
-  border-radius: 10px;
+  border-radius: 5px;
 
   ul {
     margin: 0;
 
-    li {
+    li, li.options.disabled:hover {
       background-position: 0 0;
       background-size: 5px 100%;
       background-repeat: no-repeat;
 
-      &.critical,
-      &:hover {
+      &.critical {
         background-image: linear-gradient(to right, red, red);
       }
       &.warning {
@@ -99,6 +98,9 @@ section.notification-popup {
       }
       &.info {
         background-image: linear-gradient(to right, white, white);
+      }
+      &.success {
+        background-image: linear-gradient(to right, green, green);
       }
     }
   }

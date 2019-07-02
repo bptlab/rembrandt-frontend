@@ -23,7 +23,7 @@ export default class ApiUtils {
 
   public static async patchJsonResource(url: string, serializer: Serializer, resource: any): Promise<void> {
     const requestOptions = {
-      method: 'POST',
+      method: 'PATCH',
       headers: ApiUtils.headers(),
       body: JSON.stringify(serializer.serialize(resource)),
     };
@@ -50,6 +50,10 @@ export default class ApiUtils {
       response = await fetch(url, options);
     } catch (e) {
       throw new ApiError('Connection to server failed. Please try again.', e, NotificationLevel.Critical);
+    }
+
+    if (response.statusText === 'No Content') {
+      return;
     }
 
     const responseJson = await response.json();

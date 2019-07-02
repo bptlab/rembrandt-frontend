@@ -1,9 +1,6 @@
 <template>
-  <main v-if="this.error">
-    <h1>Resource Type not found.</h1>
-  </main>
-  <main v-else class="type">
-    <ViewHeader :title="this.resourceType.name" :backLink="{ link: '/types' }" />
+  <main class="type">
+    <ViewHeader :title="this.resourceType.name" :backLink="{ link: { name: 'types' } }" />
 
     <ListSection class="preview-container" :list="resourceTypeList" />
 
@@ -11,7 +8,6 @@
       <ListSection title="Attributes" :list="resourceTypeAttributeList" />
       <ListSection title="Actions" :list="resourceTypeActionsList" />
     </div>
-
   </main>
 </template>
 
@@ -22,6 +18,7 @@ import { ListEntry } from '@/components/Li.vue';
 import ListSection from '@/components/ListSection.vue';
 import ViewHeader from '@/components/ViewHeader.vue';
 import Utils from '@/utils/Utils';
+import { NotificationLevel } from '@/interfaces/Notification';
 
 @Component({
   components: {
@@ -44,7 +41,7 @@ export default class Type extends Vue {
   }
 
   public get resourceTypeAttributeList(): ListEntry[] {
-    return Utils.resourceTypeAttributesToList(this.resourceType.attributes);
+    return Utils.resourceTypeAttributesToList(this.resourceType);
   }
 
   public get resourceTypeActionsList(): ListEntry[] {
@@ -53,17 +50,19 @@ export default class Type extends Vue {
       resourceTypeActions.push({
         id: '1',
         firstValue: 'Add Resource',
+        link: {
+          link: { name: 'create-resource-id', params: { typeId: this.resourceType.id } },
+        },
       });
     }
 
     resourceTypeActions.push(
       {
         id: '2',
-        firstValue: 'Edit Resource Type',
-      },
-      {
-        id: '3',
         firstValue: 'Delete Resource Type',
+        link: {
+          onClick: this.deleteResourceType,
+        },
       },
     );
 
@@ -85,6 +84,21 @@ export default class Type extends Vue {
   public async mounted() {
     try {
       this.resourceType = await ResourceTypes.getOne(this.$route.params.id);
+    } catch (e) {
+      this.$notifications.create(e);
+    }
+  }
+
+  public async deleteResourceType(): Promise<void> {
+    try {
+      await ResourceTypes.delete(this.resourceType.id!);
+      this.$notifications.create({
+        title: `Type '${this.resourceType.name}' has been deleted.`,
+        details: '',
+        level: NotificationLevel.Success,
+        timestamp: new Date(),
+      });
+      this.$router.push({ name: 'types' });
     } catch (e) {
       this.$notifications.create(e);
     }

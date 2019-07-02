@@ -1,9 +1,6 @@
 <template>
-  <main v-if="this.error">
-    <h1>Resource Instance not found.</h1>
-  </main>
-  <main v-else class="type">
-    <ViewHeader :title="resourceName" :backLink="{ link: '/resources' }" />
+  <main class="type">
+    <ViewHeader :title="resourceName" :backLink="{ link: { name: 'resources' } }" />
 
     <ListSection title="Resource Type" class="preview-container" :list="resourceTypeList" />
 
@@ -27,6 +24,7 @@ import { ListEntry } from '@/components/Li.vue';
 import ListSection from '@/components/ListSection.vue';
 import ViewHeader from '@/components/ViewHeader.vue';
 import Utils from '@/utils/Utils';
+import { NotificationLevel } from '@/interfaces/Notification';
 
 @Component({
   components: {
@@ -63,14 +61,23 @@ export default class Resource extends Vue {
       {
         id: '1',
         firstValue: 'Create another Instance',
+        link: {
+          link: { name: 'create-resource-id', params: { typeId: this.resourceInstance.resourceType.id } },
+        },
       },
       {
         id: '2',
         firstValue: 'Edit Resource',
+        link: {
+          link: { name: 'edit-resource', params: { instanceId: this.resourceInstance.id } },
+        },
       },
       {
         id: '3',
         firstValue: 'Delete Resource',
+        link: {
+          onClick: this.deleteResource,
+        },
       },
     );
 
@@ -95,6 +102,21 @@ export default class Resource extends Vue {
       if (this.resourceInstance.resourceType.id) {
         this.resourceInstance.resourceType = await ResourceTypes.getOne(this.resourceInstance.resourceType.id);
       }
+    } catch (e) {
+      this.$notifications.create(e);
+    }
+  }
+
+  public async deleteResource(): Promise<void> {
+    try {
+      await ResourceInstances.delete(this.resourceInstance.id!);
+      this.$notifications.create({
+        title: `Resource '${this.resourceName}' has been deleted.`,
+        details: '',
+        level: NotificationLevel.Success,
+        timestamp: new Date(),
+      });
+      this.$router.push({ name: 'resources' });
     } catch (e) {
       this.$notifications.create(e);
     }

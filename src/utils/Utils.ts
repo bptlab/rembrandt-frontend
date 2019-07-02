@@ -1,7 +1,7 @@
 import { ResourceType,
   ResourceInstance,
-  ResourceTypeAttribute,
   ResourceInstanceAttribute,
+  OptimizationAlgorithm,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
 import translations from '@/config/translations.json';
@@ -21,21 +21,23 @@ export default class Utils {
         firstValue: resourceType.name,
         secondValue: resourceType.parentType ? `Parent Type: ${resourceType.parentType.name}` : '',
         thirdValue: resourceType.abstract ? 'Abstract Type' : `300 Instances`,
-        link: {
-          link: onClick ? '' : `/types/${resourceType.id}`,
-          onClick: onClick ? () => { onClick(resourceType.id || resourceType.name); } : undefined,
+        link: onClick ? {
+          onClick: () => { onClick(resourceType.id || resourceType.name); },
+        } : {
+          link: { name: 'type', params: { id: resourceType.id }},
         },
       };
     });
   }
 
-  public static resourceTypeAttributesToList(attributes: ResourceTypeAttribute[], onClick?: clickHandler): ListEntry[] {
-    return attributes.map((attribute) => {
+  public static resourceTypeAttributesToList(resourceType: ResourceType, onClick?: clickHandler): ListEntry[] {
+    return resourceType.attributes.map((attribute) => {
       return {
         id: attribute.name,
         firstValue: attribute.name,
         secondValue: `Type: ${Utils.translateToNaturalLanguage(attribute.dataType)}`,
-        thirdValue: attribute.required ? 'required' : '',
+        thirdValue: `${attribute.required ? 'required' : 'optional'}
+          ${resourceType.eponymousAttribute === attribute.name ? 'naming' : ''}`,
         link: onClick ? {
           onClick: () => { onClick(attribute.name); },
         } : undefined,
@@ -51,9 +53,10 @@ export default class Utils {
         // first value is the identifying value or the id, if no identifying value is set
         firstValue: this.getEponymousAttributeValue(resourceInstance),
         secondValue: `Resource Type: ${resourceInstance.resourceType.name}`,
-        link: {
-          link: onClick ? '' : `/resources/${resourceInstance.id}`,
-          onClick: onClick ? () => { onClick(resourceInstance.id || ''); } : undefined,
+        link: onClick ? {
+          onClick: () => { onClick(resourceInstance.id || ''); },
+        } : {
+          link: { name: 'resource', params: { id: resourceInstance.id }},
         },
       };
     });
@@ -64,7 +67,7 @@ export default class Utils {
       return {
         id: attribute.name,
         firstValue: attribute.name,
-        secondValue: attribute.value,
+        secondValue: `${attribute.value}`,
       };
     });
   }
@@ -77,27 +80,69 @@ export default class Utils {
         id: Utils.createRandomId(),
         firstValue: notification.title,
         secondValue: notification.details,
-        thirdValue: ta.ago(notification.timestamp, true),
+        thirdValue: (new Date() as any) - (notification.timestamp as any) > 60000 ?
+          ta.ago(notification.timestamp, true) : 'now',
         level: notification.level,
       };
     });
   }
 
+  public static optimizationAlgorithmsToList(algorithms: OptimizationAlgorithm[], onClick?: clickHandler) {
+    return algorithms.map((algorithm) => {
+      return {
+        id: algorithm.id || algorithm.name,
+        firstValue: algorithm.name,
+        secondValue:
+          `( ${algorithm.inputs.map((input) => input.name).join(', ')} ) => ${algorithm.outputs.name}`,
+        link: onClick ? {
+          onClick: () => { onClick(algorithm.id || algorithm.name); },
+        } : {
+          link: { name: 'algorithm', params: { id: algorithm.id }},
+        },
+      };
+    });
+  }
+
+  public static optimizationAlgorithmsAttributesToList(algorithm: OptimizationAlgorithm): ListEntry[] {
+    return [
+      {
+        id: 'name',
+        firstValue: 'Name',
+        secondValue: algorithm.name,
+      },
+      {
+        id: 'inputs',
+        firstValue: 'Inputs',
+        secondValue: algorithm.inputs.map((input) => input.name).join(', '),
+      },
+      {
+        id: 'outpus',
+        firstValue: 'Output',
+        secondValue: algorithm.outputs.name,
+      },
+      {
+        id: 'docker-info',
+        firstValue: 'Docker Image',
+        secondValue: `${algorithm.dockerConfig.name}${algorithm.dockerConfig.tag ?
+          `:${algorithm.dockerConfig.tag}` :
+          `@${algorithm.dockerConfig.digest}`}`,
+      },
+    ];
+  }
+
   public static getEponymousAttributeValue(resourceInstance: ResourceInstance): string {
-    if (resourceInstance.resourceType.eponymousAttribute) {
-      const eponymousAttribute = resourceInstance.resourceType.attributes.find( (resourceTypeAttribute) => {
-        return (resourceTypeAttribute.id === resourceInstance.resourceType.eponymousAttribute);
-      });
-      if (eponymousAttribute) {
-        const attribute = resourceInstance.attributes.find( (resourceInstanceAttributes) => {
-          return (resourceInstanceAttributes.name === eponymousAttribute.name);
-        });
-        if (attribute) {
-          return attribute.value;
-        }
-      }
+    if (!resourceInstance.resourceType.eponymousAttribute) {
+      return resourceInstance.id ? resourceInstance.id : '';
     }
-    return resourceInstance.id ? resourceInstance.id : '';
+
+    const attribute = resourceInstance.attributes.find( (resourceInstanceAttributes) => {
+      return resourceInstanceAttributes.name === resourceInstance.resourceType.eponymousAttribute;
+    });
+
+    if (attribute) {
+      return attribute.value;
+    }
+    return '';
   }
 
   public static createRandomId(): string {

@@ -2,9 +2,9 @@
   <main>
     <ListSection title="Abstract Types" :list="abstractResourceTypesList" />
     <ListSection title="Non-Abstract Types" :list="nonAbstractResourceTypesList" />
-    <Link class="create-type-button" :linkOptions="{link: '/types/create'}">
+    <SmallButton :link="{link: { name: 'create-type' } }" class="create-type-button">
       <i class="fas fa-plus"></i>
-    </Link>
+    </SmallButton>
   </main>
 </template>
 
@@ -15,11 +15,13 @@ import { ListEntry } from '@/components/Li.vue';
 import ListSection from '@/components/ListSection.vue';
 import Link from '@/components/Link.vue';
 import Utils from '@/utils/Utils';
+import SmallButton from '@/components/SmallButton.vue';
 
 @Component({
   components: {
     ListSection,
     Link,
+    SmallButton,
   },
 })
 export default class Types extends Vue {
@@ -71,35 +73,9 @@ export default class Types extends Vue {
 @import "../colors.less";
 
 .create-type-button {
-  position: absolute;
-  bottom: @spacing;
+  position: fixed;
+  bottom: 0;
   right: @spacing;
-  border-radius: 7px;
-  background-color: @accent;
-  color: @primary;
-  height: 50px;
-  width: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: @shadow;
-  transition: transform 0.3s ease;
-
-  & > * {
-    transition: transform 0.3s ease;
-  }
-
-  &:hover {
-    background-image: linear-gradient(to bottom right, @accent 0%, @accent 50%, @primary 50%, @primary 100%);
-    background-position: 100% 100%;
-    background-size: @spacing @spacing;
-    background-repeat: no-repeat;
-    transform: rotate(-45deg);
-
-    & > * {
-      transform: rotate(45deg);
-    }
-  }
 }
 </style>
 
