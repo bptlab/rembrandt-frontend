@@ -1,7 +1,7 @@
 <template>
   <main>
     <ListSection title="Transformators" :list="transformatorList" />
-    <SmallButton :link="{link: { name: 'create-transformator' } }" class="create-transformator-button">
+    <SmallButton :link="{link: { name: 'create-transformer' } }" class="create-transformer-button">
       <i class="fas fa-plus"></i>
     </SmallButton>
   </main>
@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { OptimizationAlgorithms, OptimizationAlgorithm } from '@/apis/rembrandt/rembrandt';
+import { Transformer, Transformers } from '@/apis/rembrandt/rembrandt';
 import ListSection from '@/components/ListSection.vue';
 import SmallButton from '@/components/SmallButton.vue';
 import { ListEntry } from '@/components/Li.vue';
@@ -29,10 +29,10 @@ export default class Algorithms extends Vue {
   // endregion
 
   // region public members
-  public algorithms: OptimizationAlgorithm[] = [];
+  public transformers: Transformer[] = [];
 
   public get transformatorList(): ListEntry[] {
-    return Utils.optimizationAlgorithmsToList(this.algorithms);
+    return [];
   }
   // endregion
 
@@ -45,7 +45,7 @@ export default class Algorithms extends Vue {
   // region public methods
   public async mounted() {
     try {
-      this.algorithms = await OptimizationAlgorithms.get();
+      this.transformers = await Transformers.get();
     } catch (e) {
       this.$notifications.create(e);
     }
@@ -60,7 +60,7 @@ export default class Algorithms extends Vue {
 <style lang="less">
 @import "../colors.less";
 
-.create-algorithm-button {
+.create-transformer-button {
   position: fixed;
   bottom: 0;
   right: @spacing;
