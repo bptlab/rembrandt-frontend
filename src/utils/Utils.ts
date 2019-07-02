@@ -137,7 +137,7 @@ export default class Utils {
         id: transformer.id || transformer.name,
         firstValue: transformer.name,
         secondValue:
-          `for resource type ${transformer.resourceType.name}`,
+          `For resource type: ${transformer.resourceType.name}`,
         link: onClick ? {
           onClick: () => { onClick(transformer.id || transformer.name); },
         } : {

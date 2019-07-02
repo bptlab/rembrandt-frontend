@@ -7,9 +7,9 @@ import config from '@/config/config.json';
 
 export interface Transformer extends Resource {
   name: string;
-  type: string;
+  transformerType: string;
   resourceType: ResourceType;
-  code: string;
+  body: string;
 }
 
 const serializer = new Serializer('transformators', {
