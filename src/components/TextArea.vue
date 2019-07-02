@@ -115,7 +115,7 @@ fieldset.f-textArea {
     }
   }
 
-  input:focus + label {
+  textArea:focus + label {
     color: @accent;
 
     &:before,

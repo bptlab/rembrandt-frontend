@@ -35,7 +35,7 @@
     </h3>
     <TextArea
       :value.sync="newTransformer.body"
-      name=""
+      name="test"
       placeholder="return (instances.age > 18);" />
     <h3>
       });
