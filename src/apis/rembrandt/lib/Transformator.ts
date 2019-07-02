@@ -3,23 +3,22 @@ import Resource from '@/apis/jsonapi/Resource';
 import { ResourceType, ResourceTypeNullObject } from '@/apis/rembrandt/rembrandt';
 import CRUDResource from '@/apis/jsonapi/CRUDResource';
 import config from '@/config/config.json';
-import { ResourceInstance } from './ResourceInstance';
 
 
 export interface Transformator extends Resource {
   name: string;
   type: string;
-  input: ResourceType;
-  output: ResourceInstance[];
+  resourceType: ResourceType;
+  code: string;
 }
 
 const serializer = new Serializer('transformators', {
   id: '_id',
   attributes: [
     'name',
-    'type',
-    'input',
-    'output',
+    'transformerType',
+    'resourceType',
+    'body',
   ],
   keyForAttribute: 'camelCase',
 });
@@ -32,8 +31,8 @@ export const OptimizationAlgorithms = new CRUDResource<Transformator>(
 export function createTransformatorNullObject() {
   return {
     name: '',
-    type: '',
-    input: ResourceTypeNullObject,
-    output: [],
+    transformerType: '',
+    resourceType: ResourceTypeNullObject,
+    body: '',
   };
 }
