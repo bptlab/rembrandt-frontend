@@ -5,7 +5,7 @@ import CRUDResource from '@/apis/jsonapi/CRUDResource';
 import config from '@/config/config.json';
 
 
-export interface Transformator extends Resource {
+export interface Transformer extends Resource {
   name: string;
   type: string;
   resourceType: ResourceType;
@@ -23,12 +23,12 @@ const serializer = new Serializer('transformators', {
   keyForAttribute: 'camelCase',
 });
 
-export const OptimizationAlgorithms = new CRUDResource<Transformator>(
+export const Transformers = new CRUDResource<Transformer>(
   `${config.backendHost}/optimization/transformators`,
   serializer,
 );
 
-export function createTransformatorNullObject() {
+export function createTransformerNullObject() {
   return {
     name: '',
     transformerType: '',
