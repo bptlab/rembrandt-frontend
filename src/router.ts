@@ -10,6 +10,9 @@ import Resource from './views/Resource.vue';
 import Algorithms from './views/Algorithms.vue';
 import Algorithm from './views/Algorithm.vue';
 import CreateAlgorithm from './views/CreateAlgorithm.vue';
+import Transformators from './views/Transformators.vue';
+import Transformator from './views/Transformator.vue';
+import CreateTransformator from './views/CreateTransformator.vue';
 import Settings from './views/Settings.vue';
 
 Vue.use(Router);
@@ -84,6 +87,21 @@ export default new Router({
       path: '/optimization/algorithms/:id',
       name: 'algorithm',
       component: Algorithm,
+    },
+    {
+    path: '/optimization/transformators',
+    name: 'transformators',
+    component: Transformators,
+    },
+    {
+    path: '/optimization/transformators/create',
+    name: 'create-transformators',
+    component: CreateTransformator,
+    },
+    {
+    path: '/optimization/transformators/:id',
+    name: 'transformator',
+    component: Transformator,
     },
     {
       path: '/settings',
