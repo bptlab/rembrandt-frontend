@@ -1,6 +1,6 @@
 <template>
   <main>
-    <ListSection title="Transformators" :list="transformatorList" />
+    <ListSection title="Transformators" :list="transformerList" />
     <SmallButton :link="{link: { name: 'create-transformer' } }" class="create-transformer-button">
       <i class="fas fa-plus"></i>
     </SmallButton>
@@ -31,8 +31,8 @@ export default class Algorithms extends Vue {
   // region public members
   public transformers: Transformer[] = [];
 
-  public get transformatorList(): ListEntry[] {
-    return [];
+  public get transformerList(): ListEntry[] {
+    return Utils.transformerToList(this.transformers);
   }
   // endregion
 
@@ -48,6 +48,7 @@ export default class Algorithms extends Vue {
       this.transformers = await Transformers.get();
     } catch (e) {
       this.$notifications.create(e);
+      console.log(this.transformers);
     }
   }
   // endregion

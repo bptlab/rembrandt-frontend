@@ -95,7 +95,7 @@ export default new Router({
     },
     {
     path: '/optimization/transformers/create',
-    name: 'create-transformers',
+    name: 'create-transformer',
     component: CreateTransformer,
     },
     {

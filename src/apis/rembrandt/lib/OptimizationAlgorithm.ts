@@ -18,7 +18,7 @@ export interface OptimizationAlgorithm extends Resource {
 }
 
 const serializer = new Serializer('optimizationAlgorithms', {
-  id: '_id',
+  id: 'id',
   attributes: [
     'name',
     'inputs',
