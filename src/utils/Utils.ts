@@ -2,6 +2,7 @@ import { ResourceType,
   ResourceInstance,
   ResourceInstanceAttribute,
   OptimizationAlgorithm,
+  Transformer,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
 import translations from '@/config/translations.json';
@@ -128,6 +129,22 @@ export default class Utils {
           `@${algorithm.dockerConfig.digest}`}`,
       },
     ];
+  }
+
+  public static transformerToList(transformers: Transformer[], onClick?: clickHandler) {
+    return transformers.map((transformer) => {
+      return {
+        id: transformer.id || transformer.name,
+        firstValue: transformer.name,
+        secondValue:
+          `for resource type ${transformer.resourceType.name}`,
+        link: onClick ? {
+          onClick: () => { onClick(transformer.id || transformer.name); },
+        } : {
+          link: { name: 'transformer', params: { id: transformer.id }},
+        },
+      };
+    });
   }
 
   public static getEponymousAttributeValue(resourceInstance: ResourceInstance): string {

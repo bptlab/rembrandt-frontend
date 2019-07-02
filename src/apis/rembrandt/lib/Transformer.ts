@@ -13,7 +13,7 @@ export interface Transformer extends Resource {
 }
 
 const serializer = new Serializer('transformators', {
-  id: '_id',
+  id: 'id',
   attributes: [
     'name',
     'transformerType',
