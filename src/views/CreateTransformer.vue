@@ -21,8 +21,26 @@
     <Button text="Continue" :onClick="nextStep"/>
   </main>
 
-  <main v-else-if="formState === 2">
-    <h2>ende </h2>
+  <main v-else-if="formState === 3">
+    <ViewHeader title="Please insert the functionality of the transformer" :backLink="{ onClick: previousStep }" />
+    <ListSection
+      :title="`Attributes of ${newTransformer.resourceType.name}`"
+      :list="resourceTypeAttributeList"
+    />
+    <br>
+    <h1>below you can enter the code of your transformer</h1>
+    <br>
+    <h3>
+      resourceInstancesOf{{newTransformer.resourceType.name}}.{{newTransformer.transformerType}}( (instance) => {
+    </h3>
+    <textarea
+      :value.sync="newTransformer.body"
+      name=""
+      placeholder="enter the specific function here" />
+    <h3>
+      });
+    </h3>
+
   </main>
 
 </template>
@@ -72,6 +90,13 @@ export default class CreateTransformer extends Vue {
 
   public get resourceTypesList(): ListEntry[] {
     return Utils.resourceTypesToList(this.resourceTypes, this.selectResourceType);
+  }
+
+  public get resourceTypeAttributeList(): ListEntry[] {
+    if (!this.newTransformer.resourceType) {
+      return [];
+    }
+    return Utils.resourceTypeAttributesToList(this.newTransformer.resourceType);
   }
 
   // endregion
@@ -145,6 +170,12 @@ export default class CreateTransformer extends Vue {
 li.input {
   flex-direction: row;
   align-items: center;
+}
+
+h1 {
+  margin-top: @spacing;
+  font-size: 19px;
+  font-weight: 800;
 }
 
 </style>
