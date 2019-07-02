@@ -48,7 +48,6 @@ export default class Algorithms extends Vue {
       this.transformers = await Transformers.get();
     } catch (e) {
       this.$notifications.create(e);
-      console.log(this.transformers);
     }
   }
   // endregion

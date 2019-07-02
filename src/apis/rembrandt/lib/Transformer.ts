@@ -24,7 +24,7 @@ const serializer = new Serializer('transformators', {
 });
 
 export const Transformers = new CRUDResource<Transformer>(
-  `${config.backendHost}/optimization/transformators`,
+  `${config.backendHost}/optimization/transformers`,
   serializer,
 );
 
