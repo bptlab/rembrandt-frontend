@@ -33,10 +33,10 @@
     <h3>
       resourceInstancesOf{{newTransformer.resourceType.name}}.{{newTransformer.transformerType}}( (instance) => {
     </h3>
-    <textarea
+    <TextArea
       :value.sync="newTransformer.body"
       name=""
-      placeholder="enter the specific function here" />
+      placeholder="return (instances.age > 18);" />
     <h3>
       });
     </h3>
@@ -64,6 +64,7 @@ import Button from '@/components/Button.vue';
 import Utils from '@/utils/Utils';
 import { NotificationLevel } from '@/interfaces/Notification';
 import { transformerTypes } from '@/apis/rembrandt/rembrandt';
+import TextArea from '@/components/TextArea.vue';
 
 @Component({
   components: {
@@ -73,6 +74,7 @@ import { transformerTypes } from '@/apis/rembrandt/rembrandt';
     Input,
     Button,
     Select,
+    TextArea,
   },
 })
 export default class CreateTransformer extends Vue {
@@ -166,11 +168,6 @@ export default class CreateTransformer extends Vue {
 
 <style lang="less">
 @import "../colors.less";
-
-li.input {
-  flex-direction: row;
-  align-items: center;
-}
 
 h1 {
   margin-top: @spacing;
