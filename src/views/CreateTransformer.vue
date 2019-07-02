@@ -11,6 +11,7 @@
   </main>
 
   <main v-else-if="formState === 2">
+    <ViewHeader title="Please choose the type of the transformer." :backLink="{ onClick: previousStep }" />
     <Select
           :value.sync="newTransformer.transformerType"
           name="Type of the transformer"
@@ -53,6 +54,7 @@ import { transformerTypes } from '@/apis/rembrandt/rembrandt';
     ViewHeader,
     Input,
     Button,
+    Select,
   },
 })
 export default class CreateTransformer extends Vue {
@@ -88,6 +90,7 @@ export default class CreateTransformer extends Vue {
   // region public methods
   public async mounted() {
     this.resourceTypes = await ResourceTypes.get();
+    this.newTransformer.transformerType = 'map';
   }
 
   public previousStep(): void {
