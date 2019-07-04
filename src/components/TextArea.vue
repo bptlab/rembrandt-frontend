@@ -1,5 +1,5 @@
 <template>
-  <fieldset class="f-textArea" @click="focusTextArea">
+  <fieldset class="f-textArea">
     <h4>
       {{firstString}}
     </h4>
@@ -60,9 +60,6 @@ export default class TextArea extends Vue {
   // endregion
 
   // region public methods
-  public focusTextArea() {
-    (this.$refs.input as any).focus();
-  }
   // endregion
 
   // region private methods
@@ -78,9 +75,9 @@ fieldset.f-textArea {
   margin: @spacing 0;
   border: 0px solid @primary;
   border-radius: 7px;
-  padding: 0px;
+  padding: 5px;
   position: relative;
-  background-color: @secondary-bg;
+  background-color: @tertiary-bg;
 
   &:focus-within {
     border-color: @accent;
@@ -90,9 +87,10 @@ fieldset.f-textArea {
     border: 0;
     padding: 0;
     width: 100%;
-    background-color: @secondary-bg;
+    background-color: @tertiary-bg;
     color: @primary;
     font-size: 16px;
+    font-weight: bold;
     resize: vertical;
   }
 }
