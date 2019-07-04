@@ -9,8 +9,8 @@
     <h1>below you can enter the code of your transformer</h1>
     <br>
     <TextArea
-      :firstString="`instancesOf${this.nameWithoutWhitespace}.${editedTransformer.transformerType}( (instance) => {`"
-      secondString='});'
+      :label="`instancesOf${this.nameWithoutWhitespace}.${editedTransformer.transformerType}( (instance) => {`"
+      footerLabel='});'
       :value.sync="editedTransformer.body" />
     <Button text="Save Transformer" :onClick="saveTransformer"/>
   </main>
@@ -20,14 +20,11 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import {
-  ResourceTypes,
-  ResourceType,
   Transformer,
   Transformers,
   createTransformerNullObject,
-  ResourceTypeNullObject,
 } from '@/apis/rembrandt/rembrandt';
-import Select, { Option } from '@/components/Select.vue';
+import Select from '@/components/Select.vue';
 import Li, { ListEntry } from '@/components/Li.vue';
 import ViewHeader from '@/components/ViewHeader.vue';
 import ListSection from '@/components/ListSection.vue';
@@ -35,7 +32,6 @@ import Input from '@/components/Input.vue';
 import Button from '@/components/Button.vue';
 import Utils from '@/utils/Utils';
 import { NotificationLevel } from '@/interfaces/Notification';
-import { transformerTypes } from '@/apis/rembrandt/rembrandt';
 import TextArea from '@/components/TextArea.vue';
 
 @Component({

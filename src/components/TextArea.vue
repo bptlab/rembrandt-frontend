@@ -1,7 +1,7 @@
 <template>
   <fieldset class="f-textArea">
     <h4>
-      {{firstString}}
+      {{label}}
     </h4>
     <textarea
       :autofocus="autofocus"
@@ -12,7 +12,7 @@
       :value="value"
       @input="$emit('update:value', $event.target.value)" />
     <h4>
-      {{secondString}}
+      {{footerLabel}}
     </h4>
   </fieldset>
 </template>
@@ -36,10 +36,10 @@ export default class TextArea extends Vue {
   public name!: string;
 
   @Prop(String)
-  public firstString?: string;
+  public label?: string;
 
   @Prop(String)
-  public secondString?: string;
+  public footerLabel?: string;
 
   @Prop(String)
   public placeholder!: string;

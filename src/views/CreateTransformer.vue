@@ -31,8 +31,8 @@
     <h1>below you can enter the code of your transformer</h1>
     <br>
     <TextArea
-      :firstString="`instancesOf${this.nameWithoutWhitespace}.${newTransformer.transformerType}( (instance) => {`"
-      secondString='});'
+      :label="`instancesOf${this.nameWithoutWhitespace}.${newTransformer.transformerType}( (instance) => {`"
+      footerLabel='});'
       :value.sync="newTransformer.body"
       placeholder="var date = new Date();
   var currentYear = date.getFullYear();
