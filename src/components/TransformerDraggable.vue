@@ -1,8 +1,8 @@
 <template>
-  <div ref="draggable" class="draggable" :style="{transform: translate}">
+  <div ref="draggable" class="draggable transformer" :style="{transform: translate}">
     <div ref="inputDropzone" :class="{inputConnector: !isBeeingDragged}" />
     <div class="element">
-      <span>Output Draggable: {{ingredientObject.name}}</span>
+      <span>Transformer Draggable: {{ingredientObject.name}}</span>
     </div>
     <div ref="outputDropzone" :class="{outputConnector: !isBeeingDragged}" />
   </div>
@@ -12,7 +12,7 @@
 import { Component, Prop } from 'vue-property-decorator';
 import Draggable, { DropzoneEvent } from '@/components/Draggable.vue';
 import { TransformerIngredient } from '@/plugins/RecipeModeler';
-import { ResourceType } from '@/apis/rembrandt/rembrandt';
+import { Transformer } from '@/apis/rembrandt/rembrandt';
 import interact from 'interactjs';
 
 @Component
@@ -27,8 +27,11 @@ export default class TransformerDraggable extends Draggable implements Transform
   @Prop()
   public input?: Draggable;
 
+  @Prop()
+  public output?: Draggable;
+
   @Prop({ type: Object })
-  public ingredientObject!: ResourceType;
+  public ingredientObject!: Transformer;
   // endregion
 
   // region private members
@@ -39,8 +42,8 @@ export default class TransformerDraggable extends Draggable implements Transform
 
   // region public methods
   public mounted() {
-    this.enableDropzone(this.$refs.inputDropzone as HTMLDivElement);
-    this.enableDropzone(this.$refs.outputDropzone as HTMLDivElement);
+    this.enableDropzone(this.$refs.inputDropzone as HTMLDivElement, '.input, .algorithm');
+    this.enableDropzone(this.$refs.outputDropzone as HTMLDivElement, '.algorithm, .output');
   }
 
   public dropped(event: DropzoneEvent): void {
@@ -58,4 +61,10 @@ export default class TransformerDraggable extends Draggable implements Transform
 
 <style lang="less">
 @import "../colors.less";
+
+div.draggable.transformer {
+  .element {
+    background-color: grey;
+  }
+}
 </style>
