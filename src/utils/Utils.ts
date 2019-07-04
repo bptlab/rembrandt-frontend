@@ -2,6 +2,7 @@ import { ResourceType,
   ResourceInstance,
   ResourceInstanceAttribute,
   OptimizationAlgorithm,
+  Transformer,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
 import translations from '@/config/translations.json';
@@ -126,6 +127,47 @@ export default class Utils {
         secondValue: `${algorithm.dockerConfig.name}${algorithm.dockerConfig.tag ?
           `:${algorithm.dockerConfig.tag}` :
           `@${algorithm.dockerConfig.digest}`}`,
+      },
+    ];
+  }
+
+  public static transformerToList(transformers: Transformer[], onClick?: clickHandler) {
+    return transformers.map((transformer) => {
+      return {
+        id: transformer.id || transformer.name,
+        firstValue: transformer.name,
+        secondValue:
+          `For resource type: ${transformer.resourceType.name}`,
+        link: onClick ? {
+          onClick: () => { onClick(transformer.id || transformer.name); },
+        } : {
+          link: { name: 'transformer', params: { id: transformer.id }},
+        },
+      };
+    });
+  }
+
+  public static transformerAttributesToList(transformer: Transformer): ListEntry[] {
+    return [
+      {
+        id: 'name',
+        firstValue: 'Name',
+        secondValue: transformer.name,
+      },
+      {
+        id: 'resourceType',
+        firstValue: 'ResourceType',
+        secondValue: transformer.resourceType.name,
+      },
+      {
+        id: 'transformerType',
+        firstValue: 'TransformerType',
+        secondValue: transformer.transformerType,
+      },
+      {
+        id: 'body',
+        firstValue: 'Body Function',
+        secondValue: transformer.body,
       },
     ];
   }

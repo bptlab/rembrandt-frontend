@@ -9,6 +9,7 @@
     </nav>
     <nav id="nav" v-else-if="this.$route.path.startsWith('/optimization')">
       <router-link :to="{ name: 'algorithms' }">Algorithms</router-link>
+      <router-link :to="{ name: 'transformers' }">Transformers</router-link>
     </nav>
     <div class="user-container">
       <Link class="notification-button" :linkOptions="{ onClick: toggleNotificationCenter }">
@@ -59,6 +60,9 @@
               </router-link>
               <li>
                 <router-link :to="{ name: 'algorithms' }">Algorithms</router-link>
+              </li>
+              <li>
+                <router-link :to="{ name: 'transformers' }">Transformers</router-link>
               </li>
             </ul>
           </div>
