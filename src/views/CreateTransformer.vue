@@ -34,8 +34,12 @@
       :firstString="`instancesOf${this.nameWithoutWhitespace}.${newTransformer.transformerType}( (instance) => {`"
       secondString='});'
       :value.sync="newTransformer.body"
-      placeholder="return (instances.getAttribute(age) > 18);"
-    />
+      placeholder="var date = new Date();
+  var currentYear = date.getFullYear();
+  var currentAge = instance.getAttribute('yearOfBirth') - currentYear;
+  instance.setAttribute('age', currentAge);
+  return (instance.getAttribute('age') > 18);"
+      />
     <Button text="Create Transformer" :onClick="createTransformer"/>
   </main>
 

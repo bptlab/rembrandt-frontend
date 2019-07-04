@@ -3,7 +3,6 @@
     <h4>
       {{firstString}}
     </h4>
-    <br>
     <textarea
       :autofocus="autofocus"
       :placeholder="placeholder"
@@ -12,7 +11,6 @@
       type="text"
       :value="value"
       @input="$emit('update:value', $event.target.value)" />
-    <br>
     <h4>
       {{secondString}}
     </h4>
@@ -87,6 +85,7 @@ fieldset.f-textArea {
     border: 0;
     padding: 0;
     width: 100%;
+    height: 100px;
     background-color: @tertiary-bg;
     color: @primary;
     font-size: 16px;

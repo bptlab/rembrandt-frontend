@@ -11,9 +11,7 @@
     <TextArea
       :firstString="`instancesOf${this.nameWithoutWhitespace}.${editedTransformer.transformerType}( (instance) => {`"
       secondString='});'
-      :value.sync="editedTransformer.body"
-      placeholder="return (instances.getAttribute(age) > 18);"
-    />
+      :value.sync="editedTransformer.body" />
     <Button text="Save Transformer" :onClick="saveTransformer"/>
   </main>
 
