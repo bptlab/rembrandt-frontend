@@ -30,16 +30,12 @@
     <br>
     <h1>below you can enter the code of your transformer</h1>
     <br>
-    <h3>
-      resourceInstancesOf{{newTransformer.resourceType.name}}.{{newTransformer.transformerType}}( (instance) => {
-    </h3>
     <TextArea
+      :firstString="`instancesOf${newTransformer.resourceType.name}.${newTransformer.transformerType}( (instance) => {`"
+      secondString='});'
       :value.sync="newTransformer.body"
-      name="test"
-      placeholder="return (instances.age > 18);" />
-    <h3>
-      });
-    </h3>
+      placeholder="return (instances.age > 18);"
+    />
 
   </main>
 

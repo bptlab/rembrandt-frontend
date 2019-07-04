@@ -1,5 +1,9 @@
 <template>
   <fieldset class="f-textArea" @click="focusTextArea">
+    <h4>
+      {{firstString}}
+    </h4>
+    <br>
     <textarea
       :autofocus="autofocus"
       :placeholder="placeholder"
@@ -8,9 +12,10 @@
       type="text"
       :value="value"
       @input="$emit('update:value', $event.target.value)" />
-    <label>
-      <span>{{name}}</span>
-    </label>
+    <br>
+    <h4>
+      {{secondString}}
+    </h4>
   </fieldset>
 </template>
 
@@ -31,6 +36,12 @@ export default class TextArea extends Vue {
 
   @Prop(String)
   public name!: string;
+
+  @Prop(String)
+  public firstString!: string;
+
+  @Prop(String)
+  public secondString!: string;
 
   @Prop(String)
   public placeholder!: string;
@@ -65,8 +76,7 @@ export default class TextArea extends Vue {
 
 fieldset.f-textArea {
   margin: @spacing 0;
-  border: 1px solid @primary;
-  border-top: 0;
+  border: 0px solid @primary;
   border-radius: 7px;
   padding: 0px;
   position: relative;
@@ -84,44 +94,6 @@ fieldset.f-textArea {
     color: @primary;
     font-size: 16px;
     resize: vertical;
-  }
-
-  label[name] {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    display: flex;
-    color: @primary;
-    font-size: 14px;
-
-    &:before {
-      border-top: 1px solid @primary;
-      border-top-left-radius: 7px;
-      flex: 5px 0 0;
-      content: "";
-    }
-
-    &:after {
-      border-top: 1px solid @primary;
-      border-top-right-radius: 7px;
-      flex: 1 0 0;
-      content: "";
-    }
-
-    span {
-      margin-top: -10px;
-      padding: 0 5px;
-    }
-  }
-
-  textArea:focus + label {
-    color: @accent;
-
-    &:before,
-    &:after {
-      border-color: @accent;
-    }
   }
 }
 </style>
