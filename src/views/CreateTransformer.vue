@@ -87,7 +87,6 @@ export default class CreateTransformer extends Vue {
   // region public members
   public newTransformer: Transformer;
   public formState: number = 0;
-  public resourceType: ResourceType;
   public resourceTypes: ResourceType[] = [];
   public nameWithoutWhitespace: string = '';
 
@@ -111,7 +110,6 @@ export default class CreateTransformer extends Vue {
   constructor() {
     super();
     this.newTransformer = createTransformerNullObject();
-    this.resourceType = ResourceTypeNullObject;
   }
   // endregion
 
@@ -132,8 +130,7 @@ export default class CreateTransformer extends Vue {
   }
 
   public async selectResourceType(id: string) {
-    this.resourceType = await ResourceTypes.getOne(id);
-    this.newTransformer.resourceType = this.resourceType;
+    this.newTransformer.resourceType = await ResourceTypes.getOne(id);
     this.nameWithoutWhitespace = this.newTransformer.resourceType.name.replace(/\s/g, '');
     this.nextStep();
   }
