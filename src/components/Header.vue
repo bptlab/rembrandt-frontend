@@ -61,6 +61,9 @@
               <li>
                 <router-link :to="{ name: 'algorithms' }">Algorithms</router-link>
               </li>
+              <li>
+                <router-link :to="{ name: 'transformers' }">Transformers</router-link>
+              </li>
             </ul>
           </div>
         </div>
