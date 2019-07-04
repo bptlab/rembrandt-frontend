@@ -31,7 +31,7 @@
     <h1>below you can enter the code of your transformer</h1>
     <br>
     <TextArea
-      :firstString="`instancesOf${newTransformer.resourceType.name}.${newTransformer.transformerType}( (instance) => {`"
+      :firstString="`instancesOf${this.nameWithoutWhitespace}.${newTransformer.transformerType}( (instance) => {`"
       secondString='});'
       :value.sync="newTransformer.body"
       placeholder="return (instances.getAttribute(age) > 18);"
@@ -85,6 +85,7 @@ export default class CreateTransformer extends Vue {
   public formState: number = 0;
   public resourceType: ResourceType;
   public resourceTypes: ResourceType[] = [];
+  public nameWithoutWhitespace: string = '';
 
   public get resourceTypesList(): ListEntry[] {
     return Utils.resourceTypesToList(this.resourceTypes, this.selectResourceType);
@@ -129,6 +130,7 @@ export default class CreateTransformer extends Vue {
   public async selectResourceType(id: string) {
     this.resourceType = await ResourceTypes.getOne(id);
     this.newTransformer.resourceType = this.resourceType;
+    this.nameWithoutWhitespace = this.newTransformer.resourceType.name.replace(/\s/g, '');
     this.nextStep();
   }
 

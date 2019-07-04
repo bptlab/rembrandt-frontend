@@ -38,10 +38,10 @@ export default class TextArea extends Vue {
   public name!: string;
 
   @Prop(String)
-  public firstString!: string;
+  public firstString?: string;
 
   @Prop(String)
-  public secondString!: string;
+  public secondString?: string;
 
   @Prop(String)
   public placeholder!: string;
