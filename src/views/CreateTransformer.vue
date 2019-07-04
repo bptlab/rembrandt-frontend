@@ -34,9 +34,9 @@
       :firstString="`instancesOf${newTransformer.resourceType.name}.${newTransformer.transformerType}( (instance) => {`"
       secondString='});'
       :value.sync="newTransformer.body"
-      placeholder="return (instances.age > 18);"
+      placeholder="return (instances.getAttribute(age) > 18);"
     />
-
+    <Button text="Create Transformer" :onClick="createTransformer"/>
   </main>
 
 </template>
