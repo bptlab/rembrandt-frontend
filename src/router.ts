@@ -90,14 +90,14 @@ export default new Router({
       component: Algorithm,
     },
     {
-    path: '/optimization/transformers',
-    name: 'transformers',
-    component: Transformers,
+      path: '/optimization/transformers',
+      name: 'transformers',
+      component: Transformers,
     },
     {
-    path: '/optimization/transformers/create',
-    name: 'create-transformer',
-    component: CreateTransformer,
+      path: '/optimization/transformers/create',
+      name: 'create-transformer',
+      component: CreateTransformer,
     },
     {
       path: '/optimization/transformers/edit/:transformerId',
@@ -105,9 +105,9 @@ export default new Router({
       component: EditTransformer,
     },
     {
-    path: '/optimization/transformers/:id',
-    name: 'transformer',
-    component: Transformer,
+      path: '/optimization/transformers/:id',
+      name: 'transformer',
+      component: Transformer,
     },
     {
       path: '/settings',
