@@ -52,8 +52,16 @@ export default class Algorithm extends Vue {
   public get transformerActionsList(): ListEntry[] {
     const transformerActions = [];
 
-    transformerActions.push({
-      id: '1',
+    transformerActions.push(
+      {
+        id: '1',
+        firstValue: 'Edit Transformer',
+        link: {
+          link: { name: 'edit-transformer', params: { transformerId: this.transformer.id } },
+        },
+      },
+      {
+      id: '2',
       firstValue: 'Delete Transformer',
       link: {
         onClick: this.deleteTransformer,
