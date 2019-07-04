@@ -147,6 +147,31 @@ export default class Utils {
     });
   }
 
+  public static transformerAttributesToList(transformer: Transformer): ListEntry[] {
+    return [
+      {
+        id: 'name',
+        firstValue: 'Name',
+        secondValue: transformer.name,
+      },
+      {
+        id: 'resourceType',
+        firstValue: 'ResourceType',
+        secondValue: transformer.resourceType.name,
+      },
+      {
+        id: 'transformerType',
+        firstValue: 'TransformerType',
+        secondValue: transformer.transformerType,
+      },
+      {
+        id: 'body',
+        firstValue: 'Body Function',
+        secondValue: transformer.body,
+      },
+    ];
+  }
+
   public static getEponymousAttributeValue(resourceInstance: ResourceInstance): string {
     if (!resourceInstance.resourceType.eponymousAttribute) {
       return resourceInstance.id ? resourceInstance.id : '';
