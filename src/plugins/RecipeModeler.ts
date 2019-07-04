@@ -1,5 +1,5 @@
 import _Vue from 'vue';
-import { ResourceType, OptimizationAlgorithm } from '@/apis/rembrandt/rembrandt';
+import { ResourceType, OptimizationAlgorithm, Transformer } from '@/apis/rembrandt/rembrandt';
 
 export default function install(Vue: typeof _Vue, options = {}) {
   Vue.prototype.$recipeModeler = new RecipeModeler();
@@ -19,6 +19,7 @@ export interface InputIngredient extends Ingredient {
 export interface TransformerIngredient extends Ingredient {
   input?: Ingredient;
   output?: Ingredient;
+  ingredientObject: Transformer;
 }
 
 export interface AlgorithmIngredient extends Ingredient {

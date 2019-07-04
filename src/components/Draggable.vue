@@ -98,9 +98,9 @@ export default class Draggable extends Vue implements Ingredient {
     });
   }
 
-  protected enableDropzone(dropzone: HTMLElement) {
+  protected enableDropzone(dropzone: HTMLElement, accept: string) {
     interact(dropzone).dropzone({
-      accept: '.draggable',
+      accept: accept,
       overlap: 0.5,
 
       ondropactivate: (event) => {
@@ -127,6 +127,8 @@ export default class Draggable extends Vue implements Ingredient {
       },
     });
   }
+
+  protected
   // endregion
 
   // region private methods

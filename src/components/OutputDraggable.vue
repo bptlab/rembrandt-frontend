@@ -1,5 +1,5 @@
 <template>
-  <div ref="draggable" class="draggable" :style="{transform: translate}">
+  <div ref="draggable" class="draggable output" :style="{transform: translate}">
     <div ref="inputDropzone" :class="{inputConnector: !isBeeingDragged}" />
     <div class="element">
       <span>Output Draggable: {{ingredientObject.name}}</span>
@@ -38,7 +38,7 @@ export default class OutputDraggable extends Draggable implements OutputIngredie
 
   // region public methods
   public mounted() {
-    this.enableDropzone(this.$refs.inputDropzone as HTMLDivElement);
+    this.enableDropzone(this.$refs.inputDropzone as HTMLDivElement, '.transformer, .algorithm, .input');
   }
 
   public dropped(event: DropzoneEvent): void {
@@ -55,4 +55,10 @@ export default class OutputDraggable extends Draggable implements OutputIngredie
 
 <style lang="less">
 @import "../colors.less";
+
+div.draggable.output {
+  .element {
+    background-color: blueviolet;
+  }
+}
 </style>
