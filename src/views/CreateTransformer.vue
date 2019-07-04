@@ -53,7 +53,6 @@ import {
   Transformer,
   Transformers,
   createTransformerNullObject,
-  ResourceTypeNullObject,
 } from '@/apis/rembrandt/rembrandt';
 import Select, { Option } from '@/components/Select.vue';
 import Li, { ListEntry } from '@/components/Li.vue';
