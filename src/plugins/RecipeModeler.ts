@@ -7,24 +7,21 @@ export default function install(Vue: typeof _Vue, options = {}) {
 
 export interface Ingredient {
   input?: Ingredient | Ingredient[];
-  output?: Ingredient | Ingredient[];
+  output?: Ingredient;
   ingredientObject: any;
 }
 
 export interface InputIngredient extends Ingredient {
-  output?: Ingredient;
   ingredientObject: ResourceType;
 }
 
 export interface TransformerIngredient extends Ingredient {
   input?: Ingredient;
-  output?: Ingredient;
   ingredientObject: Transformer;
 }
 
 export interface AlgorithmIngredient extends Ingredient {
   input?: Ingredient[];
-  output?: Ingredient;
   ingredientObject: OptimizationAlgorithm;
 }
 

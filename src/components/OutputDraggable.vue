@@ -1,6 +1,10 @@
 <template>
-  <div ref="draggable" class="draggable output" :style="{transform: translate}">
-    <div ref="inputDropzone" :class="{inputConnector: !isBeeingDragged}" />
+  <div ref="draggable" :class="`draggable output ${inputClasses}`" :style="{transform: translate}">
+    <div
+      ref="inputDropzone"
+      :class="{inputConnector: !isBeeingDragged}"
+      :accepts="ingredientObject.id || 'nothing'"
+    />
     <div class="element">
       <span>Output Draggable: {{ingredientObject.name}}</span>
     </div>
@@ -23,11 +27,14 @@ export default class OutputDraggable extends Draggable implements OutputIngredie
   // endregion
 
   // region public members
-  @Prop()
   public input?: Draggable;
 
   @Prop({ type: Object })
   public ingredientObject!: ResourceType;
+
+  public get inputClasses(): string {
+    return this.ingredientObject.id ? `input-${this.ingredientObject.id}` : 'no-input';
+  }
   // endregion
 
   // region private members
@@ -38,16 +45,26 @@ export default class OutputDraggable extends Draggable implements OutputIngredie
 
   // region public methods
   public mounted() {
-    this.enableDropzone(this.$refs.inputDropzone as HTMLDivElement, '.transformer, .algorithm, .input');
+    this.updateDropzones();
+  }
+
+  public updated() {
+    this.updateDropzones();
   }
 
   public dropped(event: DropzoneEvent): void {
     if (event.detail.dropzone === this.$refs.inputDropzone) { return; }
+    this.addInput(event.detail.dropzoneComponent);
+    event.detail.dropzoneComponent.addOutput(this);
     this.adjustPositionToDropzone(event.detail.draggable, event.detail.dropzone);
   }
   // endregion
 
   // region private methods
+  private updateDropzones() {
+    const accepts = `.output-${(this.$refs.inputDropzone as HTMLElement).getAttribute('accepts')}`;
+    this.enableDropzone(this.$refs.inputDropzone as HTMLDivElement, accepts);
+  }
   // endregion
 }
 </script>

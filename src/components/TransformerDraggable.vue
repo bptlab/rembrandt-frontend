@@ -1,5 +1,9 @@
 <template>
-  <div ref="draggable" class="draggable transformer" :style="{transform: translate}">
+  <div
+    ref="draggable"
+    :class="`draggable transformer ${inputClasses} ${outputClasses}`"
+    :style="{transform: translate}"
+  >
     <div ref="inputDropzone" :class="{inputConnector: !isBeeingDragged}" />
     <div class="element">
       <span>Transformer Draggable: {{ingredientObject.name}}</span>
@@ -24,14 +28,20 @@ export default class TransformerDraggable extends Draggable implements Transform
   // endregion
 
   // region public members
-  @Prop()
-  public input?: Draggable;
-
-  @Prop()
-  public output?: Draggable;
-
   @Prop({ type: Object })
   public ingredientObject!: Transformer;
+
+  public input?: Draggable;
+  public output?: Draggable;
+
+  public get inputClasses(): string {
+    return this.ingredientObject.resourceType.id ? `input-${this.ingredientObject.resourceType.id}` : 'no-input';
+  }
+
+  public get outputClasses(): string {
+    return this.ingredientObject.resourceType.id ? `output-${this.ingredientObject.resourceType.id}` : 'no-output';
+  }
+
   // endregion
 
   // region private members
@@ -42,13 +52,24 @@ export default class TransformerDraggable extends Draggable implements Transform
 
   // region public methods
   public mounted() {
-    this.enableDropzone(this.$refs.inputDropzone as HTMLDivElement, '.input, .algorithm');
-    this.enableDropzone(this.$refs.outputDropzone as HTMLDivElement, '.algorithm, .output');
+    const inputAccepts = `.output-${(this.$refs.inputDropzone as HTMLElement).getAttribute('accepts')}`;
+    this.enableDropzone(this.$refs.inputDropzone as HTMLDivElement, inputAccepts);
+    const outputAccepts = `.input-${(this.$refs.outputDropzone as HTMLElement).getAttribute('accepts')}`;
+    this.enableDropzone(this.$refs.outputDropzone as HTMLDivElement, outputAccepts);
   }
 
   public dropped(event: DropzoneEvent): void {
     if (event.detail.dropzone === this.$refs.inputDropzone) { return; }
     if (event.detail.dropzone === this.$refs.outputDropzone) { return; }
+
+    if (event.detail.dropzone.classList.contains('inputConnector')) {
+      this.addOutput(event.detail.dropzoneComponent);
+      event.detail.dropzoneComponent.addInput(this);
+    } else {
+      this.addInput(event.detail.dropzoneComponent);
+      event.detail.dropzoneComponent.addOutput(this);
+    }
+
     this.adjustPositionToDropzone(event.detail.draggable, event.detail.dropzone);
   }
   // endregion

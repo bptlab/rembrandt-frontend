@@ -1,15 +1,25 @@
 <template>
-  <div ref="draggable" class="draggable algorithm" :style="{transform: translate}">
+  <div
+    ref="draggable"
+    :class="`draggable algorithm ${inputClasses} ${outputClasses}`"
+    :style="{transform: translate}"
+  >
     <div
+      v-if="!isBeeingDragged"
       v-for="input in ingredientObject.inputs"
       :key="input.name"
       ref="inputDropzones"
-      :class="{inputConnector: !isBeeingDragged}"
+      class="inputConnector"
+      :accepts="input.id || 'nothing'"
     >{{ input.name }}</div>
     <div class="element">
       <span>Algorithm Draggable: {{ingredientObject.name}}</span>
     </div>
-    <div ref="outputDropzone" :class="{outputConnector: !isBeeingDragged}" />
+    <div
+      ref="outputDropzone"
+      :class="{outputConnector: !isBeeingDragged}"
+      :accepts="ingredientObject.outputs.id || 'nothing'"
+    />
   </div>
 </template>
 
@@ -29,14 +39,19 @@ export default class AlgorithmDraggable extends Draggable implements AlgorithmIn
   // endregion
 
   // region public members
-  @Prop()
-  public input?: Draggable[];
-
-  @Prop()
-  public output?: Draggable;
-
   @Prop({ type: Object })
   public ingredientObject!: OptimizationAlgorithm;
+
+  public input?: Draggable[];
+
+  public get inputClasses(): string {
+    if (this.ingredientObject.inputs.length <= 0) { return 'no-input'; }
+    return this.ingredientObject.inputs.map((input) => `input-${input.id}`).join(' ');
+  }
+
+  public get outputClasses(): string {
+    return `output-${this.ingredientObject.outputs.id || 'no-output'}`;
+  }
   // endregion
 
   // region private members
@@ -54,22 +69,44 @@ export default class AlgorithmDraggable extends Draggable implements AlgorithmIn
     this.updateDropzones();
   }
 
-  protected dropped(event: DropzoneEvent): void {
-    for (const inputDropzone of this.$refs.inputDropzones as HTMLDivElement[]) {
-      if (event.detail.dropzone === inputDropzone) { return; }
+  public addInput(ingredient: Draggable) {
+    if (!this.input) {
+      this.input = [];
     }
-    if (event.detail.dropzone === this.$refs.outputDropzone) { return; }
-    this.adjustPositionToDropzone(event.detail.draggable, event.detail.dropzone);
+    this.input.push(ingredient);
+  }
+
+  public addOutput(ingredient: Draggable) {
+    this.output = ingredient;
   }
   // endregion
 
   // region private methods
+  public dropped(event: DropzoneEvent): void {
+    for (const inputDropzone of this.$refs.inputDropzones as HTMLDivElement[]) {
+      if (event.detail.dropzone === inputDropzone) { return; }
+    }
+    if (event.detail.dropzone === this.$refs.outputDropzone) { return; }
+
+    if (event.detail.dropzone.classList.contains('inputConnector')) {
+      this.addOutput(event.detail.dropzoneComponent);
+      event.detail.dropzoneComponent.addInput(this);
+    } else {
+      this.addInput(event.detail.dropzoneComponent);
+      event.detail.dropzoneComponent.addOutput(this);
+    }
+
+    this.adjustPositionToDropzone(event.detail.draggable, event.detail.dropzone);
+  }
+
   private updateDropzones() {
-    this.enableDropzone(this.$refs.outputDropzone as HTMLDivElement, '.transformer, .output');
+    const outputAccepts = `.input-${(this.$refs.outputDropzone as HTMLElement).getAttribute('accepts')}`;
+    this.enableDropzone(this.$refs.outputDropzone as HTMLDivElement, outputAccepts);
 
     if (!this.$refs.inputDropzones) { return };
     for (const inputDropzone of this.$refs.inputDropzones as HTMLDivElement[]) {
-      this.enableDropzone(inputDropzone, '.input, .transformer');
+      const inputAccepts = `.output-${inputDropzone.getAttribute('accepts')}`;
+      this.enableDropzone(inputDropzone, inputAccepts);
     }
   }
   // endregion
@@ -80,9 +117,18 @@ export default class AlgorithmDraggable extends Draggable implements AlgorithmIn
 <style lang="less">
 @import "../colors.less";
 
-div.draggable.transformer {
+div.draggable.algorithm {
   .element {
-    background-color: grey;
+    background-color: red;
+  }
+
+  .inputConnector:first-child {
+    top: -104px;
+    height: 100px;
+    width: 200px;
+    border: dashed 4px yellow;
+    touch-action: none;
+    pointer-events: none;
   }
 }
 </style>

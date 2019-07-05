@@ -67,7 +67,7 @@ export default class CreateRecipe extends Vue {
 
   public async mounted() {
     const resourceTypes = await ResourceTypes.get();
-    this.inputObject.ingredientObject = resourceTypes[0];
+    this.inputObject.ingredientObject = resourceTypes[3];
     this.outputObject.ingredientObject = resourceTypes[1];
     const transformers = await Transformers.get();
     this.transformerObject.ingredientObject = transformers[0];

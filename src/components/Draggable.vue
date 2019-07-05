@@ -13,6 +13,7 @@ import interact from 'interactjs';
 
 export interface DropzoneEvent extends CustomEvent {
   details: {
+    dropzoneComponent: Draggable;
     dropzone: any;
     draggable: any;
   };
@@ -27,26 +28,28 @@ export default class Draggable extends Vue implements Ingredient {
   // endregion
 
   // region public members
-  @Prop()
-  public input?: Draggable | Draggable[];
-
-  @Prop()
-  public output?: Draggable | Draggable[];
-
   @Prop({ type: Object })
   public ingredientObject: any;
 
-  public draggable!: HTMLDivElement;
+  public input?: Draggable | Draggable[];
 
-  public position = { x: 0, y: 0 };
-  public isBeeingDragged: boolean = false;
+  public output?: Draggable;
 
-  public get translate() {
-    return `translate(${this.position.x}px, ${this.position.y}px)`;
-  }
+
   // endregion
 
   // region private members
+  protected position = { x: 0, y: 0 };
+
+  protected isBeeingDragged: boolean = false;
+
+  protected get translate() {
+    return `translate(${this.position.x}px, ${this.position.y}px)`;
+  }
+
+  protected get draggable(): HTMLDivElement {
+    return this.$refs.draggable as HTMLDivElement;
+  }
   // endregion
 
   // region constructor
@@ -54,13 +57,21 @@ export default class Draggable extends Vue implements Ingredient {
 
   // region public methods
   public mounted() {
-    this.draggable = this.$refs.draggable as HTMLDivElement;
-
     this.draggable.addEventListener('dropped', (event) => this.dropped(event as DropzoneEvent));
     this.enableDraggable();
   }
 
-  public dropped(event: DropzoneEvent): void {
+  public addInput(ingredient: Draggable) {
+    this.input = ingredient;
+  }
+
+  public addOutput(ingredient: Draggable) {
+    this.output = ingredient;
+  }
+  // endregion
+
+  // region private methods
+  protected dropped(event: DropzoneEvent): void {
     this.adjustPositionToDropzone(event.detail.draggable, event.detail.dropzone);
   }
 
@@ -117,6 +128,7 @@ export default class Draggable extends Vue implements Ingredient {
           detail: {
             dropzone: event.target,
             draggable: event.relatedTarget,
+            dropzoneComponent: this,
           },
         }) as DropzoneEvent;
         event.relatedTarget.dispatchEvent(customEvent);
@@ -127,11 +139,6 @@ export default class Draggable extends Vue implements Ingredient {
       },
     });
   }
-
-  protected
-  // endregion
-
-  // region private methods
   // endregion
 }
 </script>
