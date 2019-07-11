@@ -1,62 +1,79 @@
 <template>
-  <main class="create-recipe">
-    <div class="ingredients">
-      <div class="add-inputs">
-        <h2>Inputs</h2>
-        <button
-          v-for="resourceType in resourceTypes"
-          :key="resourceType.id"
-          @click="addInputIngredient(resourceType)"
-        >{{ resourceType.name }}</button>
+  <main v-if="formState === 0">
+    <ViewHeader
+      title="How should the new recipe be called?"
+      :backLink="{ link: { name: 'recipes' } }"
+    />
+    <Input
+      :value.sync="newRecipe.name"
+      name="Name"
+      placeholder="Vehicle Routing for SMILE"
+      :autofocus="true"
+    />
+    <Button text="Continue" :onClick="nextStep" />
+  </main>
+  <main class="create-recipe" v-else-if="formState === 1">
+    <ViewHeader title="Please model your recipe below:" :backLink="{ onClick: previousStep }" />
+    <div class="modeler">
+      <div class="ingredients">
+        <div class="add-inputs">
+          <h2>Inputs</h2>
+          <button
+            v-for="resourceType in resourceTypes"
+            :key="resourceType.id"
+            @click="addInputIngredient(resourceType)"
+          >{{ resourceType.name }}</button>
+        </div>
+        <div class="add-outputs">
+          <h2>Outputs</h2>
+          <button
+            v-for="resourceType in resourceTypes"
+            :key="resourceType.id"
+            @click="addOutputIngredient(resourceType)"
+          >{{ resourceType.name }}</button>
+        </div>
+        <div class="add-transformers">
+          <h2>Transformers</h2>
+          <button
+            v-for="transformer in transformers"
+            :key="transformer.id"
+            @click="addTransformerIngredient(transformer)"
+          >{{ transformer.name }}</button>
+        </div>
+        <div class="add-algorithms">
+          <h2>Algorithms</h2>
+          <button
+            v-for="algorithm in algorithms"
+            :key="algorithm.id"
+            @click="addAlgorithmIngredient(algorithm)"
+          >{{ algorithm.name }}</button>
+        </div>
       </div>
-      <div class="add-outputs">
-        <h2>Outputs</h2>
-        <button
-          v-for="resourceType in resourceTypes"
-          :key="resourceType.id"
-          @click="addOutputIngredient(resourceType)"
-        >{{ resourceType.name }}</button>
-      </div>
-      <div class="add-transformers">
-        <h2>Transformers</h2>
-        <button
-          v-for="transformer in transformers"
-          :key="transformer.id"
-          @click="addTransformerIngredient(transformer)"
-        >{{ transformer.name }}</button>
-      </div>
-      <div class="add-algorithms">
-        <h2>Algorithms</h2>
-        <button
-          v-for="algorithm in algorithms"
-          :key="algorithm.id"
-          @click="addAlgorithmIngredient(algorithm)"
-        >{{ algorithm.name }}</button>
-      </div>
-    </div>
 
-    <div class="playground">
-      <InputDraggable
-        v-for="ingredient in inputIngredients"
-        :key="ingredient.ingredientObject.id"
-        :ingredientObject="ingredient.ingredientObject"
-      />
-      <OutputDraggable
-        v-for="ingredient in outputIngredients"
-        :key="ingredient.ingredientObject.id"
-        :ingredientObject="ingredient.ingredientObject"
-      />
-      <TransformerDraggable
-        v-for="ingredient in transformerIngredients"
-        :key="ingredient.ingredientObject.id"
-        :ingredientObject="ingredient.ingredientObject"
-      />
-      <AlgorithmDraggable
-        v-for="ingredient in algorithmIngredients"
-        :key="ingredient.ingredientObject.id"
-        :ingredientObject="ingredient.ingredientObject"
-      />
+      <div class="playground">
+        <InputDraggable
+          v-for="ingredient in inputIngredients"
+          :key="ingredient.ingredientObject.id"
+          :ingredientObject="ingredient.ingredientObject"
+        />
+        <OutputDraggable
+          v-for="ingredient in outputIngredients"
+          :key="ingredient.ingredientObject.id"
+          :ingredientObject="ingredient.ingredientObject"
+        />
+        <TransformerDraggable
+          v-for="ingredient in transformerIngredients"
+          :key="ingredient.ingredientObject.id"
+          :ingredientObject="ingredient.ingredientObject"
+        />
+        <AlgorithmDraggable
+          v-for="ingredient in algorithmIngredients"
+          :key="ingredient.ingredientObject.id"
+          :ingredientObject="ingredient.ingredientObject"
+        />
+      </div>
     </div>
+    <Button text="Create Recipe" :onClick="createRecipe" />
   </main>
 </template>
 
@@ -67,7 +84,9 @@ import InputDraggable from '@/components/InputDraggable.vue';
 import OutputDraggable from '@/components/OutputDraggable.vue';
 import TransformerDraggable from '@/components/TransformerDraggable.vue';
 import AlgorithmDraggable from '@/components/AlgorithmDraggable.vue';
-import { InputIngredient, OutputIngredient, TransformerIngredient, AlgorithmIngredient } from '@/plugins/RecipeModeler';
+import ViewHeader from '@/components/ViewHeader.vue';
+import Button from '@/components/Button.vue';
+import Input from '@/components/Input.vue';
 import {
   ResourceTypeNullObject,
   ResourceTypes,
@@ -78,8 +97,16 @@ import {
   OptimizationAlgorithms,
   ResourceType,
   OptimizationAlgorithm,
+  Recipe,
+  Recipes,
+  InputIngredient,
+  OutputIngredient,
+  TransformerIngredient,
+  AlgorithmIngredient,
+  createRecipeNullObject,
 } from '@/apis/rembrandt/rembrandt';
 import interact from 'interactjs';
+import { NotificationLevel } from '@/interfaces/Notification';
 
 @Component({
   components: {
@@ -88,6 +115,9 @@ import interact from 'interactjs';
     OutputDraggable,
     TransformerDraggable,
     AlgorithmDraggable,
+    ViewHeader,
+    Button,
+    Input,
   },
 })
 export default class CreateRecipe extends Vue {
@@ -98,6 +128,8 @@ export default class CreateRecipe extends Vue {
   // endregion
 
   // region public members
+  public newRecipe: Recipe;
+  public formState: number = 0;
   // endregion
 
   // region private members
@@ -112,6 +144,10 @@ export default class CreateRecipe extends Vue {
   // endregion
 
   // region constructor
+  constructor() {
+    super();
+    this.newRecipe = createRecipeNullObject();
+  }
   // endregion
 
   // region public methods
@@ -119,6 +155,49 @@ export default class CreateRecipe extends Vue {
     this.resourceTypes = await ResourceTypes.get();
     this.transformers = await Transformers.get();
     this.algorithms = await OptimizationAlgorithms.get();
+  }
+
+  public previousStep(): void {
+    if (this.formState > 0) {
+      this.formState--;
+    }
+  }
+
+  public nextStep(): void {
+    this.formState++;
+  }
+
+  public async createRecipe() {
+    if (this.outputIngredients.length < 1) {
+      this.$notifications.create({
+        title: `Recipes reqire an output ingredient.`,
+        details: 'Please add an output ingredient to continue.',
+        level: NotificationLevel.Critical,
+        timestamp: new Date(),
+      });
+      return;
+    } else if (this.outputIngredients.length > 1) {
+      this.$notifications.create({
+        title: `Recipes are limited to one output ingredient.`,
+        details: 'Please remove all output ingredients but one to continue.',
+        level: NotificationLevel.Critical,
+        timestamp: new Date(),
+      });
+      return;
+    }
+
+    try {
+      await Recipes.create(this.newRecipe);
+      this.$notifications.create({
+        title: `Recipe '${this.newRecipe.name}' has been created.`,
+        details: '',
+        level: NotificationLevel.Success,
+        timestamp: new Date(),
+      });
+      this.$router.push({ name: 'recipes' });
+    } catch (e) {
+      this.$notifications.create(e);
+    }
   }
   // endregion
 

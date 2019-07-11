@@ -8,9 +8,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Ingredient } from '@/plugins/RecipeModeler';
 import interact from 'interactjs';
-import { ResourceType, ResourceTypeNullObject } from '@/apis/rembrandt/rembrandt';
+import { ResourceType, ResourceTypeNullObject, Ingredient } from '@/apis/rembrandt/rembrandt';
 
 export interface DropzoneEvent extends CustomEvent {
   details: {

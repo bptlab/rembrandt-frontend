@@ -35,8 +35,7 @@
 <script lang="ts">
 import { Component, Prop } from 'vue-property-decorator';
 import Draggable from '@/components/Draggable.vue';
-import { TransformerIngredient } from '@/plugins/RecipeModeler';
-import { Transformer } from '@/apis/rembrandt/rembrandt';
+import { Transformer, TransformerIngredient } from '@/apis/rembrandt/rembrandt';
 
 @Component
 export default class TransformerDraggable extends Draggable implements TransformerIngredient {
