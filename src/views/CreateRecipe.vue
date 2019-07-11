@@ -13,7 +13,9 @@
     <Button text="Continue" :onClick="nextStep" />
   </main>
   <main class="create-recipe" v-else-if="formState === 1">
-    <ViewHeader title="Please model your recipe below:" :backLink="{ onClick: previousStep }" />
+    <div class="wrapper">
+      <ViewHeader title="Please model your recipe below:" :backLink="{ onClick: previousStep }" />
+    </div>
     <div class="modeler">
       <div class="ingredients">
         <div class="add-inputs">
@@ -73,7 +75,9 @@
         />
       </div>
     </div>
-    <Button text="Create Recipe" :onClick="createRecipe" />
+    <div class="wrapper">
+      <Button text="Create Recipe" :onClick="createRecipe" />
+    </div>
   </main>
 </template>
 
@@ -170,7 +174,7 @@ export default class CreateRecipe extends Vue {
   public async createRecipe() {
     if (this.outputIngredients.length < 1) {
       this.$notifications.create({
-        title: `Recipes reqire an output ingredient.`,
+        title: 'Recipes reqire an output ingredient.',
         details: 'Please add an output ingredient to continue.',
         level: NotificationLevel.Critical,
         timestamp: new Date(),
@@ -178,13 +182,15 @@ export default class CreateRecipe extends Vue {
       return;
     } else if (this.outputIngredients.length > 1) {
       this.$notifications.create({
-        title: `Recipes are limited to one output ingredient.`,
+        title: 'Recipes are limited to one output ingredient.',
         details: 'Please remove all output ingredients but one to continue.',
         level: NotificationLevel.Critical,
         timestamp: new Date(),
       });
       return;
     }
+
+    this.newRecipe.ingredients = this.outputIngredients[0];
 
     try {
       await Recipes.create(this.newRecipe);
@@ -255,29 +261,35 @@ export default class CreateRecipe extends Vue {
 main.create-recipe {
   max-width: unset;
   display: flex;
+  flex-direction: column;
 
-  .ingredients,
-  .ingredients > * {
+  .modeler {
     display: flex;
-    flex-direction: column;
-  }
-
-  .ingredients {
-    margin: @spacing;
-    min-width: 200px;
-
-    & > * {
-      padding: @spacing 0;
-    }
-
-    & > *:first-child {
-      padding: 0;
-    }
-  }
-
-  .playground {
     flex: 1 0;
-    margin: @spacing 0;
+
+    .ingredients,
+    .ingredients > * {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ingredients {
+      margin: @spacing;
+      min-width: 200px;
+
+      & > * {
+        padding: @spacing 0;
+      }
+
+      & > *:first-child {
+        padding: 0;
+      }
+    }
+
+    .playground {
+      flex: 1 0;
+      margin: @spacing 0;
+    }
   }
 }
 </style>
