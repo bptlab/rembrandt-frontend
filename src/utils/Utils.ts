@@ -3,6 +3,7 @@ import { ResourceType,
   ResourceInstanceAttribute,
   OptimizationAlgorithm,
   Transformer,
+  Recipe,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
 import translations from '@/config/translations.json';
@@ -170,6 +171,20 @@ export default class Utils {
         secondValue: transformer.body,
       },
     ];
+  }
+
+  public static recipesToList(recipes: Recipe[], onClick?: clickHandler) {
+    return recipes.map((recipe) => {
+      return {
+        id: recipe.id || recipe.name,
+        firstValue: recipe.name,
+        link: onClick ? {
+          onClick: () => { onClick(recipe.id || recipe.name); },
+        } : {
+          link: { name: 'recipe', params: { id: recipe.id }},
+        },
+      };
+    });
   }
 
   public static getEponymousAttributeValue(resourceInstance: ResourceInstance): string {

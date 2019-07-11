@@ -34,8 +34,7 @@ export default class Types extends Vue {
   public recipes: Recipe[] = [];
 
   public get recipesList(): ListEntry[] {
-    return [];
-    //return Utils.recipesToList(this.recipes);
+    return Utils.recipesToList(this.recipes);
   }
 
   // endregion
