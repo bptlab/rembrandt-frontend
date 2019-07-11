@@ -1,14 +1,18 @@
 import _Vue from 'vue';
 import { ResourceType, OptimizationAlgorithm, Transformer } from '@/apis/rembrandt/rembrandt';
+import Resource from '@/apis/jsonapi/Resource';
 
 export default function install(Vue: typeof _Vue, options = {}) {
   Vue.prototype.$recipeModeler = new RecipeModeler();
 }
 
 export interface Ingredient {
-  input?: Ingredient | Ingredient[];
-  output?: Ingredient;
-  ingredientObject: any;
+  inputs: Ingredient[];
+  ingredientObject: Resource;
+  position: {
+    x: number;
+    y: number;
+  };
 }
 
 export interface InputIngredient extends Ingredient {
@@ -16,17 +20,14 @@ export interface InputIngredient extends Ingredient {
 }
 
 export interface TransformerIngredient extends Ingredient {
-  input?: Ingredient;
   ingredientObject: Transformer;
 }
 
 export interface AlgorithmIngredient extends Ingredient {
-  input?: Ingredient[];
   ingredientObject: OptimizationAlgorithm;
 }
 
 export interface OutputIngredient extends Ingredient {
-  input?: Ingredient;
   ingredientObject: ResourceType;
 }
 
@@ -41,22 +42,13 @@ export class RecipeModeler {
   public storeVM = new _Vue({
     data() {
       return {
-        currentElement: undefined,
-        recipe: [],
+        ingredients: [],
       };
     },
   });
 
-  get recipe(): Ingredient[] {
-    return this.storeVM.$data.recipe;
-  }
-
-  get currentElement(): Ingredient {
-    return this.storeVM.$data.currentElement;
-  }
-
-  set currentElement(element: Ingredient) {
-    this.storeVM.$data.currentElement = element;
+  get ingredients(): Ingredient[] {
+    return this.storeVM.$data.ingredients;
   }
   // endregion
 
@@ -67,10 +59,9 @@ export class RecipeModeler {
   // endregion
 
   // region public methods
-  public addRecipeElement(): void {
-    this.recipe.push({
-      ingredientObject: {},
-    });
+  public addIngredient(element: Ingredient): void {
+    if (this.ingredients.find((ingredient) => ingredient === element)) { return; }
+    this.ingredients.push(element);
   }
   // endregion
 
