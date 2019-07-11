@@ -4,31 +4,43 @@
     :class="`draggable algorithm ${inputClasses} ${outputClasses}`"
     :style="{transform: translate}"
   >
-    <div
-      v-if="!isBeeingDragged"
-      v-for="input in ingredientObject.inputs"
-      :key="input.name"
-      ref="inputDropzones"
-      class="inputConnector"
-      :accepts="input.id || 'nothing'"
-    >{{ input.name }}</div>
-    <div class="element">
-      <span>Algorithm Draggable: {{ingredientObject.name}}</span>
+    <div class="input-connector-wrapper">
+      <div
+        v-if="!isBeeingDragged"
+        v-for="inputConnector in inputConnectors"
+        :key="inputConnector.resourceType.name"
+        ref="inputDropzones"
+        class="connector input-connector"
+        :class="{disabled: inputConnector.disabled}"
+        :accepts="inputConnector.resourceType.id"
+      >
+        <span>{{ inputConnector.resourceType.name }}</span>
+      </div>
     </div>
-    <div
-      ref="outputDropzone"
-      :class="{outputConnector: !isBeeingDragged}"
-      :accepts="ingredientObject.outputs.id || 'nothing'"
-    />
+
+    <div :class="{element: true, dragging: isBeeingDragged}">
+      <span>{{ingredientObject.name}}</span>
+    </div>
+
+    <div class="output-connector-wrapper">
+      <div
+        v-if="!isBeeingDragged"
+        ref="outputDropzone"
+        class="connector"
+        :class="{disabled: outputConnector.disabled}"
+        :accepts="outputConnector.resourceType.id"
+      >
+        <span>{{ outputConnector.resourceType.name }}</span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Watch } from 'vue-property-decorator';
-import Draggable, { DropzoneEvent } from '@/components/Draggable.vue';
+import Draggable from '@/components/Draggable.vue';
 import { AlgorithmIngredient } from '@/plugins/RecipeModeler';
 import { OptimizationAlgorithm } from '@/apis/rembrandt/rembrandt';
-import interact from 'interactjs';
 
 @Component
 export default class AlgorithmDraggable extends Draggable implements AlgorithmIngredient {
@@ -42,15 +54,14 @@ export default class AlgorithmDraggable extends Draggable implements AlgorithmIn
   @Prop({ type: Object })
   public ingredientObject!: OptimizationAlgorithm;
 
-  public input?: Draggable[];
-
   public get inputClasses(): string {
-    if (this.ingredientObject.inputs.length <= 0) { return 'no-input'; }
+    if (this.ingredientObject.inputs.length <= 0) { return ''; }
     return this.ingredientObject.inputs.map((input) => `input-${input.id}`).join(' ');
   }
 
   public get outputClasses(): string {
-    return `output-${this.ingredientObject.outputs.id || 'no-output'}`;
+    if (!this.ingredientObject.outputs.id) { return ''; }
+    return `output-${this.ingredientObject.outputs.id}`;
   }
   // endregion
 
@@ -62,53 +73,20 @@ export default class AlgorithmDraggable extends Draggable implements AlgorithmIn
 
   // region public methods
   public mounted() {
-    this.updateDropzones();
-  }
-
-  public updated() {
-    this.updateDropzones();
-  }
-
-  public addInput(ingredient: Draggable) {
-    if (!this.input) {
-      this.input = [];
-    }
-    this.input.push(ingredient);
-  }
-
-  public addOutput(ingredient: Draggable) {
-    this.output = ingredient;
+    this.inputConnectors = this.ingredientObject.inputs.map((input) => {
+      return {
+        resourceType: input,
+        disabled: false,
+      };
+    });
+    this.outputConnector = {
+      resourceType: this.ingredientObject.outputs,
+      disabled: false,
+    };
   }
   // endregion
 
   // region private methods
-  public dropped(event: DropzoneEvent): void {
-    for (const inputDropzone of this.$refs.inputDropzones as HTMLDivElement[]) {
-      if (event.detail.dropzone === inputDropzone) { return; }
-    }
-    if (event.detail.dropzone === this.$refs.outputDropzone) { return; }
-
-    if (event.detail.dropzone.classList.contains('inputConnector')) {
-      this.addOutput(event.detail.dropzoneComponent);
-      event.detail.dropzoneComponent.addInput(this);
-    } else {
-      this.addInput(event.detail.dropzoneComponent);
-      event.detail.dropzoneComponent.addOutput(this);
-    }
-
-    this.adjustPositionToDropzone(event.detail.draggable, event.detail.dropzone);
-  }
-
-  private updateDropzones() {
-    const outputAccepts = `.input-${(this.$refs.outputDropzone as HTMLElement).getAttribute('accepts')}`;
-    this.enableDropzone(this.$refs.outputDropzone as HTMLDivElement, outputAccepts);
-
-    if (!this.$refs.inputDropzones) { return };
-    for (const inputDropzone of this.$refs.inputDropzones as HTMLDivElement[]) {
-      const inputAccepts = `.output-${inputDropzone.getAttribute('accepts')}`;
-      this.enableDropzone(inputDropzone, inputAccepts);
-    }
-  }
   // endregion
 }
 </script>
@@ -120,15 +98,46 @@ export default class AlgorithmDraggable extends Draggable implements AlgorithmIn
 div.draggable.algorithm {
   .element {
     background-color: red;
+    border-radius: 0;
   }
 
-  .inputConnector:first-child {
-    top: -104px;
-    height: 100px;
-    width: 200px;
-    border: dashed 4px yellow;
-    touch-action: none;
-    pointer-events: none;
+  .element.dragging {
+    shape-outside: polygon(
+      calc(100% - @spacing * 2) 0%,
+      100% 50%,
+      calc(100% - @spacing * 2) 100%,
+      0% 100%,
+      calc(0% + @spacing * 2) 50%,
+      0% 0%
+    );
+    shape-margin: 20px;
+    clip-path: polygon(
+      calc(100% - @spacing * 2) 0%,
+      100% 50%,
+      calc(100% - @spacing * 2) 100%,
+      0% 100%,
+      calc(0% + @spacing * 2) 50%,
+      0% 0%
+    );
+  }
+
+  .input-connector-wrapper {
+    top: -50%;
+  }
+
+  .input-connector-wrapper,
+  .output-connector-wrapper {
+    .connector {
+      &.disabled {
+        display: block;
+        & > * {
+          display: none;
+        }
+        &:after {
+          background-color: red;
+        }
+      }
+    }
   }
 }
 </style>

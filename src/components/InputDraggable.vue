@@ -1,19 +1,23 @@
 <template>
   <div ref="draggable" :class="`draggable input ${outputClasses}`" :style="{transform: translate}">
     <div class="element">
-      <span>Input Draggable: {{ingredientObject.name}}</span>
+      <span>{{ingredientObject.name}}</span>
     </div>
-    <div
-      ref="outputDropzone"
-      :class="{outputConnector: !isBeeingDragged}"
-      :accepts="ingredientObject.id || 'nothing'"
-    />
+    <div class="output-connector-wrapper">
+      <div
+        v-if="!isBeeingDragged"
+        ref="outputDropzone"
+        class="connector"
+        :class="{disabled: outputConnector.disabled}"
+        :accepts="outputConnector.resourceType.id"
+      />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop } from 'vue-property-decorator';
-import Draggable, { DropzoneEvent } from '@/components/Draggable.vue';
+import Draggable from '@/components/Draggable.vue';
 import { InputIngredient } from '@/plugins/RecipeModeler';
 import { ResourceType } from '@/apis/rembrandt/rembrandt';
 
@@ -30,7 +34,8 @@ export default class InputDraggable extends Draggable implements InputIngredient
   public ingredientObject!: ResourceType;
 
   public get outputClasses(): string {
-    return this.ingredientObject.id ? `output-${this.ingredientObject.id}` : 'no-output';
+    if (!this.ingredientObject.id) { return ''; }
+    return `output-${this.ingredientObject.id}`;
   }
   // endregion
 
@@ -42,26 +47,14 @@ export default class InputDraggable extends Draggable implements InputIngredient
 
   // region public methods
   public mounted() {
-    this.updateDropzones();
-  }
-
-  public updated() {
-    this.updateDropzones();
+    this.outputConnector = {
+      resourceType: this.ingredientObject,
+      disabled: false,
+    };
   }
   // endregion
 
   // region private methods
-  public dropped(event: DropzoneEvent): void {
-    if (event.detail.dropzone === this.$refs.outputDropzone) { return; }
-    this.addOutput(event.detail.dropzoneComponent);
-    event.detail.dropzoneComponent.addInput(this);
-    this.adjustPositionToDropzone(event.detail.draggable, event.detail.dropzone);
-  }
-
-  private updateDropzones() {
-    const accepts = `.input-${(this.$refs.outputDropzone as HTMLElement).getAttribute('accepts')}`;
-    this.enableDropzone(this.$refs.outputDropzone as HTMLDivElement, accepts);
-  }
   // endregion
 }
 </script>
@@ -73,6 +66,22 @@ export default class InputDraggable extends Draggable implements InputIngredient
 div.draggable.input {
   .element {
     background-color: green;
+
+    shape-outside: polygon(
+      calc(100% - @spacing * 2) 0%,
+      100% 50%,
+      calc(100% - @spacing * 2) 100%,
+      0% 100%,
+      0% 0%
+    );
+    shape-margin: 20px;
+    clip-path: polygon(
+      calc(100% - @spacing * 2) 0%,
+      100% 50%,
+      calc(100% - @spacing * 2) 100%,
+      0% 100%,
+      0% 0%
+    );
   }
 }
 </style>

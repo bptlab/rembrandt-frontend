@@ -4,20 +4,39 @@
     :class="`draggable transformer ${inputClasses} ${outputClasses}`"
     :style="{transform: translate}"
   >
-    <div ref="inputDropzone" :class="{inputConnector: !isBeeingDragged}" />
-    <div class="element">
-      <span>Transformer Draggable: {{ingredientObject.name}}</span>
+    <div class="input-connector-wrapper">
+      <div
+        v-if="!isBeeingDragged"
+        v-for="inputConnector in inputConnectors"
+        :key="inputConnector.resourceType.name"
+        ref="inputDropzones"
+        class="connector input-connector"
+        :class="{disabled: inputConnector.disabled}"
+        :accepts="inputConnector.resourceType.id"
+      >{{ inputConnector.resourceType.name }}</div>
     </div>
-    <div ref="outputDropzone" :class="{outputConnector: !isBeeingDragged}" />
+
+    <div class="element">
+      <span>{{ingredientObject.name}}</span>
+    </div>
+
+    <div class="output-connector-wrapper">
+      <div
+        v-if="!isBeeingDragged"
+        ref="outputDropzone"
+        class="connector"
+        :class="{disabled: outputConnector.disabled}"
+        :accepts="outputConnector.resourceType.id"
+      >{{ outputConnector.resourceType.name }}</div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop } from 'vue-property-decorator';
-import Draggable, { DropzoneEvent } from '@/components/Draggable.vue';
+import Draggable from '@/components/Draggable.vue';
 import { TransformerIngredient } from '@/plugins/RecipeModeler';
 import { Transformer } from '@/apis/rembrandt/rembrandt';
-import interact from 'interactjs';
 
 @Component
 export default class TransformerDraggable extends Draggable implements TransformerIngredient {
@@ -31,15 +50,14 @@ export default class TransformerDraggable extends Draggable implements Transform
   @Prop({ type: Object })
   public ingredientObject!: Transformer;
 
-  public input?: Draggable;
-  public output?: Draggable;
-
   public get inputClasses(): string {
-    return this.ingredientObject.resourceType.id ? `input-${this.ingredientObject.resourceType.id}` : 'no-input';
+    if (!this.ingredientObject.resourceType.id) { return ''; }
+    return `input-${this.ingredientObject.resourceType.id}`;
   }
 
   public get outputClasses(): string {
-    return this.ingredientObject.resourceType.id ? `output-${this.ingredientObject.resourceType.id}` : 'no-output';
+    if (!this.ingredientObject.resourceType.id) { return ''; }
+    return `output-${this.ingredientObject.resourceType.id}`;
   }
 
   // endregion
@@ -52,25 +70,14 @@ export default class TransformerDraggable extends Draggable implements Transform
 
   // region public methods
   public mounted() {
-    const inputAccepts = `.output-${(this.$refs.inputDropzone as HTMLElement).getAttribute('accepts')}`;
-    this.enableDropzone(this.$refs.inputDropzone as HTMLDivElement, inputAccepts);
-    const outputAccepts = `.input-${(this.$refs.outputDropzone as HTMLElement).getAttribute('accepts')}`;
-    this.enableDropzone(this.$refs.outputDropzone as HTMLDivElement, outputAccepts);
-  }
-
-  public dropped(event: DropzoneEvent): void {
-    if (event.detail.dropzone === this.$refs.inputDropzone) { return; }
-    if (event.detail.dropzone === this.$refs.outputDropzone) { return; }
-
-    if (event.detail.dropzone.classList.contains('inputConnector')) {
-      this.addOutput(event.detail.dropzoneComponent);
-      event.detail.dropzoneComponent.addInput(this);
-    } else {
-      this.addInput(event.detail.dropzoneComponent);
-      event.detail.dropzoneComponent.addOutput(this);
-    }
-
-    this.adjustPositionToDropzone(event.detail.draggable, event.detail.dropzone);
+    this.inputConnectors.push({
+      resourceType: this.ingredientObject.resourceType,
+      disabled: false,
+    });
+    this.outputConnector = {
+      resourceType: this.ingredientObject.resourceType,
+      disabled: false,
+    };
   }
   // endregion
 
@@ -86,6 +93,25 @@ export default class TransformerDraggable extends Draggable implements Transform
 div.draggable.transformer {
   .element {
     background-color: grey;
+    border-radius: 0;
+
+    shape-outside: polygon(
+      calc(100% - @spacing * 2) 0%,
+      100% 50%,
+      calc(100% - @spacing * 2) 100%,
+      0% 100%,
+      calc(0% + @spacing * 2) 50%,
+      0% 0%
+    );
+    shape-margin: 20px;
+    clip-path: polygon(
+      calc(100% - @spacing * 2) 0%,
+      100% 50%,
+      calc(100% - @spacing * 2) 100%,
+      0% 100%,
+      calc(0% + @spacing * 2) 50%,
+      0% 0%
+    );
   }
 }
 </style>
