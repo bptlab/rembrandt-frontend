@@ -15,6 +15,7 @@ import Transformer from './views/Transformer.vue';
 import CreateTransformer from './views/CreateTransformer.vue';
 import EditTransformer from './views/EditTransformer.vue';
 import CreateRecipe from './views/CreateRecipe.vue';
+import Recipes from './views/Recipes.vue';
 import Settings from './views/Settings.vue';
 
 Vue.use(Router);
@@ -109,6 +110,11 @@ export default new Router({
     path: '/optimization/transformers/:id',
     name: 'transformer',
     component: Transformer,
+    },
+    {
+      path: '/optimization/recipes',
+      name: 'recipes',
+      component: Recipes,
     },
     {
       path: '/optimization/recipes/create',
