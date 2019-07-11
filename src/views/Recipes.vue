@@ -31,7 +31,7 @@ export default class Types extends Vue {
   // endregion
 
   // region public members
-  public recipes: Recipes[] = [];
+  public recipes: Recipe[] = [];
 
   public get recipesList(): ListEntry[] {
     return [];
@@ -49,11 +49,12 @@ export default class Types extends Vue {
   // region public methods
   public async mounted() {
     try {
-      this.recipes = await recipes.get();
+      this.recipes = await Recipes.get();
+      console.log(this.recipes);
     } catch (e) {
+      console.log('woops something went wrong');
       this.$notifications.create(e);
     }
-
   }
   // endregion
 
