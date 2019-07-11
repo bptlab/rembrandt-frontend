@@ -175,7 +175,7 @@ export default class CreateRecipe extends Vue {
   public async createRecipe() {
     if (this.outputIngredients.length < 1) {
       this.$notifications.create({
-        title: 'Recipes reqire an output ingredient.',
+        title: 'Recipes require an output ingredient.',
         details: 'Please add an output ingredient to continue.',
         level: NotificationLevel.Critical,
         timestamp: new Date(),

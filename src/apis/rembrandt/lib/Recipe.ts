@@ -39,7 +39,7 @@ const serializer = new Serializer('recipes', {
   id: 'id',
   attributes: [
     'name',
-    'ingredients',
+    'rootIngredient',
   ],
   keyForAttribute: 'camelCase',
 });
