@@ -10,6 +10,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Ingredient } from '@/plugins/RecipeModeler';
 import interact from 'interactjs';
+import { ResourceType, ResourceTypeNullObject } from '@/apis/rembrandt/rembrandt';
 
 export interface DropzoneEvent extends CustomEvent {
   details: {
@@ -17,6 +18,11 @@ export interface DropzoneEvent extends CustomEvent {
     dropzone: any;
     draggable: any;
   };
+}
+
+export interface Connector {
+  resourceType: ResourceType;
+  disabled: boolean;
 }
 
 @Component
@@ -31,15 +37,20 @@ export default class Draggable extends Vue implements Ingredient {
   @Prop({ type: Object })
   public ingredientObject: any;
 
-  public input?: Draggable | Draggable[];
+  public inputs: Draggable[] = [];
 
   public output?: Draggable;
 
+  public position: any = { x: 0, y: 0 };
 
+  public inputConnectors: Connector[] = [];
+  public outputConnector: Connector = {
+    resourceType: ResourceTypeNullObject,
+    disabled: true,
+  };
   // endregion
 
   // region private members
-  protected position = { x: 0, y: 0 };
 
   protected isBeeingDragged: boolean = false;
 
@@ -59,27 +70,104 @@ export default class Draggable extends Vue implements Ingredient {
   public mounted() {
     this.draggable.addEventListener('dropped', (event) => this.dropped(event as DropzoneEvent));
     this.enableDraggable();
+    this.updateDropzones();
+  }
+
+  public updated() {
+    this.updateDropzones();
   }
 
   public addInput(ingredient: Draggable) {
-    this.input = ingredient;
+    this.inputs.push(ingredient);
+    if (ingredient.outputConnector) {
+      const outputResourceType = ingredient.outputConnector.resourceType;
+      const connector = this.inputConnectors.find((inputConnector) => {
+        return inputConnector.resourceType.id === outputResourceType.id;
+      });
+      if (connector) {
+        connector.disabled = true;
+      }
+    }
   }
 
   public addOutput(ingredient: Draggable) {
     this.output = ingredient;
+    this.outputConnector.disabled = true;
+  }
+
+  public clearConnections() {
+    if (this.output) {
+      const nextInputConnector = this.output.inputConnectors.find((inputConnector) => {
+        return inputConnector.resourceType.id === this.outputConnector.resourceType.id;
+      });
+      if (nextInputConnector) {
+        nextInputConnector.disabled = false;
+      }
+    }
+    this.output = undefined;
+
+    for (const input of this.inputs) {
+      input.outputConnector.disabled = false;
+    }
+    this.inputs = [];
+
+    this.outputConnector.disabled = false;
+    this.inputConnectors.forEach((inputConnector) => inputConnector.disabled = false);
+  }
+
+  public toIngredient(): Ingredient {
+    return {
+      inputs: this.inputs.map((input) => input.toIngredient()),
+      ingredientObject: this.ingredientObject,
+      position: this.position,
+    };
   }
   // endregion
 
   // region private methods
-  protected dropped(event: DropzoneEvent): void {
+  public dropped(event: DropzoneEvent): void {
+    if (this.$refs.inputDropzones) {
+      for (const inputDropzone of this.$refs.inputDropzones as HTMLDivElement[]) {
+        if (event.detail.dropzone === inputDropzone) { return; }
+      }
+    }
+    if (this.$refs.outputDropzone && event.detail.dropzone === this.$refs.outputDropzone) { return; }
+
+    if (event.detail.dropzone.classList.contains('input-connector')) {
+      event.detail.dropzoneComponent.addInput(this);
+      this.addOutput(event.detail.dropzoneComponent);
+    } else {
+      this.addInput(event.detail.dropzoneComponent);
+      event.detail.dropzoneComponent.addOutput(this);
+    }
+
     this.adjustPositionToDropzone(event.detail.draggable, event.detail.dropzone);
+    // console.log(JSON.stringify(this.toIngredient()));
   }
 
   protected adjustPositionToDropzone(draggable: any, dropzone: any) {
     const draggablePosition = draggable.getBoundingClientRect();
     const dropzonePosition = dropzone.getBoundingClientRect();
-    this.position.x += dropzonePosition.left - draggablePosition.left + 4;
-    this.position.y += dropzonePosition.top - draggablePosition.top + 4;
+    if (dropzone.classList.contains('input-connector')) {
+      this.position.x += dropzonePosition.right - draggablePosition.right + 32;
+    } else {
+      this.position.x += dropzonePosition.left - draggablePosition.left - 32;
+    }
+    this.position.y += dropzonePosition.top - draggablePosition.top;
+  }
+
+  protected updateDropzones() {
+    if (this.$refs.outputDropzone) {
+      const outputAccepts = `.input-${(this.$refs.outputDropzone as HTMLElement).getAttribute('accepts')}`;
+      this.enableDropzone(this.$refs.outputDropzone as HTMLDivElement, outputAccepts);
+    }
+
+    if (this.$refs.inputDropzones) {
+      for (const inputDropzone of this.$refs.inputDropzones as HTMLDivElement[]) {
+        const inputAccepts = `.output-${inputDropzone.getAttribute('accepts')}`;
+        this.enableDropzone(inputDropzone, inputAccepts);
+      }
+    }
   }
 
   protected enableDraggable() {
@@ -98,6 +186,7 @@ export default class Draggable extends Vue implements Ingredient {
       ],
       onstart: () => {
         this.isBeeingDragged = true;
+        this.clearConnections();
       },
       onmove: (event) => {
         this.position.x = this.position.x + event.dx;
@@ -110,20 +199,24 @@ export default class Draggable extends Vue implements Ingredient {
   }
 
   protected enableDropzone(dropzone: HTMLElement, accept: string) {
+    interact(dropzone).unset();
     interact(dropzone).dropzone({
-      accept: accept,
+      accept,
       overlap: 0.5,
 
       ondropactivate: (event) => {
+        if (event.target.classList.contains('disabled')) { return; }
         event.target.classList.add('drop-active');
       },
       ondragenter: (event) => {
+        if (event.target.classList.contains('disabled')) { return; }
         event.target.classList.add('drop-target');
       },
       ondragleave: (event) => {
         event.target.classList.remove('drop-target');
       },
       ondrop: (event) => {
+        if (event.target.classList.contains('disabled')) { return; }
         const customEvent = new CustomEvent('dropped', {
           detail: {
             dropzone: event.target,
@@ -150,48 +243,97 @@ export default class Draggable extends Vue implements Ingredient {
 div.draggable {
   position: absolute;
   display: flex;
-  width: fit-content;
   touch-action: none;
+  color: @primary;
 
   .element {
-    background-color: @accent;
+    z-index: 0;
+    border-radius: 5px;
     height: 100px;
     width: 200px;
-    border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: @primary;
+    background-color: @accent;
+    padding: 0 @spacing * 2;
+  }
+
+  .input-connector-wrapper,
+  .output-connector-wrapper {
+    position: absolute;
     z-index: 1;
-  }
 
-  .inputConnector {
-    position: absolute;
-    left: -208px;
-    top: -4px;
-    height: 100px;
     width: 200px;
-    border: dashed 4px yellow;
-    touch-action: none;
     pointer-events: none;
+    display: flex;
+    flex-direction: column;
+
+    .connector {
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      position: relative;
+
+      &:after {
+        position: absolute;
+        top: 0;
+        right: -@spacing * 2;
+        content: "";
+        height: 100%;
+        width: @spacing * 4;
+        background-color: yellow;
+        clip-path: polygon(
+          calc(100% - @spacing * 2) 0%,
+          100% 50%,
+          calc(100% - @spacing * 2) 100%,
+          0% 100%,
+          calc(0% + @spacing * 2) 50%,
+          0% 0%
+        );
+      }
+
+      &.disabled {
+        display: none;
+      }
+
+      &.drop-active {
+        &:after {
+          background-color: green;
+        }
+      }
+
+      &.drop-target {
+        &:after {
+          background-color: lightseagreen;
+        }
+      }
+    }
   }
 
-  .outputConnector {
-    position: absolute;
-    right: -208px;
-    top: -4px;
-    height: 100px;
-    width: 200px;
-    border: dashed 4px yellow;
-    touch-action: none;
-    pointer-events: none;
+  .input-connector-wrapper {
+    left: -200px;
+
+    .connector {
+      padding-right: @spacing;
+
+      &:after {
+        right: -@spacing * 2;
+      }
+    }
   }
 
-  .drop-active {
-    border-color: green !important;
-  }
-  .drop-target {
-    background-color: #29e;
+  .output-connector-wrapper {
+    right: -200px;
+
+    .connector {
+      padding-left: @spacing * 3;
+
+      &:after {
+        left: -@spacing * 2;
+      }
+    }
   }
 }
 </style>
