@@ -32,7 +32,7 @@ export interface OutputIngredient extends Ingredient {
 
 export interface Recipe extends Resource {
   name: string;
-  ingredients: Ingredient;
+  rootIngredient: Ingredient;
 }
 
 const serializer = new Serializer('recipes', {
@@ -52,7 +52,7 @@ export const Recipes = new CRUDResource<Recipe>(
 export function createRecipeNullObject(): Recipe {
   return {
     name: '',
-    ingredients: createIngredientNullObject(),
+    rootIngredient: createIngredientNullObject(),
   };
 }
 

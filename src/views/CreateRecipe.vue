@@ -60,6 +60,7 @@
         />
         <OutputDraggable
           v-for="ingredient in outputIngredients"
+          ref="outputDraggables"
           :key="ingredient.ingredientObject.id"
           :ingredientObject="ingredient.ingredientObject"
         />
@@ -190,7 +191,7 @@ export default class CreateRecipe extends Vue {
       return;
     }
 
-    this.newRecipe.ingredients = this.outputIngredients[0];
+    this.newRecipe.rootIngredient = (this.$refs.outputDraggables as Draggable[])[0].toIngredient();
 
     try {
       await Recipes.create(this.newRecipe);
