@@ -36,9 +36,9 @@
       :value.sync="newTransformer.body"
       placeholder="var date = new Date();
   var currentYear = date.getFullYear();
-  var currentAge = instance.getAttribute('yearOfBirth') - currentYear;
-  instance.setAttribute('age', currentAge);
-  return (instance.getAttribute('age') > 18);"
+  var currentAge = instance.attributes.yearOfBirth - currentYear;
+  instance.attributes.age = currentAge;
+  return (instance.attributes.age > 18);"
       />
     <Button text="Create Transformer" :onClick="createTransformer"/>
   </main>
