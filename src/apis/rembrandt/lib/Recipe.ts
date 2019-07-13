@@ -5,6 +5,8 @@ import config from '@/config/config.json';
 import { ResourceType, OptimizationAlgorithm, Transformer } from '@/apis/rembrandt/rembrandt';
 
 export interface Ingredient {
+  ingredientDefinition: string;
+  ingredientType: string;
   inputs: Ingredient[];
   ingredientObject: Resource;
   position: {
@@ -32,14 +34,14 @@ export interface OutputIngredient extends Ingredient {
 
 export interface Recipe extends Resource {
   name: string;
-  rootIngredient: Ingredient;
+  ingredients: Ingredient[];
 }
 
 const serializer = new Serializer('recipes', {
   id: 'id',
   attributes: [
     'name',
-    'rootIngredient',
+    'ingredients',
   ],
   keyForAttribute: 'camelCase',
 });
@@ -52,7 +54,7 @@ export const Recipes = new CRUDResource<Recipe>(
 export function createRecipeNullObject(): Recipe {
   return {
     name: '',
-    rootIngredient: createIngredientNullObject(),
+    ingredients: [],
   };
 }
 
