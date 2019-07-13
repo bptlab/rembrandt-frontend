@@ -191,7 +191,7 @@ export default class CreateRecipe extends Vue {
       return;
     }
 
-    this.newRecipe.ingrediants = [];
+    this.newRecipe.rootIngredient = (this.$refs.outputDraggables as Draggable[])[0].toIngredient();
 
     try {
       await Recipes.create(this.newRecipe);

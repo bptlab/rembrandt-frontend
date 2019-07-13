@@ -224,22 +224,22 @@ export default class Utils {
       {
         id: 'Input Ingrediants',
         firstValue: 'Input Ingrediants',
-        secondValue: await this.getInputIngrediantList(recipe.ingredients),
+        secondValue: recipe.ingredients ? await this.getInputIngrediantList(recipe.ingredients) : '',
       },
       {
         id: 'transformerIngredients',
         firstValue: 'Transformer Ingrediants',
-        secondValue: await this.getTransformerIngrediantList(recipe.ingredients),
+        secondValue: recipe.ingredients ? await this.getTransformerIngrediantList(recipe.ingredients) : '',
       },
       {
         id: 'algorithmIngredient',
         firstValue: 'Algorithm Ingrediants',
-        secondValue: await this.getAlgorithmIngrediantList(recipe.ingredients),
+        secondValue: recipe.ingredients ? await this.getAlgorithmIngrediantList(recipe.ingredients) : '',
       },
       {
         id: 'outputIngredients',
         firstValue: 'Output Ingrediants',
-        secondValue: await this.getOutputIngrediantList(recipe.ingredients),
+        secondValue: recipe.ingredients ? await this.getOutputIngrediantList(recipe.ingredients) : '',
       },
     ];
   }
