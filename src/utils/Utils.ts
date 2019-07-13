@@ -4,6 +4,7 @@ import { ResourceType,
   OptimizationAlgorithm,
   Transformer,
   Recipe,
+  Ingredient,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
 import translations from '@/config/translations.json';
@@ -185,6 +186,26 @@ export default class Utils {
         },
       };
     });
+  }
+
+  public static recipeAttributesToList(recipe: Recipe): ListEntry[] {
+    return [
+      {
+        id: 'name',
+        firstValue: 'Name',
+        secondValue: recipe.name,
+      },
+      {
+        id: 'inputIngrediants',
+        firstValue: 'InputIngrediants',
+        secondValue: this.getInputIngrediantList(recipe),
+      },
+    ];
+  }
+
+  public static getInputIngrediantList(recipe: Recipe) {
+   // console.log(rootIngrediant);
+    return 'hallo';
   }
 
   public static getEponymousAttributeValue(resourceInstance: ResourceInstance): string {

@@ -20,6 +20,7 @@ import {
   Recipe,
   createRecipeNullObject,
   Recipes,
+  createIngredientNullObject,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
 import ListSection from '@/components/ListSection.vue';
@@ -44,8 +45,7 @@ export default class Resource extends Vue {
   public recipe: Recipe;
 
   public get recipeAttributeList(): ListEntry[] {
-   return [];
-   // return Utils.recipeAttributesToList(this.recipe);
+    return Utils.recipeAttributesToList(this.recipe);
   }
 
   public get recipeActionsList(): ListEntry[] {
@@ -77,12 +77,14 @@ export default class Resource extends Vue {
   constructor() {
     super();
     this.recipe = createRecipeNullObject();
+    this.recipe.rootIngredient = createIngredientNullObject();
   }
   // endregion
 
   // region public methods
   public async mounted() {
     try {
+      console.log(this.recipe);
       this.recipe = await Recipes.getOne(this.$route.params.id);
       console.log(this.recipe);
     } catch (e) {
