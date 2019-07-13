@@ -3,7 +3,7 @@
     <ViewHeader :title="this.recipe.name" :backLink="{ link: { name: 'recipes' } }" />
 
     <div class="row">
-      <ListSection title="Attributes" :list="recipeAttributeList" />
+      <ListSection title="Attributes" :list="this.recipeAttributeList" />
       <ListSection title="Actions" :list="recipeActionsList" />
     </div>
 
@@ -43,10 +43,7 @@ export default class Resource extends Vue {
 
   // region public members
   public recipe: Recipe;
-
-  public get recipeAttributeList(): ListEntry[] {
-    return Utils.recipeAttributesToList(this.recipe);
-  }
+  public recipeAttributeList: ListEntry[] = [];
 
   public get recipeActionsList(): ListEntry[] {
     const recipeActions = [];
@@ -77,16 +74,14 @@ export default class Resource extends Vue {
   constructor() {
     super();
     this.recipe = createRecipeNullObject();
-    this.recipe.rootIngredient = createIngredientNullObject();
   }
   // endregion
 
   // region public methods
   public async mounted() {
     try {
-      console.log(this.recipe);
       this.recipe = await Recipes.getOne(this.$route.params.id);
-      console.log(this.recipe);
+      this.recipeAttributeList = await Utils.recipeAttributesToList(this.recipe);
     } catch (e) {
       this.$notifications.create(e);
     }

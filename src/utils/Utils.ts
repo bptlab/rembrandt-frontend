@@ -5,6 +5,9 @@ import { ResourceType,
   Transformer,
   Recipe,
   Ingredient,
+  ResourceTypes,
+  Transformers,
+  OptimizationAlgorithms,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
 import translations from '@/config/translations.json';
@@ -188,26 +191,6 @@ export default class Utils {
     });
   }
 
-  public static recipeAttributesToList(recipe: Recipe): ListEntry[] {
-    return [
-      {
-        id: 'name',
-        firstValue: 'Name',
-        secondValue: recipe.name,
-      },
-      {
-        id: 'inputIngrediants',
-        firstValue: 'InputIngrediants',
-        secondValue: this.getInputIngrediantList(recipe),
-      },
-    ];
-  }
-
-  public static getInputIngrediantList(recipe: Recipe) {
-   // console.log(rootIngrediant);
-    return 'hallo';
-  }
-
   public static getEponymousAttributeValue(resourceInstance: ResourceInstance): string {
     if (!resourceInstance.resourceType.eponymousAttribute) {
       return resourceInstance.id ? resourceInstance.id : '';
@@ -229,6 +212,118 @@ export default class Utils {
 
   public static translateToNaturalLanguage(text: string): string {
     return (translations as any)[text];
+  }
+
+  public static async recipeAttributesToList(recipe: Recipe): Promise<ListEntry[]> {
+    return [
+      {
+        id: 'name',
+        firstValue: 'Name',
+        secondValue: recipe.name,
+      },
+      {
+        id: 'Input Ingrediants',
+        firstValue: 'Input Ingrediants',
+        secondValue: await this.getInputIngrediantList(recipe.ingredients),
+      },
+      {
+        id: 'transformerIngredients',
+        firstValue: 'Transformer Ingrediants',
+        secondValue: await this.getTransformerIngrediantList(recipe.ingredients),
+      },
+      {
+        id: 'algorithmIngredient',
+        firstValue: 'Algorithm Ingrediants',
+        secondValue: await this.getAlgorithmIngrediantList(recipe.ingredients),
+      },
+      {
+        id: 'outputIngredients',
+        firstValue: 'Output Ingrediants',
+        secondValue: await this.getOutputIngrediantList(recipe.ingredients),
+      },
+    ];
+  }
+
+  public static async getInputIngrediantList(ingredients: Ingredient[]) {
+    const inputIngredients = ingredients.filter( (ingredient) => {
+      return ingredient.ingredientType === 'input';
+    });
+    let inputList = '';
+    const getNames = async () => {
+      await this.asyncForEach(inputIngredients, async (ingredient: any) => {
+        const resourceType = await ResourceTypes.getOne(ingredient.ingredientDefinition);
+        if (inputList === '') {
+        inputList = resourceType.name;
+        } else {
+          inputList = inputList + ', ' + resourceType.name;
+        }
+      });
+    };
+    await getNames();
+    return inputList;
+  }
+
+  public static async getTransformerIngrediantList(ingredients: Ingredient[]) {
+    const inputIngredients = ingredients.filter( (ingredient) => {
+      return ingredient.ingredientType === 'transform';
+    });
+    let transformerList = '';
+    const getNames = async () => {
+      await this.asyncForEach(inputIngredients, async (ingredient: any) => {
+        const transformer = await Transformers.getOne(ingredient.ingredientDefinition);
+        if (transformerList === '') {
+          transformerList = transformer.name;
+        } else {
+          transformerList = transformerList + ', ' + transformer.name;
+        }
+      });
+    };
+    await getNames();
+    return transformerList;
+  }
+
+  public static async getAlgorithmIngrediantList(ingredients: Ingredient[]) {
+    const inputIngredients = ingredients.filter( (ingredient) => {
+      return ingredient.ingredientType === 'algorithm';
+    });
+    let algorithmList = '';
+    const getNames = async () => {
+      await this.asyncForEach(inputIngredients, async (ingredient: any) => {
+        const algorithm = await OptimizationAlgorithms.getOne(ingredient.ingredientDefinition);
+        if (algorithmList === '') {
+          algorithmList = algorithm.name;
+        } else {
+          algorithmList = algorithmList + ', ' + algorithm.name;
+        }
+      });
+    };
+    await getNames();
+    return algorithmList;
+  }
+
+  public static async getOutputIngrediantList(ingredients: Ingredient[]) {
+    const inputIngredients = ingredients.filter( (ingredient) => {
+      return ingredient.ingredientType === 'output';
+    });
+    let outputList = '';
+    const getNames = async () => {
+      await this.asyncForEach(inputIngredients, async (ingredient: any) => {
+        const resourceType = await ResourceTypes.getOne(ingredient.ingredientDefinition);
+        if (outputList === '') {
+          outputList = resourceType.name;
+        } else {
+          outputList = outputList + ', ' + resourceType.name;
+        }
+      });
+    };
+    await getNames();
+    return outputList;
+  }
+
+  public static async asyncForEach(array: any, callback: any) {
+    for (let index = 0; index < array.length; index++) {
+      await callback(array[index], index, array);
+    }
   }
   // endregion
 
