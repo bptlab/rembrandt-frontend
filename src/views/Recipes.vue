@@ -49,9 +49,7 @@ export default class Types extends Vue {
   public async mounted() {
     try {
       this.recipes = await Recipes.get();
-      console.log(this.recipes);
     } catch (e) {
-      console.log('woops something went wrong');
       this.$notifications.create(e);
     }
   }
