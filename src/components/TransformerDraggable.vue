@@ -35,7 +35,7 @@
 <script lang="ts">
 import { Component, Prop } from 'vue-property-decorator';
 import Draggable from '@/components/Draggable.vue';
-import { Transformer, TransformerIngredient } from '@/apis/rembrandt/rembrandt';
+import { Transformer, TransformerIngredient, IngredientType } from '@/apis/rembrandt/rembrandt';
 
 @Component
 export default class TransformerDraggable extends Draggable implements TransformerIngredient {
@@ -48,6 +48,8 @@ export default class TransformerDraggable extends Draggable implements Transform
   // region public members
   @Prop({ type: Object })
   public ingredientObject!: Transformer;
+
+  public ingredientType = IngredientType.TRANSFORM;
 
   public get inputClasses(): string {
     if (!this.ingredientObject.resourceType.id) { return ''; }

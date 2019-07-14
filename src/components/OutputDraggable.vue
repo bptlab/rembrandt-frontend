@@ -21,7 +21,7 @@
 <script lang="ts">
 import { Component, Prop } from 'vue-property-decorator';
 import Draggable, { Connector } from '@/components/Draggable.vue';
-import { ResourceType, ResourceTypeNullObject, OutputIngredient } from '@/apis/rembrandt/rembrandt';
+import { ResourceType, ResourceTypeNullObject, OutputIngredient, IngredientType } from '@/apis/rembrandt/rembrandt';
 
 @Component
 export default class OutputDraggable extends Draggable implements OutputIngredient {
@@ -34,6 +34,8 @@ export default class OutputDraggable extends Draggable implements OutputIngredie
   // region public members
   @Prop({ type: Object })
   public ingredientObject!: ResourceType;
+
+  public ingredientType = IngredientType.OUTPUT;
 
   public get inputClasses(): string {
     if (!this.ingredientObject.id) { return ''; }

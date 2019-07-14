@@ -8,6 +8,7 @@ import { ResourceType,
   ResourceTypes,
   Transformers,
   OptimizationAlgorithms,
+  IngredientType,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
 import translations from '@/config/translations.json';
@@ -246,7 +247,7 @@ export default class Utils {
 
   public static async getInputIngrediantList(ingredients: Ingredient[]) {
     const inputIngredients = ingredients.filter( (ingredient) => {
-      return ingredient.ingredientType === 'input';
+      return ingredient.ingredientType === IngredientType.INPUT;
     });
     let inputList = '';
     const getNames = async () => {
@@ -265,7 +266,7 @@ export default class Utils {
 
   public static async getTransformerIngrediantList(ingredients: Ingredient[]) {
     const inputIngredients = ingredients.filter( (ingredient) => {
-      return ingredient.ingredientType === 'transform';
+      return ingredient.ingredientType === IngredientType.TRANSFORM;
     });
     let transformerList = '';
     const getNames = async () => {
@@ -284,7 +285,7 @@ export default class Utils {
 
   public static async getAlgorithmIngrediantList(ingredients: Ingredient[]) {
     const inputIngredients = ingredients.filter( (ingredient) => {
-      return ingredient.ingredientType === 'algorithm';
+      return ingredient.ingredientType === IngredientType.ALGORITHM;
     });
     let algorithmList = '';
     const getNames = async () => {
@@ -303,7 +304,7 @@ export default class Utils {
 
   public static async getOutputIngrediantList(ingredients: Ingredient[]) {
     const inputIngredients = ingredients.filter( (ingredient) => {
-      return ingredient.ingredientType === 'output';
+      return ingredient.ingredientType === IngredientType.OUTPUT;
     });
     let outputList = '';
     const getNames = async () => {

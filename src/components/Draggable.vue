@@ -9,7 +9,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import interact from 'interactjs';
-import { ResourceType, ResourceTypeNullObject, Ingredient } from '@/apis/rembrandt/rembrandt';
+import { ResourceType, ResourceTypeNullObject, Ingredient, IngredientType } from '@/apis/rembrandt/rembrandt';
 
 export interface DropzoneEvent extends CustomEvent {
   details: {
@@ -35,6 +35,8 @@ export default class Draggable extends Vue implements Ingredient {
   // region public members
   @Prop({ type: Object })
   public ingredientObject: any;
+
+  public ingredientType!: IngredientType;
 
   public inputs: Draggable[] = [];
 
@@ -118,6 +120,7 @@ export default class Draggable extends Vue implements Ingredient {
     return {
       inputs: this.inputs.map((input) => input.toIngredient()),
       ingredientObject: this.ingredientObject,
+      ingredientType: this.ingredientType,
       position: this.position,
     };
   }

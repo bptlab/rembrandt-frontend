@@ -4,9 +4,16 @@ import CRUDResource from '@/apis/jsonapi/CRUDResource';
 import config from '@/config/config.json';
 import { ResourceType, OptimizationAlgorithm, Transformer } from '@/apis/rembrandt/rembrandt';
 
+export enum IngredientType {
+  INPUT = 'input',
+  OUTPUT = 'output',
+  TRANSFORM = 'transform',
+  ALGORITHM = 'algorithm',
+}
+
 export interface Ingredient {
   ingredientDefinition?: string;
-  ingredientType?: string;
+  ingredientType: IngredientType;
   inputs: Ingredient[];
   ingredientObject: Resource;
   position: {
@@ -65,6 +72,7 @@ export function createIngredientNullObject(): Ingredient {
   return {
     inputs: [],
     ingredientObject: {},
+    ingredientType: IngredientType.INPUT,
     position: {
       x: 0,
       y: 0,
