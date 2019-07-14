@@ -9,6 +9,8 @@ import { ResourceType,
   Transformers,
   OptimizationAlgorithms,
   IngredientType,
+  OptimizationExecution,
+  OptimizationExecutionObject,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
 import translations from '@/config/translations.json';
@@ -135,6 +137,55 @@ export default class Utils {
           `@${algorithm.dockerConfig.digest}`}`,
       },
     ];
+  }
+
+
+  public static optimizationExecutionsToList(executions: OptimizationExecution[], onClick?: clickHandler) {
+    return executions.map((execution) => {
+      return {
+        id: execution.id || execution.identifier,
+        firstValue: 'Execution Identifier: ' + execution.identifier,
+        secondValue: Utils.getExecutionStateString(execution),
+        thirdValue: Utils.getExecutionProgress(execution),
+        link: onClick ? {
+          onClick: () => { onClick(execution.id || execution.identifier); },
+        } : {
+            link: { name: 'execution', params: { id: execution.id } },
+          },
+      };
+    });
+  }
+
+  public static optimizationExecutionStatesToList(execution: OptimizationExecution): ListEntry[] {
+    return execution.processingStates.map((state) => {
+      return {
+        id: state.identifier,
+        firstValue: 'State identifier: ' + state.identifier,
+        secondValue: Utils.getExecutionStateString(state),
+      };
+    });
+  }
+
+  public static getExecutionStateString(execution: OptimizationExecutionObject): string {
+    let executionStateString = 'Execution was not started.';
+    if (execution.finishedAt) {
+      if (execution.successful) {
+        executionStateString = `Finished successful ${ta.ago(execution.finishedAt)}`;
+      } else {
+        executionStateString = `Execution failed ${ta.ago(execution.finishedAt)}`;
+      }
+    } else if (execution.startedAt) {
+      executionStateString = `Started ${ta.ago(execution.startedAt)}`;
+    }
+
+    return executionStateString;
+  }
+
+  public static getExecutionProgress(execution: OptimizationExecution): string {
+    const numberOfIngredients = execution.processingStates.length;
+    const numberOfFinishedIngredients = execution.processingStates.filter((state) => state.successful).length;
+    const finishedPercentage = (numberOfFinishedIngredients / numberOfIngredients) * 100;
+    return `${Math.round(finishedPercentage)} %`;
   }
 
   public static transformerToList(transformers: Transformer[], onClick?: clickHandler) {

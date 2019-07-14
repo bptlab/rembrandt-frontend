@@ -17,6 +17,8 @@ import EditTransformer from './views/EditTransformer.vue';
 import CreateRecipe from './views/CreateRecipe.vue';
 import Recipe from './views/Recipe.vue';
 import Recipes from './views/Recipes.vue';
+import Execution from './views/Execution.vue';
+import Executions from './views/Executions.vue';
 import Settings from './views/Settings.vue';
 
 Vue.use(Router);
@@ -93,14 +95,14 @@ export default new Router({
       component: Algorithm,
     },
     {
-    path: '/optimization/transformers',
-    name: 'transformers',
-    component: Transformers,
+      path: '/optimization/transformers',
+      name: 'transformers',
+      component: Transformers,
     },
     {
-    path: '/optimization/transformers/create',
-    name: 'create-transformer',
-    component: CreateTransformer,
+      path: '/optimization/transformers/create',
+      name: 'create-transformer',
+      component: CreateTransformer,
     },
     {
       path: 'organization/transformers/edit/:transformerId',
@@ -108,9 +110,9 @@ export default new Router({
       component: EditTransformer,
     },
     {
-    path: '/optimization/transformers/:id',
-    name: 'transformer',
-    component: Transformer,
+      path: '/optimization/transformers/:id',
+      name: 'transformer',
+      component: Transformer,
     },
     {
       path: '/optimization/recipes',
@@ -126,7 +128,17 @@ export default new Router({
       path: '/optimization/recipes/:id',
       name: 'recipe',
       component: Recipe,
-      },
+    },
+    {
+      path: '/optimization/executions',
+      name: 'executions',
+      component: Executions,
+    },
+    {
+      path: '/optimization/executions/:id',
+      name: 'execution',
+      component: Execution,
+    },
     {
       path: '/settings',
       name: 'settings',
