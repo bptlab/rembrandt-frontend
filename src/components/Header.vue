@@ -70,6 +70,9 @@
               <li>
                 <router-link :to="{ name: 'transformers' }">Transformers</router-link>
               </li>
+              <li>
+                <router-link :to="{ name: 'executions' }">Executions</router-link>
+              </li>
             </ul>
           </div>
         </div>
