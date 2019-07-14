@@ -146,6 +146,7 @@ export default class Utils {
         id: execution.id || execution.identifier,
         firstValue: execution.identifier,
         secondValue: Utils.getExecutionStateString(execution),
+        thirdValue: Utils.getExecutionProgress(execution),
         link: onClick ? {
           onClick: () => { onClick(execution.id || execution.identifier); },
         } : {
@@ -178,6 +179,13 @@ export default class Utils {
     }
 
     return executionStateString;
+  }
+
+  public static getExecutionProgress(execution: OptimizationExecution): string {
+    const numberOfIngredients = execution.processingStates.length;
+    const numberOfFinishedIngredients = execution.processingStates.filter((state) => state.successful).length;
+    const finishedPercentage = (numberOfFinishedIngredients / numberOfIngredients) * 100;
+    return `${Math.round(finishedPercentage)} %`;
   }
 
   public static transformerToList(transformers: Transformer[], onClick?: clickHandler) {
