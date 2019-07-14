@@ -175,7 +175,7 @@ export default class Utils {
         executionStateString = `Execution failed ${ta.ago(execution.finishedAt)}`;
       }
     } else if (execution.startedAt) {
-      executionStateString = `Started ${ta.ago(execution.finishedAt)}`;
+      executionStateString = `Started ${ta.ago(execution.startedAt)}`;
     }
 
     return executionStateString;
