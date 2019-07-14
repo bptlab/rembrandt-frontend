@@ -9,6 +9,7 @@ import { ResourceType,
   Transformers,
   OptimizationAlgorithms,
   IngredientType,
+  OptimizationExecution,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
 import translations from '@/config/translations.json';
@@ -135,6 +136,37 @@ export default class Utils {
           `@${algorithm.dockerConfig.digest}`}`,
       },
     ];
+  }
+
+
+  public static optimizationExecutionsToList(executions: OptimizationExecution[], onClick?: clickHandler) {
+    return executions.map((execution) => {
+      return {
+        id: execution.id || execution.identifier,
+        firstValue: execution.identifier,
+        secondValue: Utils.getExecutionStateString(execution),
+        link: onClick ? {
+          onClick: () => { onClick(execution.id || execution.identifier); },
+        } : {
+            link: { name: 'execution', params: { id: execution.id } },
+          },
+      };
+    });
+  }
+
+  public static getExecutionStateString(execution: OptimizationExecution): string {
+    let executionStateString = 'Execution was not started.';
+    if (execution.finishedAt) {
+      if (execution.successful) {
+        executionStateString = `Finished successful ${ta.ago(execution.finishedAt)}`;
+      } else {
+        executionStateString = `Execution failed ${ta.ago(execution.finishedAt)}`;
+      }
+    } else if (execution.startedAt) {
+      executionStateString = `Started ${ta.ago(execution.finishedAt)}`;
+    }
+
+    return executionStateString;
   }
 
   public static transformerToList(transformers: Transformer[], onClick?: clickHandler) {

@@ -13,6 +13,7 @@
       <router-link :to="{ name: 'algorithms' }">Algorithms</router-link>
       <router-link :to="{ name: 'transformers' }">Transformers</router-link>
       <router-link :to="{ name: 'recipes' }">Recipes</router-link>
+      <router-link :to="{ name: 'executions' }">Executions</router-link>
     </nav>
     <div class="user-container">
       <Link class="notification-button" :linkOptions="{ onClick: toggleNotificationCenter }">
