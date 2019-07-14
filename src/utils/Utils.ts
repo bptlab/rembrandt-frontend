@@ -144,7 +144,7 @@ export default class Utils {
     return executions.map((execution) => {
       return {
         id: execution.id || execution.identifier,
-        firstValue: execution.identifier,
+        firstValue: 'Execution Identifier: ' + execution.identifier,
         secondValue: Utils.getExecutionStateString(execution),
         thirdValue: Utils.getExecutionProgress(execution),
         link: onClick ? {
@@ -160,7 +160,7 @@ export default class Utils {
     return execution.processingStates.map((state) => {
       return {
         id: state.identifier,
-        firstValue: state.identifier,
+        firstValue: 'State identifier: ' + state.identifier,
         secondValue: Utils.getExecutionStateString(state),
       };
     });
