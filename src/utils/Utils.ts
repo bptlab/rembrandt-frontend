@@ -10,6 +10,7 @@ import { ResourceType,
   OptimizationAlgorithms,
   IngredientType,
   OptimizationExecution,
+  OptimizationExecutionObject,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
 import translations from '@/config/translations.json';
@@ -154,7 +155,17 @@ export default class Utils {
     });
   }
 
-  public static getExecutionStateString(execution: OptimizationExecution): string {
+  public static optimizationExecutionStatesToList(execution: OptimizationExecution): ListEntry[] {
+    return execution.processingStates.map((state) => {
+      return {
+        id: state.identifier,
+        firstValue: state.identifier,
+        secondValue: Utils.getExecutionStateString(state),
+      };
+    });
+  }
+
+  public static getExecutionStateString(execution: OptimizationExecutionObject): string {
     let executionStateString = 'Execution was not started.';
     if (execution.finishedAt) {
       if (execution.successful) {

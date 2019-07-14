@@ -17,6 +17,7 @@ import EditTransformer from './views/EditTransformer.vue';
 import CreateRecipe from './views/CreateRecipe.vue';
 import Recipe from './views/Recipe.vue';
 import Recipes from './views/Recipes.vue';
+import Execution from './views/Execution.vue';
 import Executions from './views/Executions.vue';
 import Settings from './views/Settings.vue';
 
@@ -132,6 +133,11 @@ export default new Router({
       path: '/optimization/executions',
       name: 'executions',
       component: Executions,
+    },
+    {
+      path: '/optimization/executions/:id',
+      name: 'execution',
+      component: Execution,
     },
     {
       path: '/settings',
