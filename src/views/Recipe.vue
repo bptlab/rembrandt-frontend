@@ -13,14 +13,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import {
-  ResourceInstances,
-  ResourceInstance,
-  ResourceInstanceNullObject,
-  ResourceTypes,
   Recipe,
   createRecipeNullObject,
   Recipes,
-  createIngredientNullObject,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
 import ListSection from '@/components/ListSection.vue';

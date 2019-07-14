@@ -21,7 +21,6 @@ import ViewHeader from '@/components/ViewHeader.vue';
 import ListSection from '@/components/ListSection.vue';
 import { ListEntry } from '@/components/Li.vue';
 import Utils from '@/utils/Utils';
-import { NotificationLevel } from '@/interfaces/Notification';
 
 @Component({
   components: {
