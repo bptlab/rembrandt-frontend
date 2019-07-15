@@ -150,7 +150,7 @@ export default class Utils {
         link: onClick ? {
           onClick: () => { onClick(execution.id || execution.identifier); },
         } : {
-            link: { name: 'execution', params: { id: execution.id } },
+          link: { name: 'execution', params: { id: execution.id } },
           },
       };
     });
@@ -274,108 +274,74 @@ export default class Utils {
         secondValue: recipe.name,
       },
       {
-        id: 'Input Ingrediants',
-        firstValue: 'Input Ingrediants',
-        secondValue: recipe.ingredients ? await this.getInputIngrediantList(recipe.ingredients) : '',
+        id: 'Input Ingredients',
+        firstValue: 'Input Ingredients',
+        secondValue: recipe.ingredients ? await this.getInputIngredientList(recipe.ingredients) : '',
       },
       {
         id: 'transformerIngredients',
-        firstValue: 'Transformer Ingrediants',
-        secondValue: recipe.ingredients ? await this.getTransformerIngrediantList(recipe.ingredients) : '',
+        firstValue: 'Transformer Ingredients',
+        secondValue: recipe.ingredients ? await this.getTransformerIngredientList(recipe.ingredients) : '',
       },
       {
         id: 'algorithmIngredient',
-        firstValue: 'Algorithm Ingrediants',
-        secondValue: recipe.ingredients ? await this.getAlgorithmIngrediantList(recipe.ingredients) : '',
+        firstValue: 'Algorithm Ingredients',
+        secondValue: recipe.ingredients ? await this.getAlgorithmIngredientList(recipe.ingredients) : '',
       },
       {
         id: 'outputIngredients',
-        firstValue: 'Output Ingrediants',
-        secondValue: recipe.ingredients ? await this.getOutputIngrediantList(recipe.ingredients) : '',
+        firstValue: 'Output Ingredient',
+        secondValue: recipe.ingredients ? await this.getOutputIngredientList(recipe.ingredients) : '',
       },
     ];
   }
 
-  public static async getInputIngrediantList(ingredients: Ingredient[]) {
+  public static async getInputIngredientList(ingredients: Ingredient[]) {
     const inputIngredients = ingredients.filter( (ingredient) => {
       return ingredient.ingredientType === IngredientType.INPUT;
     });
-    let inputList = '';
-    const getNames = async () => {
-      await this.asyncForEach(inputIngredients, async (ingredient: any) => {
-        const resourceType = await ResourceTypes.getOne(ingredient.ingredientDefinition);
-        if (inputList === '') {
-        inputList = resourceType.name;
-        } else {
-          inputList = inputList + ', ' + resourceType.name;
-        }
-      });
-    };
-    await getNames();
-    return inputList;
+    const namePromises = inputIngredients.map(async (ingredient: Ingredient): Promise<string> => {
+      const resourceType = await ResourceTypes.getOne(ingredient.ingredientDefinition!);
+      return resourceType.name;
+    });
+    const names = await Promise.all(namePromises);
+    return names.join(', ');
   }
 
-  public static async getTransformerIngrediantList(ingredients: Ingredient[]) {
-    const inputIngredients = ingredients.filter( (ingredient) => {
+  public static async getTransformerIngredientList(ingredients: Ingredient[]) {
+    const transformerIngredients = ingredients.filter( (ingredient) => {
       return ingredient.ingredientType === IngredientType.TRANSFORM;
     });
-    let transformerList = '';
-    const getNames = async () => {
-      await this.asyncForEach(inputIngredients, async (ingredient: any) => {
-        const transformer = await Transformers.getOne(ingredient.ingredientDefinition);
-        if (transformerList === '') {
-          transformerList = transformer.name;
-        } else {
-          transformerList = transformerList + ', ' + transformer.name;
-        }
-      });
-    };
-    await getNames();
-    return transformerList;
+    const namePromises = transformerIngredients.map(async (ingredient: Ingredient): Promise<string> => {
+      const transformer = await Transformers.getOne(ingredient.ingredientDefinition!);
+      return transformer.name;
+    });
+    const names = await Promise.all(namePromises);
+    return names.join(', ');
   }
 
-  public static async getAlgorithmIngrediantList(ingredients: Ingredient[]) {
-    const inputIngredients = ingredients.filter( (ingredient) => {
+  public static async getAlgorithmIngredientList(ingredients: Ingredient[]) {
+    const AlgorithmIngredients = ingredients.filter( (ingredient) => {
       return ingredient.ingredientType === IngredientType.ALGORITHM;
     });
-    let algorithmList = '';
-    const getNames = async () => {
-      await this.asyncForEach(inputIngredients, async (ingredient: any) => {
-        const algorithm = await OptimizationAlgorithms.getOne(ingredient.ingredientDefinition);
-        if (algorithmList === '') {
-          algorithmList = algorithm.name;
-        } else {
-          algorithmList = algorithmList + ', ' + algorithm.name;
-        }
-      });
-    };
-    await getNames();
-    return algorithmList;
+    const namePromises = AlgorithmIngredients.map(async (ingredient: Ingredient): Promise<string> => {
+      const algorithm = await OptimizationAlgorithms.getOne(ingredient.ingredientDefinition!);
+      return algorithm.name;
+    });
+    const names = await Promise.all(namePromises);
+    return names.join(', ');
   }
 
-  public static async getOutputIngrediantList(ingredients: Ingredient[]) {
-    const inputIngredients = ingredients.filter( (ingredient) => {
+  public static async getOutputIngredientList(ingredients: Ingredient[]) {
+    const outputIngredients = ingredients.filter( (ingredient) => {
       return ingredient.ingredientType === IngredientType.OUTPUT;
     });
-    let outputList = '';
-    const getNames = async () => {
-      await this.asyncForEach(inputIngredients, async (ingredient: any) => {
-        const resourceType = await ResourceTypes.getOne(ingredient.ingredientDefinition);
-        if (outputList === '') {
-          outputList = resourceType.name;
-        } else {
-          outputList = outputList + ', ' + resourceType.name;
-        }
-      });
-    };
-    await getNames();
-    return outputList;
-  }
-
-  public static async asyncForEach(array: any, callback: any) {
-    for (let index = 0; index < array.length; index++) {
-      await callback(array[index], index, array);
-    }
+    const namePromises = outputIngredients.map(async (ingredient: Ingredient): Promise<string> => {
+      const resourceType = await ResourceTypes.getOne(ingredient.ingredientDefinition!);
+      return resourceType.name;
+    });
+    const names = await Promise.all(namePromises);
+    return names.join(', ');
   }
   // endregion
 

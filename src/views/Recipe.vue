@@ -52,11 +52,11 @@ export default class Resource extends Vue {
         },
       },
       {
-      id: '2',
-      firstValue: 'Delete Recipe',
-      link: {
-        onClick: this.deleteRecipe,
-      },
+        id: '2',
+        firstValue: 'Delete Recipe',
+        link: {
+          onClick: this.deleteRecipe,
+        },
       });
     return recipeActions;
   }
