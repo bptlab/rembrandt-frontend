@@ -140,7 +140,7 @@ export default class Utils {
   }
 
 
-  public static optimizationExecutionsToList(executions: OptimizationExecution[], onClick?: clickHandler) {
+  public static optimizationExecutionsToList(executions: OptimizationExecution[], onClick?: clickHandler): ListEntry[] {
     return executions.map((execution) => {
       return {
         id: execution.id || execution.identifier,
@@ -188,7 +188,7 @@ export default class Utils {
     return `${Math.round(finishedPercentage)} %`;
   }
 
-  public static transformerToList(transformers: Transformer[], onClick?: clickHandler) {
+  public static transformerToList(transformers: Transformer[], onClick?: clickHandler): ListEntry[] {
     return transformers.map((transformer) => {
       return {
         id: transformer.id || transformer.name,
@@ -229,7 +229,7 @@ export default class Utils {
     ];
   }
 
-  public static recipesToList(recipes: Recipe[], onClick?: clickHandler) {
+  public static recipesToList(recipes: Recipe[], onClick?: clickHandler): ListEntry[] {
     return recipes.map((recipe) => {
       return {
         id: recipe.id || recipe.name,
@@ -296,7 +296,7 @@ export default class Utils {
     ];
   }
 
-  public static async getInputIngredientList(ingredients: Ingredient[]) {
+  public static async getInputIngredientList(ingredients: Ingredient[]): Promise<string> {
     const inputIngredients = ingredients.filter( (ingredient) => {
       return ingredient.ingredientType === IngredientType.INPUT;
     });
@@ -308,7 +308,7 @@ export default class Utils {
     return names.join(', ');
   }
 
-  public static async getTransformerIngredientList(ingredients: Ingredient[]) {
+  public static async getTransformerIngredientList(ingredients: Ingredient[]): Promise<string> {
     const transformerIngredients = ingredients.filter( (ingredient) => {
       return ingredient.ingredientType === IngredientType.TRANSFORM;
     });
@@ -320,7 +320,7 @@ export default class Utils {
     return names.join(', ');
   }
 
-  public static async getAlgorithmIngredientList(ingredients: Ingredient[]) {
+  public static async getAlgorithmIngredientList(ingredients: Ingredient[]): Promise<string> {
     const AlgorithmIngredients = ingredients.filter( (ingredient) => {
       return ingredient.ingredientType === IngredientType.ALGORITHM;
     });
@@ -332,7 +332,7 @@ export default class Utils {
     return names.join(', ');
   }
 
-  public static async getOutputIngredientList(ingredients: Ingredient[]) {
+  public static async getOutputIngredientList(ingredients: Ingredient[]): Promise<string> {
     const outputIngredients = ingredients.filter( (ingredient) => {
       return ingredient.ingredientType === IngredientType.OUTPUT;
     });
