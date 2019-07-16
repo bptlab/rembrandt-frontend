@@ -39,7 +39,7 @@
 <script lang="ts">
 import { Component, Prop, Watch } from 'vue-property-decorator';
 import Draggable from '@/components/Draggable.vue';
-import { OptimizationAlgorithm, AlgorithmIngredient } from '@/apis/rembrandt/rembrandt';
+import { OptimizationAlgorithm, AlgorithmIngredient, IngredientType } from '@/apis/rembrandt/rembrandt';
 
 @Component
 export default class AlgorithmDraggable extends Draggable implements AlgorithmIngredient {
@@ -52,6 +52,8 @@ export default class AlgorithmDraggable extends Draggable implements AlgorithmIn
   // region public members
   @Prop({ type: Object })
   public ingredientObject!: OptimizationAlgorithm;
+
+  public ingredientType = IngredientType.ALGORITHM;
 
   public get inputClasses(): string {
     if (this.ingredientObject.inputs.length <= 0) { return ''; }

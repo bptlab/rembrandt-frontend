@@ -104,6 +104,7 @@ import {
   OptimizationAlgorithm,
   Recipe,
   Recipes,
+  IngredientType,
   InputIngredient,
   OutputIngredient,
   TransformerIngredient,
@@ -213,6 +214,7 @@ export default class CreateRecipe extends Vue {
     this.inputIngredients.push({
       inputs: [],
       ingredientObject: resourceType,
+      ingredientType: IngredientType.INPUT,
       position: {
         x: 0,
         y: 0,
@@ -224,6 +226,7 @@ export default class CreateRecipe extends Vue {
     this.outputIngredients.push({
       inputs: [],
       ingredientObject: resourceType,
+      ingredientType: IngredientType.OUTPUT,
       position: {
         x: 0,
         y: 0,
@@ -235,6 +238,7 @@ export default class CreateRecipe extends Vue {
     this.transformerIngredients.push({
       inputs: [],
       ingredientObject: transformer,
+      ingredientType: IngredientType.TRANSFORM,
       position: {
         x: 0,
         y: 0,
@@ -246,6 +250,7 @@ export default class CreateRecipe extends Vue {
     this.algorithmIngredients.push({
       inputs: [],
       ingredientObject: algorithm,
+      ingredientType: IngredientType.ALGORITHM,
       position: {
         x: 0,
         y: 0,

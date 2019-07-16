@@ -4,7 +4,16 @@ import CRUDResource from '@/apis/jsonapi/CRUDResource';
 import config from '@/config/config.json';
 import { ResourceType, OptimizationAlgorithm, Transformer } from '@/apis/rembrandt/rembrandt';
 
+export enum IngredientType {
+  INPUT = 'input',
+  OUTPUT = 'output',
+  TRANSFORM = 'transform',
+  ALGORITHM = 'algorithm',
+}
+
 export interface Ingredient {
+  ingredientDefinition?: string;
+  ingredientType: IngredientType;
   inputs: Ingredient[];
   ingredientObject: Resource;
   position: {
@@ -33,6 +42,7 @@ export interface OutputIngredient extends Ingredient {
 export interface Recipe extends Resource {
   name: string;
   rootIngredient: Ingredient;
+  ingredients?: Ingredient[];
 }
 
 const serializer = new Serializer('recipes', {
@@ -40,6 +50,7 @@ const serializer = new Serializer('recipes', {
   attributes: [
     'name',
     'rootIngredient',
+    'ingredients',
   ],
   keyForAttribute: 'camelCase',
 });
@@ -53,6 +64,7 @@ export function createRecipeNullObject(): Recipe {
   return {
     name: '',
     rootIngredient: createIngredientNullObject(),
+    ingredients: [],
   };
 }
 
@@ -60,6 +72,7 @@ export function createIngredientNullObject(): Ingredient {
   return {
     inputs: [],
     ingredientObject: {},
+    ingredientType: IngredientType.INPUT,
     position: {
       x: 0,
       y: 0,
