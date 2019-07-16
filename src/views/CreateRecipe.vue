@@ -20,35 +20,45 @@
       <div class="ingredients">
         <div class="add-inputs">
           <h2>Inputs</h2>
-          <button
+          <Button
             v-for="resourceType in resourceTypes"
             :key="resourceType.id"
-            @click="addInputIngredient(resourceType)"
-          >{{ resourceType.name }}</button>
+            :text="resourceType.name"
+            :small="true"
+            :onClick="() => addInputIngredient(resourceType)"
+          />
         </div>
         <div class="add-outputs">
           <h2>Outputs</h2>
-          <button
+          <Button
             v-for="resourceType in resourceTypes"
             :key="resourceType.id"
-            @click="addOutputIngredient(resourceType)"
-          >{{ resourceType.name }}</button>
+            :text="resourceType.name"
+            :small="true"
+            :onClick="() => addOutputIngredient(resourceType)"
+          />
         </div>
         <div class="add-transformers">
           <h2>Transformers</h2>
-          <button
+          <Button
             v-for="transformer in transformers"
             :key="transformer.id"
+            :text="transformer.name"
+            :small="true"
+            :onClick="() => addTransformerIngredient(transformer)"
             @click="addTransformerIngredient(transformer)"
-          >{{ transformer.name }}</button>
+          />
         </div>
         <div class="add-algorithms">
           <h2>Algorithms</h2>
-          <button
+          <Button
             v-for="algorithm in algorithms"
             :key="algorithm.id"
+            :text="algorithm.name"
+            :small="true"
+            :onClick="() => addAlgorithmIngredient(algorithm)"
             @click="addAlgorithmIngredient(algorithm)"
-          >{{ algorithm.name }}</button>
+          />
         </div>
       </div>
 
@@ -281,7 +291,7 @@ main.create-recipe {
       min-width: 200px;
 
       & > * {
-        padding: @spacing 0;
+        padding-top: @spacing;
       }
 
       & > *:first-child {

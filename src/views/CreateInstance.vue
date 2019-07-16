@@ -4,21 +4,23 @@
       title="Choose a resource type for the new instance"
       :backLink="{ link: { name: 'resources' } }"
     />
-    <ListSection :list="nonAbstractResourceTypesList"/>
+    <ListSection :list="nonAbstractResourceTypesList" />
   </main>
 
   <main v-else-if="formState === 1">
-    <ViewHeader title="Choose attribute values for the new instance" :backLink="{ onClick: previousStep }"/>
-    <ListSection :title="`Attributes of ${resourceType.name}`">
-      <Li v-for="attribute in newResourceInstance.attributes" :key="attribute.name">
-        <TypeSensitiveInput
-          :resourceType="newResourceInstance.resourceType"
-          :resourceInstanceAttribute="attribute"
-        />
-      </Li>
-    </ListSection>
-
-    <Button text="Create Resource" :onClick="createResourceInstance"/>
+    <ViewHeader
+      title="Choose attribute values for the new instance"
+      :backLink="{ onClick: previousStep }"
+    />
+    <section class="attributes">
+      <TypeSensitiveInput
+        v-for="attribute in newResourceInstance.attributes"
+        :key="attribute.name"
+        :resourceType="newResourceInstance.resourceType"
+        :resourceInstanceAttribute="attribute"
+      />
+    </section>
+    <Button text="Create Resource" :onClick="createResourceInstance" />
   </main>
 </template>
 
@@ -64,7 +66,7 @@ export default class CreateResource extends Mixins(Translate) {
   public formState: number = 0;
 
   public get nonAbstractResourceTypesList(): ListEntry[] {
-    const nonAbstractResourceTypes =  this.resourceTypes.filter((resourceType) => !resourceType.abstract);
+    const nonAbstractResourceTypes = this.resourceTypes.filter((resourceType) => !resourceType.abstract);
     return Utils.resourceTypesToList(nonAbstractResourceTypes, this.selectResourceType);
   }
 
@@ -111,12 +113,12 @@ export default class CreateResource extends Mixins(Translate) {
   public async selectResourceType(id: string) {
     this.resourceType = await ResourceTypes.getOne(id);
     this.newResourceInstance.resourceType = this.resourceType;
-    this.resourceType.attributes.forEach( (attribute) => {
+    this.resourceType.attributes.forEach((attribute) => {
       if (attribute.dataType === 'boolean') {
-        this.newResourceInstance.attributes.push({name: attribute.name, value: false});
+        this.newResourceInstance.attributes.push({ name: attribute.name, value: false });
       } else {
-        this.newResourceInstance.attributes.push({name: attribute.name, value: ''});
-        }
+        this.newResourceInstance.attributes.push({ name: attribute.name, value: '' });
+      }
     });
     this.nextStep();
   }
@@ -143,3 +145,16 @@ export default class CreateResource extends Mixins(Translate) {
   // endregion
 }
 </script>
+<style lang="less">
+@import "../colors.less";
+
+section.attributes {
+  & > * {
+    &::before,
+    &:after {
+      content: " ";
+      display: table;
+    }
+  }
+}
+</style>
