@@ -11,6 +11,7 @@ import { ResourceType,
   IngredientType,
   OptimizationExecution,
   OptimizationExecutionObject,
+  OptimizationExecutionState,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
 import translations from '@/config/translations.json';
@@ -160,7 +161,7 @@ export default class Utils {
     return execution.processingStates.map((state) => {
       return {
         id: state.identifier,
-        firstValue: 'State identifier: ' + state.identifier,
+        firstValue: state.identifier + ' - ' + Utils.getExecutionStateIngredient(execution, state),
         secondValue: Utils.getExecutionStateString(state),
       };
     });
@@ -178,6 +179,25 @@ export default class Utils {
     }
 
     return 'Execution was not started.';
+  }
+
+  public static getExecutionStateIngredient(
+    execution: OptimizationExecution,
+    executionState: OptimizationExecutionState): string {
+
+    if (!execution.recipe.ingredients) {
+      return '';
+    }
+    const ingredient = execution.recipe.ingredients.find(
+      (currentIngredient) => {
+        return (currentIngredient as any).Id === executionState.ingredient;
+      });
+
+    if (!ingredient) {
+      return '';
+    }
+
+    return ingredient.ingredientType;
   }
 
   public static getExecutionProgress(execution: OptimizationExecution): string {

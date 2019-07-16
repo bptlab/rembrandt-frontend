@@ -11,9 +11,13 @@ export interface OptimizationExecutionObject extends Resource {
   successful?: boolean;
 }
 
+export interface OptimizationExecutionState extends OptimizationExecutionObject {
+  ingredient: string;
+}
+
 export interface OptimizationExecution extends OptimizationExecutionObject {
   recipe: Recipe;
-  processingStates: OptimizationExecutionObject[];
+  processingStates: OptimizationExecutionState[];
 }
 
 const serializer = new Serializer('optimizationExecutions', {
