@@ -167,18 +167,17 @@ export default class Utils {
   }
 
   public static getExecutionStateString(execution: OptimizationExecutionObject): string {
-    let executionStateString = 'Execution was not started.';
     if (execution.finishedAt) {
       if (execution.successful) {
-        executionStateString = `Finished successful ${ta.ago(execution.finishedAt)}`;
+        return `Finished successful ${ta.ago(execution.finishedAt)}`;
       } else {
-        executionStateString = `Execution failed ${ta.ago(execution.finishedAt)}`;
+        return `Execution failed ${ta.ago(execution.finishedAt)}`;
       }
     } else if (execution.startedAt) {
-      executionStateString = `Started ${ta.ago(execution.startedAt)}`;
+      return `Started ${ta.ago(execution.startedAt)}`;
     }
 
-    return executionStateString;
+    return 'Execution was not started.';
   }
 
   public static getExecutionProgress(execution: OptimizationExecution): string {

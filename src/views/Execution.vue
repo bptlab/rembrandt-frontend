@@ -1,12 +1,8 @@
 <template>
   <main>
     <ViewHeader :title="execution.identifier" :backLink="{ link: { name: 'executions' } }"/>
-
     <ListSection class="preview-container" :list="executionList"/>
-
-    <div class="row">
-      <ListSection title="Ingredient States" :list="executionStatesList"/>
-    </div>
+    <ListSection title="Ingredient States" :list="executionStatesList"/>
   </main>
 </template>
 
