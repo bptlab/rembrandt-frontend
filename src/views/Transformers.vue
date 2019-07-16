@@ -1,6 +1,6 @@
 <template>
   <main>
-    <ListSection title="Transformators" :list="transformerList" />
+    <ListSection title="Transformers" :list="transformerList" />
     <SmallButton :link="{link: { name: 'create-transformer' } }" class="create-transformer-button">
       <i class="fas fa-plus"></i>
     </SmallButton>

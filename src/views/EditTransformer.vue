@@ -9,11 +9,9 @@
     <h1>below you can enter the code of your transformer</h1>
     <br>
     <TextArea
-      :firstString="`instancesOf${editedTransformer.resourceType.name}.${editedTransformer.transformerType}( (instance) => {`"
-      secondString='});'
-      :value.sync="editedTransformer.body"
-      placeholder="return (instances.getAttribute(age) > 18);"
-    />
+      :label="`instancesOf${this.nameWithoutWhitespace}.${editedTransformer.transformerType}( (instance) => {`"
+      footerLabel='});'
+      :value.sync="editedTransformer.body" />
     <Button text="Save Transformer" :onClick="saveTransformer"/>
   </main>
 
@@ -22,14 +20,11 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import {
-  ResourceTypes,
-  ResourceType,
   Transformer,
   Transformers,
   createTransformerNullObject,
-  ResourceTypeNullObject,
 } from '@/apis/rembrandt/rembrandt';
-import Select, { Option } from '@/components/Select.vue';
+import Select from '@/components/Select.vue';
 import Li, { ListEntry } from '@/components/Li.vue';
 import ViewHeader from '@/components/ViewHeader.vue';
 import ListSection from '@/components/ListSection.vue';
@@ -37,7 +32,6 @@ import Input from '@/components/Input.vue';
 import Button from '@/components/Button.vue';
 import Utils from '@/utils/Utils';
 import { NotificationLevel } from '@/interfaces/Notification';
-import { transformerTypes } from '@/apis/rembrandt/rembrandt';
 import TextArea from '@/components/TextArea.vue';
 
 @Component({
@@ -61,6 +55,7 @@ export default class CreateTransformer extends Vue {
   // region public members
   public editedTransformer: Transformer;
   public transfomerId: string = '';
+  public nameWithoutWhitespace: string = '';
 
   public get resourceTypeAttributeList(): ListEntry[] {
     if (!this.editedTransformer.resourceType) {
@@ -85,6 +80,7 @@ export default class CreateTransformer extends Vue {
   public async mounted() {
     this.transfomerId = this.$route.params.transformerId;
     this.editedTransformer = await Transformers.getOne(this.transfomerId);
+    this.nameWithoutWhitespace = this.editedTransformer.resourceType.name.replace(/\s/g, '');
   }
 
   public async saveTransformer(): Promise<void> {

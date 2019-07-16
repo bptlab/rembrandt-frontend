@@ -105,7 +105,7 @@ export default new Router({
       component: CreateTransformer,
     },
     {
-      path: 'organization/transformers/edit/:transformerId',
+      path: '/optimization/transformers/edit/:transformerId',
       name: 'edit-transformer',
       component: EditTransformer,
     },

@@ -115,6 +115,7 @@ li.options {
 
   .second-value {
     font-size: 16px;
+    white-space: pre;
   }
 }
 </style>

@@ -31,11 +31,15 @@
     <h1>below you can enter the code of your transformer</h1>
     <br>
     <TextArea
-      :firstString="`instancesOf${newTransformer.resourceType.name}.${newTransformer.transformerType}( (instance) => {`"
-      secondString='});'
+      :label="`instancesOf${this.nameWithoutWhitespace}.${newTransformer.transformerType}( (instance) => {`"
+      footerLabel='});'
       :value.sync="newTransformer.body"
-      placeholder="return (instances.getAttribute(age) > 18);"
-    />
+      placeholder="var date = new Date();
+  var currentYear = date.getFullYear();
+  var currentAge = instance.attributes.yearOfBirth - currentYear;
+  instance.attributes.age = currentAge;
+  return (instance.attributes.age > 18);"
+      />
     <Button text="Create Transformer" :onClick="createTransformer"/>
   </main>
 
@@ -49,7 +53,6 @@ import {
   Transformer,
   Transformers,
   createTransformerNullObject,
-  ResourceTypeNullObject,
 } from '@/apis/rembrandt/rembrandt';
 import Select, { Option } from '@/components/Select.vue';
 import Li, { ListEntry } from '@/components/Li.vue';
@@ -83,8 +86,8 @@ export default class CreateTransformer extends Vue {
   // region public members
   public newTransformer: Transformer;
   public formState: number = 0;
-  public resourceType: ResourceType;
   public resourceTypes: ResourceType[] = [];
+  public nameWithoutWhitespace: string = '';
 
   public get resourceTypesList(): ListEntry[] {
     return Utils.resourceTypesToList(this.resourceTypes, this.selectResourceType);
@@ -106,7 +109,6 @@ export default class CreateTransformer extends Vue {
   constructor() {
     super();
     this.newTransformer = createTransformerNullObject();
-    this.resourceType = ResourceTypeNullObject;
   }
   // endregion
 
@@ -127,8 +129,8 @@ export default class CreateTransformer extends Vue {
   }
 
   public async selectResourceType(id: string) {
-    this.resourceType = await ResourceTypes.getOne(id);
-    this.newTransformer.resourceType = this.resourceType;
+    this.newTransformer.resourceType = await ResourceTypes.getOne(id);
+    this.nameWithoutWhitespace = this.newTransformer.resourceType.name.replace(/\s/g, '');
     this.nextStep();
   }
 
