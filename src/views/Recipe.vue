@@ -22,6 +22,7 @@ import ListSection from '@/components/ListSection.vue';
 import ViewHeader from '@/components/ViewHeader.vue';
 import Utils from '@/utils/Utils';
 import { NotificationLevel } from '@/interfaces/Notification';
+import ApiUtils from '../apis/jsonapi/ApiUtils';
 
 @Component({
   components: {
@@ -91,14 +92,14 @@ export default class Resource extends Vue {
 
 public async executeRecipe(): Promise<void> {
   try {
-    await Recipes.runRecipe(this.recipe.id!);
+    const execution = await ApiUtils.getJsonResource(`${Recipes.resourceUrl}/${this.recipe.id}/execute`);
     this.$notifications.create({
       title: `Recipe '${this.recipe.name}' has been started.`,
-      details: '',
+      details: 'The execution ID is: ' + execution.id + '\n You have been redirected to the execution page.',
       level: NotificationLevel.Success,
       timestamp: new Date(),
     });
-    //this.$router.push({ name: 'executions' });
+    this.$router.push({ name: 'execution', params: { id: execution.id } });
   } catch (e) {
     this.$notifications.create(e);
   }

@@ -39,13 +39,6 @@ export default class ApiUtils {
     await ApiUtils.fetchResource(url, requestOptions);
   }
 
-  public static async runRecipe(url: string): Promise<any> {
-    const requestOptions = {
-      method: 'GET',
-      headers: ApiUtils.headers(),
-    };
-    await ApiUtils.fetchResource(url, requestOptions);
-  }
   // endregion
 
   // region private static methods
@@ -75,7 +68,6 @@ export default class ApiUtils {
     const deserializer = new Deserializer({ keyForAttribute: 'camelCase' });
     return deserializer.deserialize(responseJson);
   }
-
   // endregion
 
   // region public members

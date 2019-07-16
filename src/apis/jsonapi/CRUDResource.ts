@@ -51,11 +51,6 @@ export default class CRUDResource<T extends Resource> {
     const singleResourceUrl = this.singleResourceUrl(id);
     await ApiUtils.deleteJsonResource(singleResourceUrl);
   }
-
-  public async runRecipe(id: string): Promise<T[]> {
-    const singleResourceUrl = this.singleResourceUrl(id);
-    await ApiUtils.runRecipe(singleResourceUrl + '/execute');
-  }
   // endregion
 
   // region private methods
