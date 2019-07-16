@@ -30,7 +30,7 @@ export default class Utils {
         id: resourceType.id || resourceType.name,
         firstValue: resourceType.name,
         secondValue: resourceType.parentType ? `Parent Type: ${resourceType.parentType.name}` : '',
-        thirdValue: resourceType.abstract ? 'Abstract Type' : '',
+        thirdValue: resourceType.abstract ? 'Abstract Type' : 'Non-Abstract Type',
         link: onClick ? {
           onClick: () => { onClick(resourceType.id || resourceType.name); },
         } : {
