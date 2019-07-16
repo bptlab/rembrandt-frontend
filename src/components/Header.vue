@@ -1,7 +1,9 @@
 <template>
   <header class="header">
     <div class="logo-container">
-      <router-link :to="{ name: 'home' }"><img alt="self-Logo" class="logo" src="/rembrandt_r_white.svg" /></router-link>
+      <router-link :to="{ name: 'home' }">
+        <img alt="self-Logo" class="logo" src="/rembrandt_r_white.svg">
+      </router-link>
     </div>
     <nav id="nav" v-if="this.$route.path.startsWith('/organization')">
       <router-link :to="{ name: 'resources' }">Resources</router-link>
@@ -10,6 +12,8 @@
     <nav id="nav" v-else-if="this.$route.path.startsWith('/optimization')">
       <router-link :to="{ name: 'algorithms' }">Algorithms</router-link>
       <router-link :to="{ name: 'transformers' }">Transformers</router-link>
+      <router-link :to="{ name: 'recipes' }">Recipes</router-link>
+      <router-link :to="{ name: 'executions' }">Executions</router-link>
     </nav>
     <div class="user-container">
       <Link class="notification-button" :linkOptions="{ onClick: toggleNotificationCenter }">
@@ -22,16 +26,18 @@
       </div>
     </div>
 
-    <NotificationCenter :visible="notificationCenterIsVisible" />
-    <NotificationPopup :visible="!notificationCenterIsVisible" />
+    <NotificationCenter :visible="notificationCenterIsVisible"/>
+    <NotificationPopup :visible="!notificationCenterIsVisible"/>
 
     <div class="menu" v-if="menuIsVisible">
       <header>
         <div class="logo-container">
-          <router-link to="/"><img class="logo" src="/rembrandt_r_white.svg" /></router-link>
+          <router-link to="/">
+            <img class="logo" src="/rembrandt_r_white.svg">
+          </router-link>
         </div>
         <div class="user-container">
-          <div class="menu-button ">
+          <div class="menu-button">
             <span class="burger-menu" @click="toggleMenu()">
               <span></span>
             </span>
@@ -63,6 +69,12 @@
               </li>
               <li>
                 <router-link :to="{ name: 'transformers' }">Transformers</router-link>
+              </li>
+              <li>
+                <router-link :to="{ name: 'recipes' }">Recipes</router-link>
+              </li>
+              <li>
+                <router-link :to="{ name: 'executions' }">Executions</router-link>
               </li>
             </ul>
           </div>
@@ -190,7 +202,9 @@ header {
       position: relative;
       cursor: pointer;
 
-      span, &:before, &:after {
+      span,
+      &:before,
+      &:after {
         content: " ";
         position: absolute;
         right: 0;
@@ -254,7 +268,7 @@ header {
         font-size: 70px;
       }
 
-      .row  {
+      .row {
         width: 100%;
 
         & > * {
@@ -277,5 +291,4 @@ header {
     }
   }
 }
-
 </style>
