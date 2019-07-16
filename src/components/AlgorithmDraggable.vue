@@ -4,9 +4,8 @@
     :class="`draggable algorithm ${inputClasses} ${outputClasses}`"
     :style="{transform: translate}"
   >
-    <div class="input-connector-wrapper">
+    <div v-if="!isBeeingDragged" class="input-connector-wrapper">
       <div
-        v-if="!isBeeingDragged"
         v-for="inputConnector in inputConnectors"
         :key="inputConnector.resourceType.name"
         ref="inputDropzones"
@@ -37,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 import Draggable from '@/components/Draggable.vue';
 import { OptimizationAlgorithm, AlgorithmIngredient, IngredientType } from '@/apis/rembrandt/rembrandt';
 

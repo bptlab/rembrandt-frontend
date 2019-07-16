@@ -4,9 +4,8 @@
     :class="`draggable transformer ${inputClasses} ${outputClasses}`"
     :style="{transform: translate}"
   >
-    <div class="input-connector-wrapper">
+    <div v-if="!isBeeingDragged" class="input-connector-wrapper">
       <div
-        v-if="!isBeeingDragged"
         v-for="inputConnector in inputConnectors"
         :key="inputConnector.resourceType.name"
         ref="inputDropzones"

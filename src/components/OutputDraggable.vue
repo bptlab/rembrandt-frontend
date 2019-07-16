@@ -1,8 +1,7 @@
 <template>
   <div ref="draggable" :class="`draggable output ${inputClasses}`" :style="{transform: translate}">
-    <div class="input-connector-wrapper">
+    <div v-if="!isBeeingDragged" class="input-connector-wrapper">
       <div
-        v-if="!isBeeingDragged"
         v-for="inputConnector in inputConnectors"
         :key="inputConnector.resourceType.id"
         ref="inputDropzones"
@@ -21,7 +20,7 @@
 <script lang="ts">
 import { Component, Prop } from 'vue-property-decorator';
 import Draggable, { Connector } from '@/components/Draggable.vue';
-import { ResourceType, ResourceTypeNullObject, OutputIngredient, IngredientType } from '@/apis/rembrandt/rembrandt';
+import { ResourceType, OutputIngredient, IngredientType } from '@/apis/rembrandt/rembrandt';
 
 @Component
 export default class OutputDraggable extends Draggable implements OutputIngredient {

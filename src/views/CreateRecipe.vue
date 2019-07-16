@@ -93,12 +93,9 @@ import ViewHeader from '@/components/ViewHeader.vue';
 import Button from '@/components/Button.vue';
 import Input from '@/components/Input.vue';
 import {
-  ResourceTypeNullObject,
   ResourceTypes,
-  createTransformerNullObject,
   Transformers,
   Transformer,
-  createOptimizationAlgorithmNullObject,
   OptimizationAlgorithms,
   ResourceType,
   OptimizationAlgorithm,
@@ -111,7 +108,7 @@ import {
   AlgorithmIngredient,
   createRecipeNullObject,
 } from '@/apis/rembrandt/rembrandt';
-import interact from 'interactjs';
+
 import { NotificationLevel } from '@/interfaces/Notification';
 
 @Component({
