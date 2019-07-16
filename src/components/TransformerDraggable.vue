@@ -92,7 +92,7 @@ export default class TransformerDraggable extends Draggable implements Transform
 
 div.draggable.transformer {
   .element {
-    background-color: grey;
+    background-color: #ff6b81;
     border-radius: 0;
 
     shape-outside: polygon(
@@ -112,6 +112,26 @@ div.draggable.transformer {
       calc(0% + @spacing * 2) 50%,
       0% 0%
     );
+  }
+
+  .input-connector-wrapper,
+  .output-connector-wrapper {
+    .connector {
+      &:after {
+        background-color: #ff6b81;
+      }
+      &.drop-active {
+        &:after {
+          background-color: #ff4757;
+        }
+      }
+
+      &.drop-target {
+        &:after {
+          background-color: #ff6b81;
+        }
+      }
+    }
   }
 }
 </style>

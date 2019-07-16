@@ -70,7 +70,7 @@ export default class OutputDraggable extends Draggable implements OutputIngredie
 
 div.draggable.output {
   .element {
-    background-color: blueviolet;
+    background-color: #eccc68;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 
@@ -89,6 +89,26 @@ div.draggable.output {
       calc(0% + @spacing * 2) 50%,
       0% 0%
     );
+  }
+
+  .input-connector-wrapper,
+  .output-connector-wrapper {
+    .connector {
+      &:after {
+        background-color: #eccc68;
+      }
+      &.drop-active {
+        &:after {
+          background-color: #ffa502;
+        }
+      }
+
+      &.drop-target {
+        &:after {
+          background-color: #eccc68;
+        }
+      }
+    }
   }
 }
 </style>

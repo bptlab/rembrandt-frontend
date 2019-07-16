@@ -97,8 +97,26 @@ export default class AlgorithmDraggable extends Draggable implements AlgorithmIn
 
 div.draggable.algorithm {
   .element {
-    background-color: red;
+    background-color: #ff7f50;
     border-radius: 0;
+  }
+
+  .element {
+    shape-outside: polygon(
+      calc(100% - @spacing * 2) 0%,
+      100% 50%,
+      calc(100% - @spacing * 2) 100%,
+      0% 100%,
+      0% 0%
+    );
+    shape-margin: 20px;
+    clip-path: polygon(
+      calc(100% - @spacing * 2) 0%,
+      100% 50%,
+      calc(100% - @spacing * 2) 100%,
+      0% 100%,
+      0% 0%
+    );
   }
 
   .element.dragging {
@@ -128,13 +146,32 @@ div.draggable.algorithm {
   .input-connector-wrapper,
   .output-connector-wrapper {
     .connector {
+      &:after {
+        background-color: #ff7f50;
+      }
+      &.drop-active {
+        &:after {
+          background-color: #ff6348;
+        }
+      }
+
+      &.drop-target {
+        &:after {
+          background-color: #ff7f50;
+        }
+      }
+    }
+  }
+
+  .input-connector-wrapper {
+    .connector {
       &.disabled {
         display: block;
         & > * {
           display: none;
         }
         &:after {
-          background-color: red;
+          background-color: #ff7f50;
         }
       }
     }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="0.853333in"
+   height="0.853333in"
+   viewBox="0 0 256 256"
+   version="1.1"
+   id="svg4528"
+   sodipodi:docname="R_mitte_gruen.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <metadata
+     id="metadata4534">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs4532" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1137"
+     id="namedview4530"
+     showgrid="false"
+     inkscape:zoom="11.816411"
+     inkscape:cx="40.959984"
+     inkscape:cy="40.959984"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4528" />
+  <path
+     id="Auswahl"
+     d="M 127.00,123.00            C 140.68,117.18 147.00,117.93 158.96,105.96              168.23,96.70 174.66,83.35 173.91,70.00              172.91,52.39 167.87,37.55 153.00,26.78              139.25,16.83 121.50,14.06 105.00,12.91              105.00,12.91 94.00,12.00 94.00,12.00              72.13,11.91 49.24,17.97 32.00,31.81              22.35,39.55 14.14,51.01 15.10,64.00              15.96,75.68 28.19,78.79 32.67,75.15              35.44,72.90 34.16,69.05 34.04,66.00              33.82,60.57 34.23,56.85 36.90,52.00              46.64,34.33 73.83,25.45 93.00,25.01              108.22,24.67 126.67,29.59 137.96,40.17              149.10,50.61 153.02,69.75 147.91,84.00              145.42,90.96 141.25,96.82 135.99,101.96              127.03,110.69 118.88,112.71 107.00,114.42              107.00,114.42 100.02,115.31 100.02,115.31              96.66,116.23 95.07,118.52 95.16,121.99              95.33,128.55 102.14,128.17 107.00,128.87              117.65,130.40 127.58,135.90 134.70,144.01              158.77,171.44 166.08,227.41 210.00,240.56              214.96,242.05 225.86,243.87 231.00,243.99              235.68,244.09 244.13,243.62 247.77,240.49              251.21,237.54 251.44,232.94 248.57,231.39              245.29,229.62 240.98,233.32 234.00,232.82              193.32,229.88 183.67,182.04 166.40,153.00              157.69,138.36 145.34,123.90 127.00,123.00 Z            M 70.00,42.57            C 57.82,47.39 61.00,63.26 61.00,74.00              61.00,74.00 61.00,168.00 61.00,168.00              60.99,175.54 59.93,185.76 55.36,191.98              48.41,201.47 36.22,200.12 29.65,190.98              25.74,185.55 25.53,178.43 26.41,172.00              26.46,169.07 27.86,164.80 26.41,162.11              24.61,157.53 18.24,156.72 14.02,158.27              3.23,162.22 4.84,183.69 9.00,192.00              15.89,205.78 28.90,208.81 43.00,209.82              46.02,210.03 48.06,209.54 51.00,209.13              68.70,206.65 76.90,195.54 81.36,179.00              84.90,165.86 84.00,152.47 84.00,139.00              84.00,139.00 84.00,81.00 84.00,81.00              84.00,81.00 84.00,53.00 84.00,53.00              84.00,50.76 84.22,47.31 82.98,45.39              80.37,41.37 74.04,41.84 70.00,42.57 Z"
+     stroke-width="1"
+     stroke="black"
+     fill="none"
+     style="stroke:none;fill:#2ed573;fill-opacity:1" />
+</svg>

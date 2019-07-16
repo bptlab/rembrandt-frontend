@@ -66,7 +66,7 @@ export default class InputDraggable extends Draggable implements InputIngredient
 
 div.draggable.input {
   .element {
-    background-color: green;
+    background-color: #70a1ff;
 
     shape-outside: polygon(
       calc(100% - @spacing * 2) 0%,
@@ -83,6 +83,26 @@ div.draggable.input {
       0% 100%,
       0% 0%
     );
+  }
+
+  .input-connector-wrapper,
+  .output-connector-wrapper {
+    .connector {
+      &:after {
+        background-color: #70a1ff;
+      }
+      &.drop-active {
+        &:after {
+          background-color: #1e90ff;
+        }
+      }
+
+      &.drop-target {
+        &:after {
+          background-color: #70a1ff;
+        }
+      }
+    }
   }
 }
 </style>

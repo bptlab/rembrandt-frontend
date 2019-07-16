@@ -2,7 +2,7 @@
   <header class="header">
     <div class="logo-container">
       <router-link :to="{ name: 'home' }">
-        <img alt="self-Logo" class="logo" src="/rembrandt_r_white.svg">
+        <img alt="self-Logo" class="logo" src="/rembrandt_r_green.svg" />
       </router-link>
     </div>
     <nav id="nav" v-if="this.$route.path.startsWith('/organization')">
@@ -26,14 +26,14 @@
       </div>
     </div>
 
-    <NotificationCenter :visible="notificationCenterIsVisible"/>
-    <NotificationPopup :visible="!notificationCenterIsVisible"/>
+    <NotificationCenter :visible="notificationCenterIsVisible" />
+    <NotificationPopup :visible="!notificationCenterIsVisible" />
 
     <div class="menu" v-if="menuIsVisible">
       <header>
         <div class="logo-container">
           <router-link to="/">
-            <img class="logo" src="/rembrandt_r_white.svg">
+            <img class="logo" src="/rembrandt_r_white.svg" />
           </router-link>
         </div>
         <div class="user-container">
@@ -220,7 +220,7 @@ header {
       }
 
       span {
-        margin: 8px 0;
+        margin: 9px 0;
         width: 25px;
         padding: 0;
       }
