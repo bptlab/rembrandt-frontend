@@ -4,6 +4,7 @@ import ApiError from '@/apis/jsonapi/ApiError';
 
 export default class ApiUtils {
   // region public static methods
+
   public static async postJsonResource(url: string, serializer: Serializer, resource: any): Promise<any> {
     const requestOptions = {
       method: 'POST',
@@ -37,6 +38,14 @@ export default class ApiUtils {
     };
     await ApiUtils.fetchResource(url, requestOptions);
   }
+
+  public static async runRecipe(url: string): Promise<any> {
+    const requestOptions = {
+      method: 'GET',
+      headers: ApiUtils.headers(),
+    };
+    await ApiUtils.fetchResource(url, requestOptions);
+  }
   // endregion
 
   // region private static methods
@@ -66,6 +75,7 @@ export default class ApiUtils {
     const deserializer = new Deserializer({ keyForAttribute: 'camelCase' });
     return deserializer.deserialize(responseJson);
   }
+
   // endregion
 
   // region public members

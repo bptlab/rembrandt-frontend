@@ -53,6 +53,13 @@ export default class Resource extends Vue {
       },
       {
         id: '2',
+        firstValue: 'Execute this Recipe',
+        link: {
+          onClick: this.executeRecipe,
+        },
+      },
+      {
+        id: '3',
         firstValue: 'Delete Recipe',
         link: {
           onClick: this.deleteRecipe,
@@ -81,6 +88,21 @@ export default class Resource extends Vue {
       this.$notifications.create(e);
     }
   }
+
+public async executeRecipe(): Promise<void> {
+  try {
+    await Recipes.runRecipe(this.recipe.id!);
+    this.$notifications.create({
+      title: `Recipe '${this.recipe.name}' has been started.`,
+      details: '',
+      level: NotificationLevel.Success,
+      timestamp: new Date(),
+    });
+    //this.$router.push({ name: 'executions' });
+  } catch (e) {
+    this.$notifications.create(e);
+  }
+}
 
 public async deleteRecipe(): Promise<void> {
   try {
