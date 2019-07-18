@@ -4,7 +4,11 @@
     :class="`draggable algorithm ${inputClasses} ${outputClasses}`"
     :style="{transform: translate}"
   >
-    <div v-if="!isBeeingDragged" class="input-connector-wrapper">
+    <div
+      v-if="!isBeeingDragged"
+      class="input-connector-wrapper"
+      :style="{ top: (-50 * (inputConnectors.length - 1)) + '%' }"
+    >
       <div
         v-for="inputConnector in inputConnectors"
         :key="inputConnector.resourceType.name"
@@ -119,10 +123,6 @@ div.draggable.algorithm {
       calc(0% + @spacing * 2) 50%,
       0% 0%
     );
-  }
-
-  .input-connector-wrapper {
-    top: -50%;
   }
 
   .input-connector-wrapper,
