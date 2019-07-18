@@ -13,6 +13,10 @@
     </form>
 
     <ListSection
+      v-if="this.$route.query.execution"
+      :list="listEntryForExecutionHint(this.$route.query.execution)" />
+
+    <ListSection
       :key="resourceType.id"
       v-for="resourceType in filteredResourceTypes"
       :title="resourceType.name"
@@ -30,10 +34,11 @@ import ListSection from '@/components/ListSection.vue';
 import Select, { Option } from '@/components/Select.vue';
 import SmallButton from '@/components/SmallButton.vue';
 import Input from '@/components/Input.vue';
-import { ResourceInstance, ResourceInstances, ResourceType, ResourceTypes } from '@/apis/rembrandt/rembrandt';
+import { ResourceInstance, ResourceInstances, ResourceType, ResourceTypes, OptimizationExecutions } from '@/apis/rembrandt/rembrandt';
 import Utils from '@/utils/Utils';
 import { ListEntry } from '@/components/Li.vue';
 import Link from '@/components/Link.vue';
+import ApiUtils from '../apis/jsonapi/ApiUtils';
 
 @Component({
   components: {
@@ -98,6 +103,20 @@ export default class Resources extends Vue {
     return (Utils.getEponymousAttributeValue(resourceInstance).includes(this.searchTerm) ||
             resourceInstance.resourceType.name.includes(this.searchTerm));
   }
+
+  public listEntryForExecutionHint(executionId: string): ListEntry[] {
+    return [
+      {
+        id: executionId,
+        firstValue: 'Only results for an execution are shown!',
+        secondValue: `Execution id: ${executionId}`,
+        thirdValue: 'View execution',
+        link: {
+          link: { name: 'execution', params: { id: executionId } },
+        },
+      },
+    ];
+  }
   // endregion
 
   // region private members
@@ -110,7 +129,11 @@ export default class Resources extends Vue {
   public async mounted() {
     try {
       this.resourceTypes = await ResourceTypes.get();
-      this.resourceInstances = await ResourceInstances.get();
+      if (this.$route.query.execution) {
+        this.resourceInstances = await ApiUtils.getJsonResource(`${OptimizationExecutions.resourceUrl}/${this.$route.query.execution}/instances`);
+      } else {
+        this.resourceInstances = await ResourceInstances.get();
+      }
     } catch (e) {
       this.$notifications.create(e);
     }

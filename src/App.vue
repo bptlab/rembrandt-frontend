@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Header/>
-    <router-view/>
+    <Header />
+    <router-view />
   </div>
 </template>
 
@@ -14,7 +14,7 @@ import Header from '@/components/Header.vue'; // @ is an alias to /src
     Header,
   },
 })
-export default class Home extends Vue {}
+export default class Home extends Vue { }
 </script>
 
 <style lang="less">
@@ -39,12 +39,21 @@ body {
 main {
   margin-top: 85px;
   box-sizing: border-box;
-  padding: 0px @spacing;
-  max-width: 900px;
-  width: 100%;
   flex-grow: 1;
   text-align: left;
   position: relative;
+}
+
+main,
+.wrapper {
+  box-sizing: border-box;
+  padding: 0px @spacing;
+  max-width: 900px;
+  width: 100%;
+}
+
+.wrapper {
+  align-self: center;
 }
 
 h1,
