@@ -1,26 +1,26 @@
 <template>
   <main>
     <form class="search-form">
-      <Input
-        :value.sync="searchTerm"
-        name="Search"
-        placeholder="Search resources..." />
+      <Input :value.sync="searchTerm" name="Search" placeholder="Search resources..." />
       <Select
         :value.sync="selectedType"
         placeholder="All Resource Types"
         name="Resource Type"
-        :options="nonAbstractResourceTypes" />
+        :options="nonAbstractResourceTypes"
+      />
     </form>
 
     <ListSection
       v-if="this.$route.query.execution"
-      :list="listEntryForExecutionHint(this.$route.query.execution)" />
+      :list="listEntryForExecutionHint(this.$route.query.execution)"
+    />
 
     <ListSection
       :key="resourceType.id"
       v-for="resourceType in filteredResourceTypes"
       :title="resourceType.name"
-      :list="resourceInstancesForType(resourceType)" />
+      :list="resourceInstancesForType(resourceType)"
+    />
     <SmallButton :link="{ link: { name: 'create-resource' } }" class="create-instance-button">
       <i class="fas fa-plus"></i>
     </SmallButton>
@@ -34,7 +34,13 @@ import ListSection from '@/components/ListSection.vue';
 import Select, { Option } from '@/components/Select.vue';
 import SmallButton from '@/components/SmallButton.vue';
 import Input from '@/components/Input.vue';
-import { ResourceInstance, ResourceInstances, ResourceType, ResourceTypes, OptimizationExecutions } from '@/apis/rembrandt/rembrandt';
+import {
+  ResourceInstance,
+  ResourceInstances,
+  ResourceType,
+  ResourceTypes,
+  OptimizationExecutions,
+} from '@/apis/rembrandt/rembrandt';
 import Utils from '@/utils/Utils';
 import { ListEntry } from '@/components/Li.vue';
 import Link from '@/components/Link.vue';
@@ -101,7 +107,7 @@ export default class Resources extends Vue {
       return false;
     }
     return (Utils.getEponymousAttributeValue(resourceInstance).includes(this.searchTerm) ||
-            resourceInstance.resourceType.name.includes(this.searchTerm));
+      resourceInstance.resourceType.name.includes(this.searchTerm));
   }
 
   public listEntryForExecutionHint(executionId: string): ListEntry[] {
@@ -130,7 +136,8 @@ export default class Resources extends Vue {
     try {
       this.resourceTypes = await ResourceTypes.get();
       if (this.$route.query.execution) {
-        this.resourceInstances = await ApiUtils.getJsonResource(`${OptimizationExecutions.resourceUrl}/${this.$route.query.execution}/instances`);
+        const filteredInstancesUrl = `${OptimizationExecutions.resourceUrl}/${this.$route.query.execution}/instances`;
+        this.resourceInstances = await ApiUtils.getJsonResource(filteredInstancesUrl);
       } else {
         this.resourceInstances = await ResourceInstances.get();
       }

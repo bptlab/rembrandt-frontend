@@ -173,6 +173,7 @@ export default class Draggable extends Vue implements Ingredient {
   }
 
   protected enableDraggable() {
+    if (!interact.modifiers) { return; }
     interact(this.draggable).draggable({
       modifiers: [
         interact.modifiers.restrict({
