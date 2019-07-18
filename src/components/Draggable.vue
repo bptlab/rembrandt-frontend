@@ -247,6 +247,7 @@ div.draggable {
   display: flex;
   touch-action: none;
   color: @primary;
+  font-size: 20px;
 
   .element {
     z-index: 0;
@@ -258,6 +259,7 @@ div.draggable {
     justify-content: center;
     background-color: @accent;
     padding: 0 @spacing * 2;
+    color: @secondary;
   }
 
   .input-connector-wrapper,

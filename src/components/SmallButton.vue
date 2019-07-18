@@ -49,7 +49,7 @@ export default class SmallButton extends Vue {
   border-radius: 7px;
   font-size: 14px;
   background-color: @accent;
-  color: @primary;
+  color: @secondary;
   margin: @spacing 0;
   height: 50px;
   width: 50px;
@@ -64,7 +64,13 @@ export default class SmallButton extends Vue {
   }
 
   &:hover {
-    background-image: linear-gradient(to bottom right, @accent 0%, @accent 50%, @primary 50%, @primary 100%);
+    background-image: linear-gradient(
+      to bottom right,
+      @accent 0%,
+      @accent 50%,
+      @secondary 50%,
+      @secondary 100%
+    );
     background-position: 100% 100%;
     background-size: @spacing @spacing;
     background-repeat: no-repeat;
@@ -75,5 +81,4 @@ export default class SmallButton extends Vue {
     }
   }
 }
-
 </style>
