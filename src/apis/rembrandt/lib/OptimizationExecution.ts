@@ -1,7 +1,6 @@
 import { Serializer } from 'jsonapi-serializer';
 import Resource from '@/apis/jsonapi/Resource';
 import CRUDResource from '@/apis/jsonapi/CRUDResource';
-import config from '@/config/config.json';
 import { Recipe, createRecipeNullObject } from './Recipe';
 
 export interface OptimizationExecutionObject extends Resource {
@@ -34,7 +33,7 @@ const serializer = new Serializer('optimizationExecutions', {
 });
 
 export const OptimizationExecutions = new CRUDResource<OptimizationExecution>(
-  `${config.backendHost}/optimization/executions`,
+  `${process.env.VUE_APP_BACKEND_BASE_URL}/optimization/executions`,
   serializer,
 );
 

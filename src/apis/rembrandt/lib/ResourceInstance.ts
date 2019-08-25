@@ -1,7 +1,6 @@
 import { Serializer } from 'jsonapi-serializer';
 import Resource from '@/apis/jsonapi/Resource';
 import CRUDResource from '@/apis/jsonapi/CRUDResource';
-import config from '@/config/config.json';
 import { ResourceType, ResourceTypeNullObject } from '@/apis/rembrandt/rembrandt';
 
 export interface ResourceInstanceAttribute {
@@ -23,7 +22,7 @@ const serializer = new Serializer('resourceInstance', {
 });
 
 export const ResourceInstances = new CRUDResource<ResourceInstance>(
-  `${config.backendHost}/organization/resource-instances`,
+  `${process.env.VUE_APP_BACKEND_BASE_URL}/organization/resource-instances`,
   serializer,
 );
 

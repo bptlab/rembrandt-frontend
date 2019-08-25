@@ -2,7 +2,6 @@ import { Serializer } from 'jsonapi-serializer';
 import Resource from '@/apis/jsonapi/Resource';
 import { ResourceType, ResourceTypeNullObject } from '@/apis/rembrandt/rembrandt';
 import CRUDResource from '@/apis/jsonapi/CRUDResource';
-import config from '@/config/config.json';
 
 export interface DockerConfiguration {
   name: string;
@@ -29,7 +28,7 @@ const serializer = new Serializer('optimizationAlgorithms', {
 });
 
 export const OptimizationAlgorithms = new CRUDResource<OptimizationAlgorithm>(
-  `${config.backendHost}/optimization/algorithms`,
+  `${process.env.VUE_APP_BACKEND_BASE_URL}/optimization/algorithms`,
   serializer,
 );
 

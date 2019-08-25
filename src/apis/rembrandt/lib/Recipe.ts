@@ -1,7 +1,6 @@
 import { Serializer } from 'jsonapi-serializer';
 import Resource from '@/apis/jsonapi/Resource';
 import CRUDResource from '@/apis/jsonapi/CRUDResource';
-import config from '@/config/config.json';
 import { ResourceType, OptimizationAlgorithm, Transformer } from '@/apis/rembrandt/rembrandt';
 
 export enum IngredientType {
@@ -56,7 +55,7 @@ const serializer = new Serializer('recipes', {
 });
 
 export const Recipes = new CRUDResource<Recipe>(
-  `${config.backendHost}/optimization/recipes`,
+  `${process.env.VUE_APP_BACKEND_BASE_URL}/optimization/recipes`,
   serializer,
 );
 
