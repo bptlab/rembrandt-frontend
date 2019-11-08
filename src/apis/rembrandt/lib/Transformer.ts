@@ -2,8 +2,6 @@ import { Serializer } from 'jsonapi-serializer';
 import Resource from '@/apis/jsonapi/Resource';
 import { ResourceType, ResourceTypeNullObject } from '@/apis/rembrandt/rembrandt';
 import CRUDResource from '@/apis/jsonapi/CRUDResource';
-import config from '@/config/config.json';
-
 
 export interface Transformer extends Resource {
   name: string;
@@ -24,7 +22,7 @@ const serializer = new Serializer('transformators', {
 });
 
 export const Transformers = new CRUDResource<Transformer>(
-  `${config.backendHost}/optimization/transformers`,
+  `${process.env.VUE_APP_BACKEND_BASE_URL}/optimization/transformers`,
   serializer,
 );
 
