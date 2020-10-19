@@ -7,20 +7,17 @@ export interface Metric extends Resource {
     query: string;
   }
 
-const serializer = new Serializer('Query', {
+const serializer = new Serializer('Metric', {
     id: 'id',
     attributes: [
       'name',
-      'abstract',
-      'eponymousAttribute',
-      'attributes',
-      'parentType',
+      'query',
     ],
     keyForAttribute: 'camelCase',
   });
 
 export const Metrics = new CRUDResource<Metric>(
-    `${process.env.VUE_APP_BACKEND_BASE_URL}/organization/resource-types`,
+    `${process.env.VUE_APP_BACKEND_BASE_URL}/metrics`,
     serializer,
   );
 

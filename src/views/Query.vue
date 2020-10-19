@@ -1,7 +1,7 @@
 <template>
   <main class="send-Query">
     <ViewHeader title="Please insert a SQL Query"/>
-    <Input :value.sync="Query" name="Query" placeholder="SELECT * FROM allocation_log WHERE ..." :autofocus="true"/>
+    <Input :value.sync="metric.query" name="Query" placeholder="SELECT * FROM allocation_log WHERE ..." :autofocus="true"/>
     <Button text="Send Query" :onClick="sendQuery"/>
   </main>
   </template>
@@ -55,7 +55,7 @@ export default class SendMetric extends Mixins(Translate) {
     try {
       await Metrics.create(this.metric);
       this.$notifications.create({
-        title: `Query '${this.metric}' has been sent`,
+        title: `Query '${this.metric.query}' has been sent`,
         details: '',
         level: NotificationLevel.Success,
         timestamp: new Date(),
