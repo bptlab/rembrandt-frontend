@@ -8,6 +8,7 @@
     <nav id="nav" v-if="this.$route.path.startsWith('/organization')">
       <router-link :to="{ name: 'resources' }">Resources</router-link>
       <router-link :to="{ name: 'types' }">Types</router-link>
+      <router-link :to="{ name: 'query' }">Query</router-link>
     </nav>
     <nav id="nav" v-else-if="this.$route.path.startsWith('/optimization')">
       <router-link :to="{ name: 'algorithms' }">Algorithms</router-link>
@@ -56,6 +57,9 @@
               </li>
               <li>
                 <router-link :to="{ name: 'types' }">Types</router-link>
+              </li>
+              <li>
+                <router-link :to="{ name: 'query' }">Query</router-link>
               </li>
             </ul>
           </div>
