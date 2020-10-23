@@ -7,6 +7,19 @@ export interface Metric extends Resource {
     query: string;
   }
 
+export interface MetricResult {
+  resultEntrys: MetricResultEntry[];
+}
+
+export interface MetricResultEntry {
+  metricResultAttributes: MetricResultAttribute[];
+}
+
+export interface MetricResultAttribute {
+  columnname: string;
+  value: any;
+}
+
 const serializer = new Serializer('Metric', {
     id: 'id',
     attributes: [
@@ -32,3 +45,7 @@ export function createMetricNullObject(): Metric {
       query: '',
     };
   }
+
+export const MetricResultNullObject = {
+  resultEntrys: [],
+};

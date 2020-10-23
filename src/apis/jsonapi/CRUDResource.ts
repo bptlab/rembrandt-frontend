@@ -1,6 +1,7 @@
 import { Serializer } from 'jsonapi-serializer';
 import Resource from '@/apis/jsonapi/Resource';
 import ApiUtils from '@/apis/jsonapi/ApiUtils';
+import { MetricResult } from '../rembrandt/rembrandt';
 
 export default class CRUDResource<T extends Resource> {
   // region public static methods
@@ -29,7 +30,7 @@ export default class CRUDResource<T extends Resource> {
     return `${this.resourceUrl}/${id}`;
   }
 
-  public async create(resource: T): Promise<T> {
+  public async create(resource: T): Promise<T | MetricResult> {
     return ApiUtils.postJsonResource(this.resourceUrl, this.serializer, resource);
   }
 

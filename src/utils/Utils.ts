@@ -12,6 +12,9 @@ import { ResourceType,
   OptimizationExecution,
   OptimizationExecutionObject,
   OptimizationExecutionState,
+  MetricResult,
+  MetricResultAttribute,
+  MetricResultEntry,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
 import translations from '@/config/translations.json';
@@ -362,6 +365,26 @@ export default class Utils {
     const names = await Promise.all(namePromises);
     return names.join(', ');
   }
+
+  public static metricResultAttributeToList(metricResultEntry: MetricResultEntry): ListEntry[] {
+    return metricResultEntry.metricResultAttributes.map((attribute) => {
+      return {
+        id: attribute.columnname,
+        firstValue: attribute.value,
+      };
+    });
+  }
+
+  public static resultEntryAttributesToList(resultAttributes: MetricResultAttribute[]): ListEntry[] {
+    // create list for specific result
+    return resultAttributes.map( (resultAttribute) => {
+      return {
+        id: `${resultAttribute.columnname}`,
+        firstValue: `${resultAttribute.value}` ,
+      };
+    });
+  }
+
   // endregion
 
   // region private static methods
