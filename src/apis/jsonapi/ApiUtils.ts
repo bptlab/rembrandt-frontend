@@ -62,7 +62,6 @@ export default class ApiUtils {
       const error = responseJson.errors[0];
       throw new ApiError(`${error.status} - ${error.title}`, error.detail, NotificationLevel.Critical);
     }
-
     const deserializer = new Deserializer({ keyForAttribute: 'camelCase' });
     return deserializer.deserialize(responseJson);
   }

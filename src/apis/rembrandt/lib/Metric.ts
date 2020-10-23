@@ -17,7 +17,7 @@ const serializer = new Serializer('Metric', {
   });
 
 export const Metrics = new CRUDResource<Metric>(
-    `${process.env.VUE_APP_BACKEND_BASE_URL}/metrics`,
+    `${process.env.VUE_APP_BACKEND_BASE_URL}/analysis/metrics`,
     serializer,
   );
 
