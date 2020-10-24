@@ -12,12 +12,7 @@ export interface MetricResult {
 }
 
 export interface MetricResultEntry {
-  metricResultAttributes: MetricResultAttribute[];
-}
-
-export interface MetricResultAttribute {
-  columnname: string;
-  value: any;
+  [key: string]: any;
 }
 
 const serializer = new Serializer('Metric', {
