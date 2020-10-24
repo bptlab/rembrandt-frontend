@@ -1,4 +1,5 @@
-import { ResourceType,
+import {
+  ResourceType,
   ResourceInstance,
   ResourceInstanceAttribute,
   OptimizationAlgorithm,
@@ -12,8 +13,6 @@ import { ResourceType,
   OptimizationExecution,
   OptimizationExecutionObject,
   OptimizationExecutionState,
-  MetricResult,
-  MetricResultAttribute,
   MetricResultEntry,
 } from '@/apis/rembrandt/rembrandt';
 import { ListEntry } from '@/components/Li.vue';
@@ -37,8 +36,8 @@ export default class Utils {
         link: onClick ? {
           onClick: () => { onClick(resourceType.id || resourceType.name); },
         } : {
-          link: { name: 'type', params: { id: resourceType.id }},
-        },
+            link: { name: 'type', params: { id: resourceType.id } },
+          },
       };
     });
   }
@@ -60,7 +59,7 @@ export default class Utils {
 
   public static resourceInstancesToList(resourceInstances: ResourceInstance[], onClick?: clickHandler): ListEntry[] {
     // create list for specific type
-    return resourceInstances.map( (resourceInstance) => {
+    return resourceInstances.map((resourceInstance) => {
       return {
         id: `${resourceInstance.id}`,
         // first value is the identifying value or the id, if no identifying value is set
@@ -69,8 +68,8 @@ export default class Utils {
         link: onClick ? {
           onClick: () => { onClick(resourceInstance.id || ''); },
         } : {
-          link: { name: 'resource', params: { id: resourceInstance.id }},
-        },
+            link: { name: 'resource', params: { id: resourceInstance.id } },
+          },
       };
     });
   }
@@ -110,8 +109,8 @@ export default class Utils {
         link: onClick ? {
           onClick: () => { onClick(algorithm.id || algorithm.name); },
         } : {
-          link: { name: 'algorithm', params: { id: algorithm.id }},
-        },
+            link: { name: 'algorithm', params: { id: algorithm.id } },
+          },
       };
     });
   }
@@ -154,7 +153,7 @@ export default class Utils {
         link: onClick ? {
           onClick: () => { onClick(execution.id || execution.identifier); },
         } : {
-          link: { name: 'execution', params: { id: execution.id } },
+            link: { name: 'execution', params: { id: execution.id } },
           },
       };
     });
@@ -220,8 +219,8 @@ export default class Utils {
         link: onClick ? {
           onClick: () => { onClick(transformer.id || transformer.name); },
         } : {
-          link: { name: 'transformer', params: { id: transformer.id }},
-        },
+            link: { name: 'transformer', params: { id: transformer.id } },
+          },
       };
     });
   }
@@ -259,8 +258,8 @@ export default class Utils {
         link: onClick ? {
           onClick: () => { onClick(recipe.id || recipe.name); },
         } : {
-          link: { name: 'recipe', params: { id: recipe.id }},
-        },
+            link: { name: 'recipe', params: { id: recipe.id } },
+          },
       };
     });
   }
@@ -270,7 +269,7 @@ export default class Utils {
       return resourceInstance.id ? resourceInstance.id : '';
     }
 
-    const attribute = resourceInstance.attributes.find( (resourceInstanceAttributes) => {
+    const attribute = resourceInstance.attributes.find((resourceInstanceAttributes) => {
       return resourceInstanceAttributes.name === resourceInstance.resourceType.eponymousAttribute;
     });
 
@@ -319,7 +318,7 @@ export default class Utils {
   }
 
   public static async getInputIngredientList(ingredients: Ingredient[]): Promise<string> {
-    const inputIngredients = ingredients.filter( (ingredient) => {
+    const inputIngredients = ingredients.filter((ingredient) => {
       return ingredient.ingredientType === IngredientType.INPUT;
     });
     const namePromises = inputIngredients.map(async (ingredient: Ingredient): Promise<string> => {
@@ -331,7 +330,7 @@ export default class Utils {
   }
 
   public static async getTransformerIngredientList(ingredients: Ingredient[]): Promise<string> {
-    const transformerIngredients = ingredients.filter( (ingredient) => {
+    const transformerIngredients = ingredients.filter((ingredient) => {
       return ingredient.ingredientType === IngredientType.TRANSFORM;
     });
     const namePromises = transformerIngredients.map(async (ingredient: Ingredient): Promise<string> => {
@@ -343,7 +342,7 @@ export default class Utils {
   }
 
   public static async getAlgorithmIngredientList(ingredients: Ingredient[]): Promise<string> {
-    const AlgorithmIngredients = ingredients.filter( (ingredient) => {
+    const AlgorithmIngredients = ingredients.filter((ingredient) => {
       return ingredient.ingredientType === IngredientType.ALGORITHM;
     });
     const namePromises = AlgorithmIngredients.map(async (ingredient: Ingredient): Promise<string> => {
@@ -355,7 +354,7 @@ export default class Utils {
   }
 
   public static async getOutputIngredientList(ingredients: Ingredient[]): Promise<string> {
-    const outputIngredients = ingredients.filter( (ingredient) => {
+    const outputIngredients = ingredients.filter((ingredient) => {
       return ingredient.ingredientType === IngredientType.OUTPUT;
     });
     const namePromises = outputIngredients.map(async (ingredient: Ingredient): Promise<string> => {
@@ -366,23 +365,24 @@ export default class Utils {
     return names.join(', ');
   }
 
-  public static metricResultAttributeToList(metricResultEntry: MetricResultEntry): ListEntry[] {
-    return metricResultEntry.metricResultAttributes.map((attribute) => {
-      return {
-        id: attribute.columnname,
-        firstValue: attribute.value,
-      };
-    });
-  }
+  public static resultEntryAttributesToList(metricResultEntry: MetricResultEntry): ListEntry[] {
 
-  public static resultEntryAttributesToList(resultAttributes: MetricResultAttribute[]): ListEntry[] {
-    // create list for specific result
-    return resultAttributes.map( (resultAttribute) => {
-      return {
-        id: `${resultAttribute.columnname}`,
-        firstValue: `${resultAttribute.value}` ,
+    const listEntrys: ListEntry[] = [];
+    let i: number = 0;
+    for (const key in metricResultEntry) {
+      const newEntry: ListEntry = {
+        id: '',
+        firstValue: '',
+        secondValue: '',
       };
-    });
+      newEntry.id = i.toString();
+      newEntry.firstValue = key;
+      const keynumber = Object.keys(metricResultEntry).indexOf(key);
+      newEntry.secondValue = Object.values(metricResultEntry)[keynumber];
+      i++;
+      listEntrys.push(newEntry);
+    }
+    return listEntrys;
   }
 
   // endregion

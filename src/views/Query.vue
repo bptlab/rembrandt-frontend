@@ -8,29 +8,12 @@
       :autofocus="true"
     />
     <Button text="Send Query" :onClick="sendQuery" />
-  <!--  <ListSection v-if="metricResult" title="Result" :list="metricResultAttributeList" /> -->
-
-   <!--  <ListSection
+    <ListSection
       v-for="resultEntry in result"
       :title="resultEntry.resource"
       :key="resultEntry.resource"
-    >
-      <Li v-for="[key, value] of Object.entries(resultEntry)" :key="key">
-        <div>
-          <p class="first-value">{{ key }}</p>
-          <p class="second-value">{{ value }}</p>
-        </div>
-      </Li>
-    </ListSection>
-    -->
-  
-  <ListSection
-    :key="resultEntry.id"
-    v-for="resultEntry in result"
-    :title="resultEntry.id"
-    :list="attributesPerResult(resultEntry)"
-  />
-
+      :list="resultEntryToList(resultEntry)"
+    />
   </main>
 </template>
 
@@ -75,16 +58,6 @@ export default class SendMetric extends Mixins(Translate) {
   public metricResult: MetricResult;
   public result: any = null;
 
- // public get metricResultAttributeList(): ListEntry[] {
- //   return Utils.metricResultAttributeToList(this.metricResult.resultEntry);
- // }
-
-  public attributesPerResult(resultEntry: MetricResultEntry): ListEntry[] {
-    console.log(resultEntry);
-    console.log(resultEntry.metricResultAttributes)
-    return Utils.metricResultAttributeToList(resultEntry);
-  }
-
   // endregion
 
   // region private members
@@ -100,15 +73,15 @@ export default class SendMetric extends Mixins(Translate) {
   // endregion
 
   // region public methods
+
+  public resultEntryToList(resultEntry: MetricResultEntry): ListEntry[] {
+    return Utils.resultEntryAttributesToList(resultEntry);
+  }
+
   public async sendQuery(): Promise<void> {
     try {
       this.result = await Metrics.create(this.metric);
       console.log(this.result);
-      if (this.result) {
-        this.metricResult = this.result;
-      }
-      console.log(this.metricResult);
-      // console.log(Utils.metricResultAttributeToList(this.metricResult.attributes))
       this.$notifications.create({
         title: `Query '${this.metric.query}' has been sent`,
         details: '',
