@@ -20,6 +20,7 @@ import Recipes from './views/Recipes.vue';
 import Execution from './views/Execution.vue';
 import Executions from './views/Executions.vue';
 import Query from './views/Query.vue';
+import ReadEventLog from './views/ReadEventLog.vue';
 import Settings from './views/Settings.vue';
 
 Vue.use(Router);
@@ -144,6 +145,11 @@ export default new Router({
       path: '/query',
       name: 'query',
       component: Query,
+    },
+    {
+    path: '/query/readlog',
+    name: 'readlog',
+    component: ReadEventLog,
     },
     {
       path: '/settings',

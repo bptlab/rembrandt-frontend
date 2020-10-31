@@ -16,6 +16,11 @@
       <router-link :to="{ name: 'recipes' }">Recipes</router-link>
       <router-link :to="{ name: 'executions' }">Executions</router-link>
     </nav>
+    <nav id="nav" v-if="this.$route.path.startsWith('/query')">
+      <router-link :to="{ name: 'resources' }">Resources</router-link>
+      <router-link :to="{ name: 'types' }">Types</router-link>
+      <router-link :to="{ name: 'query' }">Query</router-link>
+    </nav>
     <div class="user-container">
       <Link class="notification-button" :linkOptions="{ onClick: toggleNotificationCenter }">
         <i class="far fa-bell"></i>

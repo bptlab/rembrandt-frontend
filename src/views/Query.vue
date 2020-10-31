@@ -1,6 +1,8 @@
 <template>
   <main class="send-Query">
-    <ViewHeader title="Please insert a SQL Query" />
+    <div class="headline">
+      <h1>Please insert a SQL query</h1>
+    </div>
     <Input
       :value.sync="metric.query"
       name="Query"
@@ -14,6 +16,9 @@
       :key="resultEntry.resource"
       :list="resultEntryToList(resultEntry)"
     />
+    <SmallButton :link="{link: { name: 'readlog' } }" class="read-log-button">
+      <i class="fas fa-plus"></i>
+    </SmallButton>
   </main>
 </template>
 
@@ -35,6 +40,7 @@ import Li, { ListEntry } from '@/components/Li.vue';
 import { NotificationLevel } from '@/interfaces/Notification';
 import Translate from '@/mixins/Translate';
 import Utils from '@/utils/Utils';
+import SmallButton from '@/components/SmallButton.vue';
 
 @Component({
   components: {
@@ -43,6 +49,7 @@ import Utils from '@/utils/Utils';
     Button,
     ListSection,
     Li,
+    SmallButton,
   },
 })
 export default class SendMetric extends Mixins(Translate) {
@@ -95,3 +102,21 @@ export default class SendMetric extends Mixins(Translate) {
   // endregion
 }
 </script>
+
+<style lang="less">
+@import "../colors.less";
+
+.headline {
+  h1 {
+    font-size: 30px;
+    margin-top: 40px;
+    margin-bottom: 78px;
+  }
+}
+
+.read-log-button {
+  position: fixed;
+  bottom: 0;
+  right: @spacing;
+}
+</style>

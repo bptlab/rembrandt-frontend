@@ -7,3 +7,4 @@ export * from '@/apis/rembrandt/lib/Transformer';
 export * from '@/apis/rembrandt/lib/Recipe';
 export * from '@/apis/rembrandt/lib/transformerTypes';
 export * from '@/apis/rembrandt/lib/Metric';
+export * from '@/apis/rembrandt/lib/Path';
