@@ -29,7 +29,7 @@ import {Path, Paths, PathNullObject, createPathNullObject} from '@/apis/rembrand
     Button,
   },
 })
-export default class readLog extends Mixins(Translate) {
+export default class ReadLog extends Mixins(Translate) {
   // region public static methods
 
   // endregion
@@ -57,9 +57,8 @@ export default class readLog extends Mixins(Translate) {
   public async readLog(): Promise<void> {
     try {
       this.result = await Paths.create(this.path);
-      console.log(this.path);
       this.$notifications.create({
-        title: `Log is read from ${this.path}`,
+        title: `Log was successfully read from ${this.path.path}`,
         details: '',
         level: NotificationLevel.Success,
         timestamp: new Date(),

@@ -88,7 +88,6 @@ export default class SendMetric extends Mixins(Translate) {
   public async sendQuery(): Promise<void> {
     try {
       this.result = await Metrics.create(this.metric);
-      console.log(this.result);
       this.$notifications.create({
         title: `Query '${this.metric.query}' has been sent`,
         details: '',
