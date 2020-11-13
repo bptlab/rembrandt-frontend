@@ -55,6 +55,10 @@
           :value.sync="editingAttribute.isEponymousAttribute"
           name="Name giving attribute"
         />
+        <Toggle
+          :value.sync="editingAttribute.isTimeAttribute"
+          name="Duration influencing attribute"
+        />
         <div class="row">
           <Button text="Save Attribute" :onClick="saveAttribute"/>
           <SmallButton :link="{ onClick: deleteAttribute }">
@@ -93,6 +97,7 @@ import { NotificationLevel } from '@/interfaces/Notification';
 
 interface NewResourceTypeAttribute extends ResourceTypeAttribute {
   isEponymousAttribute: boolean;
+  isTimeAttribute: boolean;
 }
 
 interface NewResourceType extends ResourceType {
@@ -127,6 +132,7 @@ export default class CreateType extends Mixins(Translate) {
       dataType: 'string',
       required: true,
       isEponymousAttribute: false,
+      isTimeAttribute: false,
     };
   }
   // endregion
@@ -244,6 +250,7 @@ export default class CreateType extends Mixins(Translate) {
       CreateType.emptyResourceTypeAttribute(),
     );
     this.setEponymousAttribute();
+    this.setTimeAttribute();
     this.currentlyEditingAttribute = this.newResourceType.attributes.length - 1;
   }
 
@@ -251,9 +258,29 @@ export default class CreateType extends Mixins(Translate) {
     if (this.editingAttribute.isEponymousAttribute) {
       this.newResourceType.eponymousAttribute = undefined;
     }
+    if (this.editingAttribute.isTimeAttribute) {
+      this.newResourceType.timeAttribute = undefined;
+    }
     this.newResourceType.attributes.splice(this.currentlyEditingAttribute, 1);
     this.setEponymousAttribute();
+    this.setTimeAttribute();
     this.currentlyEditingAttribute = -1;
+  }
+
+  public setTimeAttribute(): void {
+    if (!this.editingAttribute) {
+      return;
+    }
+
+    if (this.editingAttribute.isTimeAttribute) {
+      this.newResourceType.timeAttribute = this.editingAttribute.name;
+      this.resetTimeAttribute();
+    } else {
+      if (this.newResourceType.timeAttribute === this.editingAttribute.name) {
+        this.newResourceType.timeAttribute = undefined;
+        this.resetTimeAttribute();
+      }
+    }
   }
 
   public setEponymousAttribute(): void {
@@ -270,6 +297,15 @@ export default class CreateType extends Mixins(Translate) {
         this.resetEponymousAttribute();
       }
     }
+  }
+
+  public resetTimeAttribute() {
+    this.newResourceType.attributes.forEach( (attribute) => {
+      if (attribute.name === this.editingAttribute.name) {
+        return;
+      }
+      attribute.isTimeAttribute = false;
+    });
   }
 
   public resetEponymousAttribute() {
@@ -308,6 +344,7 @@ export default class CreateType extends Mixins(Translate) {
       return;
     }
     this.setEponymousAttribute();
+    this.setTimeAttribute();
     this.currentlyEditingAttribute = -1;
   }
 

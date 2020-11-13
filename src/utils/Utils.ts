@@ -49,7 +49,8 @@ export default class Utils {
         firstValue: attribute.name,
         secondValue: `Type: ${Utils.translateToNaturalLanguage(attribute.dataType)}`,
         thirdValue: `${attribute.required ? 'required' : 'optional'}
-          ${resourceType.eponymousAttribute === attribute.name ? 'naming' : ''}`,
+          ${resourceType.eponymousAttribute === attribute.name ? 'naming' : ''}
+          ${resourceType.timeAttribute === attribute.name ? 'timeAttribute' : ''}`,
         link: onClick ? {
           onClick: () => { onClick(attribute.name); },
         } : undefined,

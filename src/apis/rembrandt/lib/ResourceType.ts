@@ -14,6 +14,7 @@ export interface ResourceType extends Resource {
   name: string;
   abstract: boolean;
   eponymousAttribute?: string;
+  timeAttribute?: string;
   attributes: ResourceTypeAttribute[];
 }
 
@@ -23,6 +24,7 @@ const serializer = new Serializer('resourceType', {
     'name',
     'abstract',
     'eponymousAttribute',
+    'timeAttribute',
     'attributes',
     'parentType',
   ],
