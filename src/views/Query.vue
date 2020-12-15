@@ -1,7 +1,7 @@
 <template>
   <main class="send-Query">
     <div class="headline">
-      <h1>Please insert a SQL query</h1>
+      <h1>Please insert an SQL query</h1>
     </div>
     <Input
       :value.sync="metric.query"
